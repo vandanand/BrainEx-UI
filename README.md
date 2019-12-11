@@ -23,11 +23,11 @@ You will see that the “No file chosen” will change to the name of the file y
 
 
 # Project Directory
--BrainEx-V1 -> brainex, which is where all the folders and code is stored and the folder you should be in to run the application
--“Node_modules” are the node modules and project dependencies that are used by the project. This is added by typing the command: npm install in the terminal
--“PreprocessedDataFiles” is the folder that contains all the user file uploads from the homepage
--The “public” folder contains index.html. Index.html links to index.js (and it’s stylesheet called index.css) which is linked to App.js
--“Src” is the main folder with all the ReactJs code
+- BrainEx-V1 -> brainex, which is where all the folders and code is stored and the folder you should be in to run the application
+- “Node_modules” are the node modules and project dependencies that are used by the project. This is added by typing the command: npm install in the terminal
+- “PreprocessedDataFiles” is the folder that contains all the user file uploads from the homepage
+- The “public” folder contains index.html. Index.html links to index.js (and it’s stylesheet called index.css) which is linked to App.js
+- “Src” is the main folder with all the ReactJs code
 App.js is the main file of the application that executes the homepage as well as all the routers and navigation pages in the site. App.css is this file’s stylesheet
 The BrainEx image logo is located here
 The “components” folder has the rendering of all the other pages in the application. If a new page needs to be created, create and name the page in this folder, go to App.js, and create a Router link to the page you are creating. 
