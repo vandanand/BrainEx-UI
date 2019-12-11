@@ -24,16 +24,16 @@ This project aims to develop a user-interface for BrainEx using HCI practices to
 
 # Project Directory
 * BrainEx-V1 
- * The “test_db” folder is the database for BrainEx
- * “ItalyPower.csv” contains an example of the fNIRS time series sequences 
- * “Test.py” is the file to run through BrainEx as the command line tool. Use this script to copy and paste sections of the code into the python console and go through the database functionalities
+  * The “test_db” folder is the database for BrainEx
+  * “ItalyPower.csv” contains an example of the fNIRS time series sequences 
+  * “Test.py” is the file to run through BrainEx as the command line tool. Use this script to copy and paste sections of the code into the python console and go through the database functionalities
 
- * brainex - folder where all the folders and code is stored and the folder you should be in to run the application
-  * “Node_modules” are the node modules and project dependencies that are used by the project. This is added by typing the command: npm install in the terminal
-  * “PreprocessedDataFiles” is the folder that contains all the user file uploads from the homepage
-  * The “public” folder contains index.html. Index.html links to index.js (and it’s stylesheet called index.css) which is linked to App.js
-  * “Server.js” contains the express server code and the logic to do the file uploading functionality
-  * “Src” is the main folder with all the ReactJs code
-   * App.js is the main file of the application that executes the homepage as well as all the routers and navigation pages in the site. App.css is this file’s stylesheet
-   * The BrainEx image logo is located here
-   * The “components” folder has the rendering of all the other pages in the application. If a new page needs to be created, create and name the page in this folder, go to App.js, and create a Router link to the page you are creating. 
+  * brainex - folder where all the folders and code is stored and the folder you should be in to run the application
+    * “Node_modules” are the node modules and project dependencies that are used by the project. This is added by typing the command: npm install in the terminal
+    * “PreprocessedDataFiles” is the folder that contains all the user file uploads from the homepage
+    * The “public” folder contains index.html. Index.html links to index.js (and it’s stylesheet called index.css) which is linked to App.js
+    * “Server.js” contains the express server code and the logic to do the file uploading functionality
+    * “Src” is the main folder with all the ReactJs code
+      * App.js is the main file of the application that executes the homepage as well as all the routers and navigation pages in the site. App.css is this file’s stylesheet
+      * The BrainEx image logo is located here
+      * The “components” folder has the rendering of all the other pages in the application. If a new page needs to be created, create and name the page in this folder, go to App.js, and create a Router link to the page you are creating. 
