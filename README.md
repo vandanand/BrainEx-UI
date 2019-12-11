@@ -28,7 +28,7 @@ This project aims to develop a user-interface for BrainEx using HCI practices to
   * “ItalyPower.csv” contains an example of the fNIRS time series sequences 
   * “Test.py” is the file to run through BrainEx as the command line tool. Use this script to copy and paste sections of the code into the python console and go through the database functionalities
 
-  * brainex - folder where all the folders and code is stored and the folder you should be in to run the application
+  * brainex - folder where all the frontend code is stored and the directory to be in in order to run the BrainEx application
     * “Node_modules” are the node modules and project dependencies that are used by the project. This is added by typing the command: npm install in the terminal
     * “PreprocessedDataFiles” is the folder that contains all the user file uploads from the homepage
     * The “public” folder contains index.html. Index.html links to index.js (and it’s stylesheet called index.css) which is linked to App.js
