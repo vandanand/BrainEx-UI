@@ -7,11 +7,11 @@ This project aims to develop a user-interface for BrainEx using HCI practices to
 
 1. Clone or download the project 
 2. Open the project in the Pycharm IDE
-3. Open the terminal and run the command: npm install to install all the project modules and dependencies
+3. Open the terminal and run the command: **npm install** to install all the project modules and dependencies
    * To run the application in Pycharm, open two terminals. One for running the frontend and one for running the backend. Make sure you are in the “brainex” folder (the command is: cd brainex)
-     * Starting frontend command: npm start
+     * Starting frontend command: **npm start**
        * After running the frontend, the message in the terminal will say “Compiled successfully. Server is now running on localhost:3000”
-     * Starting backend command: node server.js
+     * Starting backend command: **node server.js**
        * After running the backend, the message in the terminal will say “App is running on port 8000”
 4. Once the application automatically opens up on the website (“localhost:3000”), you will see the homepage of BrainEx
 5. To upload an already preprocessed dataset, click on “Choose File” and select multiple CSV files. You can also choose a single CSV file. Note that if you try to choose any other file type, it will not work and you will encounter an error. 
