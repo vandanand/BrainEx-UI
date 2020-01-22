@@ -7,7 +7,7 @@ class NavBar extends Component {
     render() {
         return(
             // TODO style navbar and integrate with header
-            <nav className="navbar navbar-expand-lg">
+            <nav className="navbar navbar-expand">
                     <ul className="navbar-nav mr-auto">
                         <li className="nav-item">
                             <Link className="nav-link" to="/">Home</Link>
