@@ -7,7 +7,7 @@ import Container from 'react-bootstrap/Container';
 import logo from "../brain.png";
 import Card from 'react-bootstrap/Card';
 
-
+// todo refactor to a class and move all contents to SelectNewDataset
 const csvViewer = () => (
 
 
@@ -51,7 +51,7 @@ const csvViewer = () => (
             </Link>
 
 
-            <Link to="/Components/BuildOptions">
+            <Link to="/BuildOptions">
                 <Button className="nextbtn btn-primary" style={{width: '10%', position: 'absolute', top: '90%', left: '88%', backgroundColor:'#0F5298', borderColor: 'black'}}>Next</Button>
             </Link>
 

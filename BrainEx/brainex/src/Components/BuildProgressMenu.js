@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import logo from "../brain.png";
 
-
+// todo refactor to be more responsive and take up full page
 const buildProgressMenu = () => (
         <Container className="container" style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-start', width: '100%' }}>
 
@@ -24,11 +24,11 @@ const buildProgressMenu = () => (
                     <Button type="button" className="btn btn-secondary" style={{borderColor: 'black', backgroundColor:'#0F5298'}}>Restart with another Dataset</Button>
                 </Link>
 
-                <Link to="/Components/ExplorerPages">
+                <Link to="/ExplorerPages">
                     <Button type="button" className="btn btn-secondary" style={{borderColor: 'black', backgroundColor:'#0F5298'}}>Explore Loaded Data</Button>
                 </Link>
 
-                <Link to="/Components/QueryFinder">
+                <Link to="/QueryFinder">
                     <Button type="button" className="btn btn-secondary" style={{borderColor: 'black', backgroundColor:'#0F5298'}}>Find Similar Sequences</Button>
                 </Link>
             </div>
