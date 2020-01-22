@@ -14,3 +14,19 @@
 .navbar-right {
   float: right!important;
 }
+
+nav.navbar.navbar-expand {
+  padding: 0;
+}
+
+nav.navbar.navbar-expand .navbar-nav a.nav-link {
+  color: black;
+}
+
+.dropdown-menu {
+  padding: 0;
+}
+
+.dropdown-item {
+  padding: 4px;
+}
