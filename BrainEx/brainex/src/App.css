@@ -2,28 +2,42 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 75%;
-  width: 10%;
-  position: absolute;
-  left: 2%;
-  top: 17%;
+/** {
+  border: 1px solid;
+}*/
+
+.header {
+  display: block;
+  padding-top: 10px;
+  background-color: #0F5298;
 }
 
-.App-title{
+.info {
   font-family: Futura;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  border-bottom: 1px solid #3C99DC;
+  margin: 0;
+}
+
+.logo, .title, .version {
+  margin: 0 5px;
+}
+
+.logo img {
+  width: 50px;
+  height: auto;
+}
+
+.title{
   font-size: 265%;
-  position: absolute;
-  left: 15%;
-  top: 23%;
+  padding: 0;
 }
 
-.App-Version{
-  font-family: Futura;
+.version{
   font-size: 100%;
-  position: absolute;
-  left: 15.3%;
-  top: 70%;
 }
 
 .homepage{
@@ -68,21 +82,6 @@
   left: 14%;
   top: 75%;
 
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #09d3ac;
 }
 
 .chooseFile{

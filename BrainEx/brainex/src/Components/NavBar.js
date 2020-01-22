@@ -1,32 +1,52 @@
 import React, {Component} from 'react';
 import {Link} from "react-router-dom";
-import Button from "react-bootstrap/Button";
-import { Nav, NavDropdown } from "react-bootstrap";
+import './NavBar.css';
 
 class NavBar extends Component {
 
     render() {
         return(
             // TODO style navbar and integrate with header
-            <div className="navbar">
+            <nav className="navbar navbar-expand-lg">
+                    <ul className="navbar-nav mr-auto">
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/">Home</Link>
+                        </li>
+                        <li className="nav-item dropdown">
+                            <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Explorer Pages
+                            </a>
+                            <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <Link className="dropdown-item" to="/ExploreRawData">Explore Raw Data</Link>
+                                <Link className="dropdown-item" to="/ExploreClusters">Explore Clusters</Link>
+                            </div>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/QueryFinder">Find Similar Sequences</Link>
+                        </li>
+                    </ul>
+            </nav>
+
+
+            /*<div className="navbar">
                 <ul className="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <Link className="dropdown-item" to="/">Home</Link>
+                    <li className="nav-item">
+                        <Link className="nav-link" to="/">Home</Link>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <li className="nav-item dropdown">
+                        <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Explorer Pages
                         </a>
-                        <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <Link className="dropdown-item" to="/ExploreRawData">Explore Raw Data</Link>
-                            <Link className="dropdown-item" to="/ExploreClusters">Explore Raw Data</Link>
+                            <Link className="dropdown-item" to="/ExploreClusters">Explore Clusters</Link>
                         </div>
                     </li>
-                    <li class="nav-item">
-                        <Link className="dropdown-item" to="/QueryFinder">Find Similar Sequences</Link>
+                    <li className="nav-item">
+                        <Link className="nav-link" to="/QueryFinder">Find Similar Sequences</Link>
                     </li>
                 </ul>
-            </div>
+            </div>*/
         );
     }
 }

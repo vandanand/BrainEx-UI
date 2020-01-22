@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
+import BrainExHeader from "./BrainExHeader";
 
 class ClusterExplorer extends Component {
     render() {
         return(
             //todo template
-            <div>ClusterExplorer</div>
+            <div>
+                <BrainExHeader/>
+                <h1>Clusters</h1>
+            </div>
         );
     }
 }
