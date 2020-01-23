@@ -7,7 +7,7 @@ import Container from 'react-bootstrap/Container';
 import logo from "../brain.png";
 import Card from 'react-bootstrap/Card';
 
-// todo refactor to a class and move all contents to SelectNewDataset
+// todo move all content to selectnewdataset
 const csvViewer = () => (
 
 
@@ -24,7 +24,7 @@ const csvViewer = () => (
 
                 <div className="col-sm-4">
                     <div className="well">
-                        <Card style={{backgroundColor: '#3C99DC', width: '328%', position: 'absolute', left:'-14%'}}>
+                        <Card>
                             <div className="card-body">
                                 <h5 className="card-title">Previously imported unpreprocessed CSV Files</h5>
                                 <div className="scrollable" style={{overflowY: 'auto', maxHeight: '210px'}}>

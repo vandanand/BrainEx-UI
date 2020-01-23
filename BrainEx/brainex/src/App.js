@@ -10,6 +10,7 @@ import Home from "./Components/Home";
 import RawDataExplorer from "./Components/RawDataExplorer"
 import ClusterExplorer from "./Components/ClusterExplorer";
 import BrainExHeader from "./Components/BrainExHeader";
+import SelectNewDataset from "./Components/SelectNewDataset";
 
 class App extends Component {
 
@@ -20,12 +21,9 @@ class App extends Component {
                     <div>
                         <BrainExHeader/>
                         <Route exact path="/" component={Home} />
-                        <Route exact path="/csvViewer" component={csvViewer} />
+                        <Route exact path="/SelectNewDataset" component={SelectNewDataset} />
                         <Route exact path="/BuildOptions" component={BuildOptions} />
                         <Route exact path="/BuildProgressMenu" component={buildProgressMenu} />
-                        {/*removing explorer pages because it should be a drop down*/}
-                        {/*<Route exact path="/ExplorerPages" component={ExplorerPages} />*/}
-                        {/*<Route exact path="/BrainExMain" component={BrainExMain}/>*/}
                         <Route exact path="/ExploreRawData" component={RawDataExplorer} />
                         <Route exact path="/ExploreClusters" component={ClusterExplorer} />
                         <Route exact path="/QueryFinder" component={QueryFinder} />

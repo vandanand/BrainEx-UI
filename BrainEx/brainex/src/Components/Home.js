@@ -66,15 +66,6 @@ class Home extends Component {
         return(
             //todo extract header and combine with navbar at least in style/appearance
             <div>
-            {/*top navbar with BrainEx logo*/}
-            <div style={{backgroundColor: '#3C99DC', width: '100%', height: '17%', position: 'absolute', left:'0.01%', top:'0%'}}>
-                <img src={logo} className="App-logo" alt="logo"/>
-                {/*<MainMenu/>*/}
-                <h1 className="App-title">BrainEx</h1>
-                <h3 className="App-Version">Version 1.0.0</h3>
-                <h4 className="homepage">Homepage</h4>
-                <Button className="Help" style={{backgroundColor: '#3C99DC', color:'#000000', borderColor: '#3C99DC'}}><u>Need Help?</u></Button>
-            </div>
 
             {/* Functionality for choosing files to upload to the server*/}
                 <div className="form-group files front" style={{ width: '30%', position: 'absolute', top:'320pt', left:'1%'}}>
@@ -93,7 +84,7 @@ class Home extends Component {
             </div>
 
 
-            <Link to="/csvViewer">
+            <Link to="/SelectNewDataset">
                 <Button className="preprocess" style={{borderColor:'#000000', backgroundColor:'#0F5298'}}>Preprocess a new dataset</Button>
             </Link>
 
