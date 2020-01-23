@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import BrainExHeader from "./BrainExHeader";
 import NavBar from "./NavBar";
+import Dashboard from './Dashboard';
 
 class QueryFinder extends Component {
 
@@ -20,7 +21,7 @@ class QueryFinder extends Component {
         return(
             <div >
                 <NavBar/>
-                <h1>Find Similar</h1>
+                <Dashboard />
             </div>
         );
     }
