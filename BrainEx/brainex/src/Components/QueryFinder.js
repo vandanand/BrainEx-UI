@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import BrainExHeader from "./BrainExHeader";
+import NavBar from "./NavBar";
 
 class QueryFinder extends Component {
 
@@ -18,7 +19,7 @@ class QueryFinder extends Component {
         //style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-start', width: '100%' }}s
         return(
             <div >
-                <BrainExHeader/>
+                <NavBar />
                 <h1>Find Similar</h1>
             </div>
         );

@@ -14,13 +14,21 @@
 .navbar-right {
   float: right!important;
 }
+/* end of this portion */
 
-nav.navbar.navbar-expand {
-  padding: 0;
+/* use this to change background color of nav bar */
+nav {
+  background-color: #0F5298;
 }
 
+/* use this to style the text in each nav item */
 nav.navbar.navbar-expand .navbar-nav a.nav-link {
   color: black;
+}
+
+/* padding of nav bar content */
+nav.navbar.navbar-expand {
+  padding: 0;
 }
 
 .dropdown-menu {

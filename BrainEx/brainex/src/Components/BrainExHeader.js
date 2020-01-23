@@ -14,7 +14,6 @@ class BrainExHeader extends Component {
                     <h1 className="title">BrainEx</h1>
                     <h3 className="version">Version 1.0.0</h3>
                 </div>
-                <NavBar/>
             </div>
         );
     }
