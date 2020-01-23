@@ -19,7 +19,7 @@ class QueryFinder extends Component {
         //style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-start', width: '100%' }}s
         return(
             <div >
-                <NavBar />
+                <NavBar/>
                 <h1>Find Similar</h1>
             </div>
         );

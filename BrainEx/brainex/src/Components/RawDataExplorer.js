@@ -7,7 +7,7 @@ class RawDataExplorer extends Component {
         // todo template
         return(
             <div>
-                <NavBar />
+                <NavBar/>
                 <h1>Raw Data</h1>
             </div>
         );

@@ -24,11 +24,11 @@ const buildProgressMenu = () => (
                     <Button type="button" className="btn btn-secondary" style={{borderColor: 'black', backgroundColor:'#0F5298'}}>Restart with another Dataset</Button>
                 </Link>
 
-                <Link to="/BrainExMain">
+                <Link to="/ExploreClusters">
                     <Button type="button" className="btn btn-secondary" style={{borderColor: 'black', backgroundColor:'#0F5298'}}>Explore Loaded Data</Button>
                 </Link>
 
-                <Link to="/BrainExMain">
+                <Link to="/QueryFinder">
                     <Button type="button" className="btn btn-secondary" style={{borderColor: 'black', backgroundColor:'#0F5298'}}>Find Similar Sequences</Button>
                 </Link>
             </div>
