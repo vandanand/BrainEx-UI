@@ -41,7 +41,7 @@ app.post('/upload',function(req, res) {
                return res.status(500).json(err)
            }
       return res.status(200).send(req.file) //file must be the same name as the
-        // "name" property in App.js for choosing a file
+        // "name" property in SelectNewDataset.js for choosing a file
     })
 });
 

@@ -5,30 +5,34 @@ import {Link} from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Card from "react-bootstrap/Card";
 import axios from "axios";
+import './Home.css'
 
 class Home extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            selectedFile: null
+            selectedFile: null // todo have this set to pull from wherever the files are pulled from -mg
         }
     }
 
     onChangeHandler=event=>{
-            var files = event.target.files;
-            if(this.checkMimeType(event)) {
-                this.setState({
-                    selectedFile: files
-                })
-            }
-        };
+        const files = event.target.files;
+        this.setState({
+            selectedFile: files // todo eventually change this to pull from wherever the files are _again_ -mg
+        })
+        /*if(this.checkMimeType(event)) {
+            this.setState({
+                selectedFile: files // todo eventually change this to pull from wherever the files are _again_ -mg
+            })
+        }*/
+    };
 
     //handles the "Add" button functionality to add selected file to the server
     onClickHandler = () => {
         const data = new FormData();
         for(var i=0; i<this.state.selectedFile.length; i++) {
-            data.append('file', this.state.selectedFile[i]);
+            data.append('file', this.state.selectedFile[i]); // todo eventually have this add the file to the "database" - mg
         }
         console.log(data);
         axios.post("http://localhost:8000/upload", data, {//parameter endpoint url, form data
@@ -66,37 +70,13 @@ class Home extends Component {
         return(
             //todo extract header and combine with navbar at least in style/appearance
             <div>
-
-            {/* Functionality for choosing files to upload to the server*/}
-                <div className="form-group files front" style={{ width: '30%', position: 'absolute', top:'320pt', left:'1%'}}>
-                    <h5 align="center">Load another </h5>
-                    <h5 align="center">preprocessed dataset:</h5>
-                    <input type="file" name="file" className="form-control" multiple onChange={this.onChangeHandler} style={{width:'77%',backgroundColor: '#3C99DC', borderColor:'#3C99DC'}}/>
-                    <div className="chooseFile">
-                        Choose File
-                        <input type="file" className="hide_file"/>
-                    </div>
-                    <Button className="addfile btn-primary" style={{ width: '18%', position: 'absolute', top:'48pt', left:'75%', borderColor:'#000000', backgroundColor:'#0F5298'}} onClick={this.onClickHandler}>Add</Button>
-                </div>
-
-            <div style={{width: '40%', position: 'absolute', left:'47%', top:'30%'}}>
-                <h5 align="center">The tool that helps find the top similar matches in fNIRS time series sequences</h5>
-            </div>
-
-
-            <Link to="/SelectNewDataset">
-                <Button className="preprocess" style={{borderColor:'#000000', backgroundColor:'#0F5298'}}>Preprocess a new dataset</Button>
-            </Link>
-
-            {/* Container for files that have been uploaded to the server*/}
-            <Container className="csvFileInfo" style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-start', width: '31%'}}>
-
-                <div className="col-sm-4">
-                    <div className="well">
-                        <Card style={{backgroundColor: '#3C99DC', width: '328%', position: 'absolute', left:'-14%'}}>
-                            <div className="card-body">
-                                <h5 className="card-title">Start with an existing preprocessed dataset:</h5>
-                                <div className="scrollable" style={{overflowY: 'auto', maxHeight: '210px'}}>
+                <div className="row no-gutters">
+                    <div className="col-4 no-gutters"> {/*bootstrap columns should add up to 12 (4 + 8 = 12)*/}
+                        <div className="left d-flex justify-content-center align-items-center">
+                            <div className="home-content">
+                                <h4 className="dir">Select a preprocessed dataset to explore here</h4>
+                                {/*todo dynamically populate this instead with files gotten from server*/}
+                                <div className="file-list">
                                     <Button style={{ borderColor: 'black', width: '100%', backgroundColor:'#0F5298'}}>SART1</Button>
                                     <p> </p>
                                     <Button style={{ borderColor: 'black', width: '100%', backgroundColor:'#0F5298'}}>SART2</Button>
@@ -109,13 +89,50 @@ class Home extends Component {
                                     <p> </p>
                                     <Button style={{ borderColor: 'black', width: '100%', backgroundColor:'#0F5298'}}>SART6</Button>
                                 </div>
+                                {/*option to add a new file*/}
+                                <div className="form-group files">
+                                    <h5 className="dir" align="center">Load another preprocessed dataset:</h5>
+                                    <div className="new-file">
+                                        <input type="file" name="file" className="form-control-file" multiple accept=".csv" onChange={this.onChangeHandler}/>
+                                        <Button className="add-file btn-primary" onClick={this.onClickHandler}>Add</Button>
+                                    </div>
+                                </div>
                             </div>
-                        </Card>
+                        </div>
+                    </div>
+                    <div className="col no-gutters">
+                        <div className="right d-flex justify-content-center align-items-center">
+                            <div className="home-content">
+                                <h5 className="preprocess">The tool that helps find the top similar matches in fNIRS time series sequences</h5>
+                                <Link to="/SelectNewDataset">
+                                    <Button className="preprocess">Preprocess a new dataset</Button>
+                                </Link>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </Container>
+                {/*todo refactor this div to be more dynamically positioned while keeping the same functionality -mg
+                 Functionality for choosing files to upload to the server
+                <div className="form-group files front">
+                    <h5 align="center">Load another </h5>
+                    <h5 align="center">preprocessed dataset:</h5>
+                    <input type="file" name="file" className="form-control" multiple onChange={this.onChangeHandler} style={{width:'77%',backgroundColor: '#3C99DC', borderColor:'#3C99DC'}}/>
+                    <div className="chooseFile">
+                        Choose File
+                        <input type="file" className="hide_file"/>
+                    </div>
+                    <Button className="addfile btn-primary" style={{ width: '18%', position: 'absolute', top:'48pt', left:'75%', borderColor:'#000000', backgroundColor:'#0F5298'}} onClick={this.onClickHandler}>Add</Button>
+                </div>
+                todo make this paragraph/button better looking and more professional looking -mg
+                <div style={{width: '40%', position: 'absolute', left:'47%', top:'30%'}}>
+                    <h5 align="center">The tool that helps find the top similar matches in fNIRS time series sequences</h5>
+                </div>
 
-        </div>
+
+                <Link to="/SelectNewDataset">
+                    <Button className="preprocess" style={{borderColor:'#000000', backgroundColor:'#0F5298'}}>Preprocess a new dataset</Button>
+                </Link>*/}
+            </div>
         );
     }
 }

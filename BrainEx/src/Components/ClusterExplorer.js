@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import BrainExHeader from "./BrainExHeader";
 import NavBar from "./NavBar";
 
 class ClusterExplorer extends Component {
@@ -7,7 +6,7 @@ class ClusterExplorer extends Component {
         return(
             //todo template
             <div>
-                <NavBar/>
+                <NavBar />
                 <h1>Clusters</h1>
             </div>
         );

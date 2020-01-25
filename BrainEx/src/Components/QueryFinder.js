@@ -1,27 +1,17 @@
 import React , {Component} from "react";
-import {Link} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container';
-import BrainExHeader from "./BrainExHeader";
 import NavBar from "./NavBar";
-import Dashboard from './Dashboard';
 
 class QueryFinder extends Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {}
-    }
 
     render() {
 
         //todo template
-        //style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-start', width: '100%' }}s
+        //style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-start', width: '100%' }}
         return(
             <div >
                 <NavBar/>
-                <Dashboard />
+                <h1>Find Similar sequences</h1>
             </div>
         );
     }
