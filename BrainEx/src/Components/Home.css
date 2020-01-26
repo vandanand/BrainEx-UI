@@ -1,8 +1,8 @@
 .row {
-    min-height: 100%;
+    height: 100%;
 }
 
-.col-4 {
+.col-3 {
     min-width: 300px; /* stops scrollbar from disappearing in the file scroll-window when window gets too narrow */
 }
 
@@ -11,23 +11,32 @@
 }
 
 .left {
-    background: red;
-}
-
-.right {
-    background: blue;
+    background-color: #3c99dc;
 }
 
 .home-content {
     padding-top: 10px;
     padding-bottom: 10px;
+    text-align: center;
 }
 
-.dir {
+.right .home-content {
+    max-width: 58%
+}
+
+.directions {
     padding: 10px;
+    width: 70%;
+    display: inline-block;
 }
 
-.preprocess {
+.app-description {
+    padding: 10px;
+    width: 70%;
+    display: inline-block;
+}
+
+.preprocess-bt {
     padding: 10px;
 }
 
@@ -35,27 +44,20 @@
     padding: 13px;
     overflow: auto;
     max-height: 75vh;
-    border: 1px solid #3C99DC;
+    box-shadow: 0 0 5px #0F5298;
 }
 
 .new-file {
     padding: 10px;
+    height: 50px;
 }
 
 .form-control-file {
-    width: 75%;
-    float: left;
+    width: 60%;
 }
 
-.add-file {
-    float: right;
-}
-
-.chooseFile{
-
-}
-
-.hide_file {
-
+.btn-primary {
+    background-color: #0f5298;
+    border-color: #0f5298;
 }
 

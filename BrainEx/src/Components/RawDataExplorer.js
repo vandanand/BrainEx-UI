@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import BrainExHeader from "./BrainExHeader";
 import NavBar from "./NavBar";
 
 class RawDataExplorer extends Component {

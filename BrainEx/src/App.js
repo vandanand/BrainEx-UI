@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import {BrowserRouter as Router, Route} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import csvViewer from './Components/csvViewer';
 import BuildOptions from "./Components/BuildOptions";
 import buildProgressMenu from "./Components/BuildProgressMenu";
 import QueryFinder from "./Components/QueryFinder";
@@ -18,7 +17,7 @@ class App extends Component {
         return (
             <Router>
                 <div className="App">
-                    <div>
+                    <div style={{height: '100%'}}> {/*this styling lets the content stretch to bottom of page*/}
                         <BrainExHeader/>
                         <Route exact path="/" component={Home} />
                         <Route exact path="/SelectNewDataset" component={SelectNewDataset} />

@@ -1,15 +1,14 @@
 .App {
   text-align: center;
+  height: 100vh; /*this styling lets the content stretch to bottom of page*/
 }
-
-/** {
-  border: 1px solid;
-}*/
 
 .header {
   display: block;
   padding-top: 10px;
   background-color: #0F5298;
+  height: 75px;
+  border-bottom: 1px solid #3C99DC;
 }
 
 .info {
@@ -18,7 +17,6 @@
   flex-flow: row nowrap;
   justify-content: flex-start;
   align-items: center;
-  border-bottom: 1px solid #3C99DC;
   margin: 0;
 }
 

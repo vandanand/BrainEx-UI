@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-import logo from "../brain.png";
 import Button from "react-bootstrap/Button";
 import {Link} from "react-router-dom";
-import Container from "react-bootstrap/Container";
-import Card from "react-bootstrap/Card";
 import axios from "axios";
 import './Home.css'
 
@@ -49,7 +46,7 @@ class Home extends Component {
         const types = ['text/csv'];
 
         let err = '';
-        for(var i = 0; i < files.length; i++) {
+        for(let i = 0; i < files.length; i++) {
             // check file type
             if (types.every(type => files[i].type !== type)) {
                 err += files[i].type + ' is not a supported format\n';
@@ -69,12 +66,12 @@ class Home extends Component {
     render() {
         return(
             //todo extract header and combine with navbar at least in style/appearance
-            <div>
+            <div style={{height: 'calc(100% - 75px)'}}> {/*this styling lets the content stretch to bottom of page*/}
                 <div className="row no-gutters">
-                    <div className="col-4 no-gutters"> {/*bootstrap columns should add up to 12 (4 + 8 = 12)*/}
+                    <div className="col-3 no-gutters"> {/*bootstrap columns should add up to 12 (4 + 8 = 12)*/}
                         <div className="left d-flex justify-content-center align-items-center">
                             <div className="home-content">
-                                <h4 className="dir">Select a preprocessed dataset to explore here</h4>
+                                <h4 className="directions">Select a preprocessed dataset to explore here</h4>
                                 {/*todo dynamically populate this instead with files gotten from server*/}
                                 <div className="file-list">
                                     <Button style={{ borderColor: 'black', width: '100%', backgroundColor:'#0F5298'}}>SART1</Button>
@@ -90,9 +87,9 @@ class Home extends Component {
                                     <Button style={{ borderColor: 'black', width: '100%', backgroundColor:'#0F5298'}}>SART6</Button>
                                 </div>
                                 {/*option to add a new file*/}
-                                <div className="form-group files">
-                                    <h5 className="dir" align="center">Load another preprocessed dataset:</h5>
-                                    <div className="new-file">
+                                <div className="form-group files home-content">
+                                    <h5 className="directions">Load another preprocessed dataset:</h5>
+                                    <div className="new-file d-flex justify-content-center align-items-center">
                                         <input type="file" name="file" className="form-control-file" multiple accept=".csv" onChange={this.onChangeHandler}/>
                                         <Button className="add-file btn-primary" onClick={this.onClickHandler}>Add</Button>
                                     </div>
@@ -103,9 +100,9 @@ class Home extends Component {
                     <div className="col no-gutters">
                         <div className="right d-flex justify-content-center align-items-center">
                             <div className="home-content">
-                                <h5 className="preprocess">The tool that helps find the top similar matches in fNIRS time series sequences</h5>
+                                <h5 className="app-description">The tool that helps find the top similar matches in fNIRS time series sequences</h5>
                                 <Link to="/SelectNewDataset">
-                                    <Button className="preprocess">Preprocess a new dataset</Button>
+                                    <Button className="preprocess-bt">Preprocess a new dataset</Button>
                                 </Link>
                             </div>
                         </div>
