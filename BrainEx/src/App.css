@@ -1,0 +1,53 @@
+.App {
+  text-align: center;
+  height: 100vh; /*this styling lets the content stretch to bottom of page*/
+}
+
+.header {
+  display: block;
+  padding-top: 10px;
+  background-color: #0F5298;
+  height: 75px;
+  border-bottom: 1px solid #3C99DC;
+}
+
+.info {
+  font-family: Futura;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 0;
+}
+
+.logo, .title, .version {
+  margin: 0 5px;
+}
+
+.logo img {
+  width: 50px;
+  height: auto;
+}
+
+.title{
+  font-size: 265%;
+  padding: 0;
+}
+
+.version{
+  font-size: 100%;
+}
+
+.homepage{
+  font-family: Futura;
+  position: absolute;
+  left: 60.5%;
+  top: 36%;
+}
+
+.Help{
+  position: absolute;
+  left: 87%;
+  top: 30%;
+}
+

@@ -1,0 +1,63 @@
+.row {
+    height: 100%;
+}
+
+.col-3 {
+    min-width: 300px; /* stops scrollbar from disappearing in the file scroll-window when window gets too narrow */
+}
+
+.left, .right {
+    min-height: 100%; /*makes both columns same height*/
+}
+
+.left {
+    background-color: #3c99dc;
+}
+
+.home-content {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+}
+
+.right .home-content {
+    max-width: 58%
+}
+
+.directions {
+    padding: 10px;
+    width: 70%;
+    display: inline-block;
+}
+
+.app-description {
+    padding: 10px;
+    width: 70%;
+    display: inline-block;
+}
+
+.preprocess-bt {
+    padding: 10px;
+}
+
+.file-list {
+    padding: 13px;
+    overflow: auto;
+    max-height: 75vh;
+    box-shadow: 0 0 5px #0F5298;
+}
+
+.new-file {
+    padding: 10px;
+    height: 50px;
+}
+
+.form-control-file {
+    width: 60%;
+}
+
+.btn-primary {
+    background-color: #0f5298;
+    border-color: #0f5298;
+}
+
