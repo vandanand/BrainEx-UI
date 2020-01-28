@@ -57,7 +57,7 @@ const buildOptions = () => (
 
             <Container className="Box"> </Container>
 
-            <Link to="/csvViewer">
+            <Link to="/SelectNewDataset">
                 <Button className="back btn-primary" style={{width: '12%', borderColor: 'black', backgroundColor:'#0F5298'}}>Back</Button>
             </Link>
 
