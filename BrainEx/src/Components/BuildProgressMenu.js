@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import {Link} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
@@ -6,6 +6,24 @@ import Container from 'react-bootstrap/Container';
 import logo from "../brain.png";
 
 // todo refactor to be more responsive and take up full page
+class BuildProgressMenu extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            form_data: this.props.form_data
+        }
+    }
+
+    render() {
+        return(
+            <div>
+                <p>{this.state.form_data}</p>
+            </div>
+        );
+    }
+}
+
+export default BuildProgressMenu;
 const buildProgressMenu = () => (
         <Container className="container" style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-start', width: '100%' }}>
 
@@ -38,6 +56,3 @@ const buildProgressMenu = () => (
 
         </Container>
     );
-
-
-export default buildProgressMenu;

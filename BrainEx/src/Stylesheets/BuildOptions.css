@@ -1,0 +1,33 @@
+.build_form {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 40px 0;
+    width: 50%;
+}
+
+.back {
+    float: left;
+    margin: 10px;
+}
+
+ .start {
+     float: right;
+     margin: 10px;
+}
+
+ .form-group {
+     padding: 20px;
+     margin: 0;
+ }
+
+ .form_label {
+     font-size: 1.2rem;
+     margin: 0 10px;
+ }
+
+ .form-control {
+     width: auto;
+     margin: 0 10px;
+ }

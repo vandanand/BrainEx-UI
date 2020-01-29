@@ -1,8 +1,12 @@
+.full-height {
+    height: calc(100% - 75px);
+}
+
 .row {
     height: 100%;
 }
 
-.col-3 {
+.col.col-3 {
     min-width: 300px; /* stops scrollbar from disappearing in the file scroll-window when window gets too narrow */
 }
 
@@ -12,16 +16,39 @@
 
 .left {
     background-color: #3c99dc;
+    height: 100%;
 }
 
-.home-content {
+.right.build, .right.build .home-content {
+    height: 100%;
+}
+
+.build-btn {
+    position: absolute;
+    padding: 10px 20px;
+    width: max-content;
+    font-size: 1.5rem;
+}
+
+.build-btn.left-btn {
+    left: 5%;
+    bottom: 5%;
+}
+
+.build-btn.right-btn {
+    right: 5%;
+    bottom: 5%;
+}
+
+.left .home-content {
     padding-top: 10px;
     padding-bottom: 10px;
     text-align: center;
 }
 
-.right .home-content {
-    max-width: 58%
+.right .home-content .right-item {
+    display: block;
+    margin: 10px auto;
 }
 
 .directions {
@@ -38,12 +65,14 @@
 
 .preprocess-bt {
     padding: 10px;
+    width: max-content;
+    font-size: 1.1rem;
 }
 
 .file-list {
     padding: 13px;
     overflow: auto;
-    max-height: 75vh;
+    max-height: 40vh;
     box-shadow: 0 0 5px #0F5298;
 }
 
@@ -61,3 +90,10 @@
     border-color: #0f5298;
 }
 
+.btn-file {
+    border-color: black;
+    width: 90%;
+    background-color: #0F5298;
+    display: block;
+    margin: 5px auto;
+}
