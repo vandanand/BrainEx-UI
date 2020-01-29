@@ -3,7 +3,7 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
 import { rawdata_files } from "../dummy_data";
-import './Home.css';
+import '../Stylesheets/Home.css';
 
 // todo finish refactoring with responsive content
 class SelectNewDataset extends Component {

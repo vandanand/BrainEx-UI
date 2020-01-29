@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Button from "react-bootstrap/Button";
 import {Link} from "react-router-dom";
-import './Home.css'
+import '../Stylesheets/Home.css'
 import { preprocessed_files } from "../dummy_data";
 
 class Home extends Component {
@@ -12,8 +12,8 @@ class Home extends Component {
             upload_files: null, // todo have this set to pull from wherever the files are pulled from -mg
             all_files: []
         }
-        this.onChangeHandler.bind(this);
-        this.onClickHandler.bind(this);
+        this.onChangeHandler = this.onChangeHandler.bind(this);
+        this.onClickHandler = this.onClickHandler.bind(this);
     }
 
     componentDidMount() {

@@ -1,5 +1,5 @@
 import React from "react";
-import './csvViewer.css';
+import '../Stylesheets/csvViewer.css';
 import {Link} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
