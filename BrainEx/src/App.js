@@ -23,7 +23,7 @@ class App extends Component {
 
     submit_form = (form_data) => {
         console.log(form_data);
-        Object.assign(this.state.form_data, form_data) // assigns properties/values of form_data to state field
+        Object.assign(this.state.form_data, form_data); // assigns properties/values of form_data to state field
         console.log("parent received info!");
         console.log(this.state); // print for debugging
     };

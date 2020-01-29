@@ -11,9 +11,41 @@ class SelectNewDataset extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            upload_files: null,
             all_files: rawdata_files
         }
+        this.onChangeHandler = this.onChangeHandler.bind(this);
+        this.onClickHandler = this.onClickHandler.bind(this);
     }
+
+    // todo link used for file upload logic:
+    //  https://programmingwithmosh.com/javascript/react-file-upload-proper-server-side-nodejs-easy/
+    onChangeHandler = (e) => {
+        // convert FileList to an array of files
+        const files = [...e.target.files];
+        let filenames = files.map((file) => {
+            return file.name;
+        });
+        console.log(filenames);
+        /*var op = input.products.map(function(item) {
+            return item.productId;
+        });
+        console.log(op);*/
+        // add the selected files to state so they can be accessed in onClickHandler
+        this.setState({
+                upload_files: filenames
+            }, () => console.log(this.state.upload_files)); // print state for debugging
+    };
+
+    //handles the "Add" button functionality to add selected file to the server
+    // todo eventually have this add the file to the "database" - mg
+    onClickHandler = (e) => {
+        let new_files = this.state.upload_files;
+        let all_files = this.state.all_files;
+        this.setState({
+            all_files: all_files.concat(new_files)
+        }, () => console.log(this.state.all_files));
+    };
 
     render() {
         return(

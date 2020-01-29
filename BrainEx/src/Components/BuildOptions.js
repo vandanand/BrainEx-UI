@@ -65,7 +65,7 @@ class BuildOptions extends Component {
         console.log("child about to send info");
         this.props.submit_form(this.state);
         this.props.history.push('/BuildProgressMenu'); // proceed to next page once information has been passed
-    }
+    };
 
     render() {
         return(
@@ -131,7 +131,7 @@ class BuildOptions extends Component {
                                 <FaRegQuestionCircle/>
                             </div>
                             <div>
-                                Hey! this is damn easy
+                                Hey! this is easy
                             </div>
                         </MappleToolTip>
                     </div>
