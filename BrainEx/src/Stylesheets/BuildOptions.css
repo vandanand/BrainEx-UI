@@ -4,7 +4,7 @@
     flex-direction: column;
     justify-content: space-between;
     padding: 40px 0;
-    width: 50%;
+    width: 60%;
 }
 
 .back {
@@ -24,10 +24,18 @@
 
  .form_label {
      font-size: 1.2rem;
-     margin: 0 10px;
+     margin: 0 10px 0 0;
  }
 
  .form-control {
      width: auto;
+     margin: 0 0 0 10px;
+ }
+
+ .custom-range {
      margin: 0 10px;
+ }
+
+ .help_icon {
+     padding: 5px;
  }

@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import MappleToolTip from 'reactjs-mappletooltip';
-import { FaQuestionCircle } from 'react-icons/fa';
+import { FaRegQuestionCircle } from 'react-icons/fa'
 
 class BuildOptions extends Component {
 
@@ -71,12 +71,12 @@ class BuildOptions extends Component {
         return(
             <div className="d-flex justify-content-center" style={{height: "calc(100% - 75px)"}}>
                 <form className="build_form" onSubmit={this.handleSubmit}>
-                    <div className="form-group d-flex justify-content-center">
+                    <div className="form-group d-flex justify-content-sm-around">
                         <label className="form_label" htmlFor="feature_num">Feature Number:</label>
                         <input className="form-control" type="number" value={this.state.feature_val} id="feature_num" onChange={this.update_feature}/>
                         <MappleToolTip>
-                            <div>
-                                <FaQuestionCircle/>
+                            <div className="help_icon">
+                                <FaRegQuestionCircle/>
                             </div>
                             <div>
                                 Hey! this is damn easy
@@ -84,18 +84,17 @@ class BuildOptions extends Component {
                         </MappleToolTip>
                     </div>
 
-                    <div className="form-group d-flex justify-content-center">
+                    <div className="form-group d-flex justify-content-sm-around">
                         <label className="form_label" htmlFor="distance_type">Distance Type:</label>
-                        <select className="form-control" id="distance_type" name="distance_type" value={this.state.distance_val} onChange={this.update_distance}>
-                            {/* first item is automatically the default value todo check this fact */}
+                        <select className="form-control" id="distance_type" value={this.state.distance_val} onChange={this.update_distance}>
                             <option value="eu">Warped Euclidean</option>
                             <option value="ma">Warped Manhattan</option>
                             <option value="mi">Warped Minkowski</option>
                             <option value="ch">Warped Chebyshev</option>
                         </select>
                         <MappleToolTip>
-                            <div>
-                                <FaQuestionCircle/>
+                            <div className="help_icon">
+                                <FaRegQuestionCircle/>
                             </div>
                             <div>
                                 Hey! this is damn easy
@@ -103,15 +102,15 @@ class BuildOptions extends Component {
                         </MappleToolTip>
                     </div>
 
-                    <div className="form-group range-field d-flex justify-content-center">
+                    <div className="form-group range-field d-flex justify-content-sm-around">
                         <label className="form_label" htmlFor="sim_thresh">Similarity Threshold:</label>
                         <span className="font-weight-bold indigo-text">0%</span>
                         {/*todo update "defaultValue" to be recommended similarity threshold */}
                         <input type="range" className="custom-range" id="sim_thresh" min="0" max="100" value={this.state.sim_val} onChange={this.update_sim}/>
                         <span className="font-weight-bold indigo-text">{this.state.sim_val}%</span>
                         <MappleToolTip>
-                            <div>
-                                <FaQuestionCircle/>
+                            <div className="help_icon">
+                                <FaRegQuestionCircle/>
                             </div>
                             <div>
                                 Hey! this is damn easy
@@ -119,7 +118,7 @@ class BuildOptions extends Component {
                         </MappleToolTip>
                     </div>
 
-                    <div className="form-group range-field d-flex justify-content-center">
+                    <div className="form-group range-field d-flex justify-content-sm-around">
                         <label className="form_label" htmlFor="loi">Length of Interest:</label>
                         <span className="font-weight-bold indigo-text">0</span>
                         {/*todo range "max" will have to be dynamically set by passing props from
@@ -128,8 +127,8 @@ class BuildOptions extends Component {
                         <input type="range" className="custom-range" id="loi" min="0" max="100" value={this.state.loi_val} onChange={this.update_loi}/>
                         <span className="font-weight-bold indigo-text">{this.state.loi_val}</span>
                         <MappleToolTip>
-                            <div>
-                                <FaQuestionCircle/>
+                            <div className="help_icon">
+                                <FaRegQuestionCircle/>
                             </div>
                             <div>
                                 Hey! this is damn easy
