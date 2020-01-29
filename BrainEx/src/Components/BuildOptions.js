@@ -69,7 +69,7 @@ class BuildOptions extends Component {
 
     render() {
         return(
-            <div className="d-flex justify-content-center">
+            <div className="d-flex justify-content-center" style={{height: "calc(100% - 75px)"}}>
                 <form className="build_form" onSubmit={this.handleSubmit}>
                     <div className="form-group d-flex justify-content-center">
                         <label className="form_label" htmlFor="feature_num">Feature Number:</label>
@@ -137,10 +137,12 @@ class BuildOptions extends Component {
                         </MappleToolTip>
                     </div>
 
-                    <Link to="/SelectNewDataset" className="back btn btn-secondary">
-                        Back
-                    </Link>
-                    <Button className="start btn btn-primary" type="submit">Start Preprocessing</Button>
+                    <div className="build-btns">
+                        <Link to="/SelectNewDataset" className="back btn btn-secondary">
+                            Back
+                        </Link>
+                        <Button className="start btn btn-primary" type="submit">Start Preprocessing</Button>
+                    </div>
                 </form>
             </div>
         );
