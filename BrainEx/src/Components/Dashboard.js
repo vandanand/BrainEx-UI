@@ -85,32 +85,32 @@ export default function Dashboard() {
             <main className={classes.content}>
                 <div className={classes.appBarSpacer}/>
                 <Container maxWidth="lg" className={classes.container}>
-                    <Grid container spacing={3} direction="row"
+                    <Grid container spacing={2} direction="row"
                           justify="center"
                           alignItems="center">
                         <Grid container item spacing={2} xs={8} direction="column"
                               justify="center"
                               alignItems="flex-start">
                             {/* current sequence selection thumbnail */}
-                            <Grid item xs={3} justify="flex-start">
+                            <Grid item xs={3}>
                                 <Paper className={classes.paper}>
                                     <CurrSeqSelection/>
                                 </Paper>
                             </Grid>
                             {/* filters */}
-                            <Grid item xs={3} justify="flex-start">
+                            <Grid item xs={3}>
                                 <Paper className={classes.paper}>
                                     <Filter/>
                                 </Paper>
                             </Grid>
                             {/* stats*/}
-                            <Grid item xs={3} justify="flex-start">
+                            <Grid item xs={3}>
                                 <Paper className={classes.paper}>
                                     <Stats/>
                                 </Paper>
                             </Grid>
                         </Grid>
-                        <Grid container item spacing={3}>
+                        <Grid container item spacing={2}>
                             {/* Chart */}
                             <Grid item xs={6}>
                                 <Paper className={fixedHeightPaper}>

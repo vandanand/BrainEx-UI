@@ -2,6 +2,9 @@ import React from 'react';
 import Divider from "@material-ui/core/Divider";
 import {makeStyles} from "@material-ui/core/styles";
 import Title from "./Title";
+import ListItem from '@material-ui/core/ListItem';
+import List from '@material-ui/core/List';
+import ListItemText from '@material-ui/core/ListItemText';
 
 
 function preventDefault(event) {
@@ -21,7 +24,14 @@ export default function Stats() {
             <React.Fragment>
                 <Title>Statistics</Title>
                 <Divider/>
-                <p>this does not make sense</p>
+                <List component="nav" aria-label="primary">
+                    <ListItem button>
+                        <ListItemText primary="Mean"/>
+                    </ListItem>
+                    <ListItem button>
+                        <ListItemText primary="Mode"/>
+                    </ListItem>
+                </List>
             </React.Fragment>
         </React.Fragment>
     );

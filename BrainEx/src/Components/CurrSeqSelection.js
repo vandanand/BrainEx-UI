@@ -1,6 +1,8 @@
 import React from 'react';
 import {makeStyles} from "@material-ui/core/styles";
 import Title from "./Title";
+import Button from '@material-ui/core/Button';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 
 
 function preventDefault(event) {
@@ -11,6 +13,9 @@ const useStyles = makeStyles({
     depositContext: {
         flex: 1,
     },
+    input: {
+        display: 'none',
+    }
 });
 
 export default function CurrSeqSelection() {
@@ -18,8 +23,22 @@ export default function CurrSeqSelection() {
     return (
         <React.Fragment>
             <React.Fragment>
-                <Title>Current Selection</Title>
-                <p>this does not make sense</p>
+                <div className={classes.root}>
+                    <Title>Current Selection</Title>
+                    <input
+                        accept="text/csv/*"
+                        className={classes.input}
+                        id="outlined-button-file"
+                        multiple
+                        type="file"
+                    />
+                    <label htmlFor="outlined-button-file">
+
+                        <Button variant="outlined" component="span" size="small" startIcon={<CloudUploadIcon/>}>
+                            Upload
+                        </Button>
+                    </label>
+                </div>
             </React.Fragment>
         </React.Fragment>
     );
