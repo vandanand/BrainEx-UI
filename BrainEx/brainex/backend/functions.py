@@ -19,4 +19,15 @@ def getStoreCSV():
         csv = request.files['uploaded_data']
         feature_num = int(request.args['feature_num'])
         ## TODO: Save CSV to path on server here, make the path the csvPath variable
-        brainexDB = gxdb.from_csv(csvPath, feature_num=2, sc=sc)
+        try:
+            brainexDB = gxdb.from_csv(csvPath, feature_num=2, sc=sc)
+            return "Correctly uploaded."
+        except FileNotFoundError:
+            return ("File not found.", 400)
+        except TypeError:
+            return ("Incorrect input.", 400)
+
+
+@application.route('/cluster', methods=['GET', 'POST'])
+def cluster()
+    if request.method == "POST":
