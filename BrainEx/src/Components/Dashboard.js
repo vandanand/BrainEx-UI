@@ -85,44 +85,50 @@ export default function Dashboard() {
             <main className={classes.content}>
                 <div className={classes.appBarSpacer}/>
                 <Container maxWidth="lg" className={classes.container}>
-                    <Grid container spacing={1}>
-                        {/* current sequence selection thumbnail */}
-                        <Grid item xs={10} md={4} lg={3}>
-                            <Paper className={classes.paper}>
-                                <CurrSeqSelection/>
-                            </Paper>
+                    <Grid container spacing={3} direction="row"
+                          justify="center"
+                          alignItems="center">
+                        <Grid container item spacing={2} xs={8} direction="column"
+                              justify="center"
+                              alignItems="flex-start">
+                            {/* current sequence selection thumbnail */}
+                            <Grid item xs={3} justify="flex-start">
+                                <Paper className={classes.paper}>
+                                    <CurrSeqSelection/>
+                                </Paper>
+                            </Grid>
+                            {/* filters */}
+                            <Grid item xs={3} justify="flex-start">
+                                <Paper className={classes.paper}>
+                                    <Filter/>
+                                </Paper>
+                            </Grid>
+                            {/* stats*/}
+                            <Grid item xs={3} justify="flex-start">
+                                <Paper className={classes.paper}>
+                                    <Stats/>
+                                </Paper>
+                            </Grid>
                         </Grid>
-                        {/* filters */}
-                        <Grid item xs={10} md={4} lg={3}>
-                            <Paper className={classes.paper}>
-                                <Filter/>
-                            </Paper>
-                        </Grid>
-                        {/* stats*/}
-                        <Grid item xs={10} md={4} lg={3}>
-                            <Paper className={classes.paper}>
-                                <Stats/>
-                            </Paper>
-                        </Grid>
-                    </Grid>
-                    <Grid container spacing={3}>
-                        {/* Chart */}
-                        <Grid item xs={12} md={8} lg={9}>
-                            <Paper className={fixedHeightPaper}>
-                                <Chart/>
-                            </Paper>
-                        </Grid>
-                        {/* Recent Deposits */}
-                        <Grid item xs={12} md={4} lg={3}>
-                            <Paper className={fixedHeightPaper}>
-                                <Legend/>
-                            </Paper>
-                        </Grid>
-                        {/* Recent Orders */}
-                        <Grid item xs={12}>
-                            <Paper className={classes.paper}>
-                                <DataTable/>
-                            </Paper>
+                        <Grid container item spacing={3}>
+                            {/* Chart */}
+                            <Grid item xs={6}>
+                                <Paper className={fixedHeightPaper}>
+                                    <Chart/>
+                                </Paper>
+                            </Grid>
+                            {/* Recent Deposits */}
+                            <Grid item xs={2}>
+                                <Paper className={fixedHeightPaper}>
+                                    <Legend/>
+                                </Paper>
+                            </Grid>
+                            {/* Recent Orders */}
+                            <Grid item xs={8}>
+                                <Paper className={classes.paper}>
+                                    <DataTable/>
+                                </Paper>
+                            </Grid>
                         </Grid>
                     </Grid>
                     <Box pt={4}>
