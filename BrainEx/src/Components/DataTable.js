@@ -1,5 +1,4 @@
 import React from 'react';
-import Link from '@material-ui/core/Link';
 import {makeStyles} from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -15,8 +14,10 @@ function createData(id, toggle, subjectID, eventName, chanelNum, startTime, endT
 }
 
 const rows = [
-  createData(0, <Checkbox/>, '16 Mar, 2019', 'Elvis Presley', 'Tupelo, MS', 'VISA ⠀•••• 3719', 312.44),
-  createData(1, <Checkbox/>, '16 Mar, 2019', 'Paul McCartney', 'London, UK', 'VISA ⠀•••', 312.44)
+  createData(0, <Checkbox/>, '101-SART-June2018-AS', 'target correct', 'Channel-1 HbO', 126468, 167986
+  ),
+  createData(1, <Checkbox/>, '101-SART-June2018-AS', 'target correct', 'Channel-1 HbO', 274131, 315653
+  )
 ];
 
 function preventDefault(event) {
@@ -24,9 +25,6 @@ function preventDefault(event) {
 }
 
 const useStyles = makeStyles(theme => ({
-  seeMore: {
-    marginTop: theme.spacing(3),
-  },
 }));
 
 export default function DataTable() {
@@ -49,20 +47,20 @@ export default function DataTable() {
             {rows.map(row => (
                 <TableRow key={row.id}>
                   <TableCell>{row.toggle}</TableCell>
-                  <TableCell>{row.date}</TableCell>
-                  <TableCell>{row.name}</TableCell>
-                  <TableCell>{row.shipTo}</TableCell>
-                  <TableCell>{row.paymentMethod}</TableCell>
-                  <TableCell>{row.amount}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-      <div className={classes.seeMore}>
-        <Link color="primary" href="#" onClick={preventDefault}>
-          Show more sequences
-        </Link>
-      </div>
-    </React.Fragment>
+                  <TableCell>{row.subjectID}</TableCell>
+                  <TableCell>{row.eventName}</TableCell>
+                  <TableCell>{row.chanelNum}</TableCell>
+                  <TableCell>{row.startTime}</TableCell>
+                  <TableCell>{row.endTime}</TableCell>
+                </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+        {/*<div className={classes.seeMore}>*/}
+        {/*  <Link color="primary" href="#" onClick={preventDefault}>*/}
+        {/*    Show more sequences*/}
+        {/*  </Link>*/}
+        {/*</div>*/}
+      </React.Fragment>
   );
 }
