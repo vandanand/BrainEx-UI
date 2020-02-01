@@ -3,7 +3,6 @@ from pyspark import SparkContext, SparkConf
 import flask
 
 UPLOAD_FOLDER = /uploads # Note: to fix
-ALLOWED_EXTENSIONS = {'csv'}
 
 application = Flask(_name_)
 application.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -16,8 +15,22 @@ num_cores = 4
 @application.route('/getCSV', methods=['GET', 'POST'])
 def getStoreCSV():
     if request.method == 'POST':
-        # TODO: Update to make more correct
+        if 'uploaded_data' not in request.files:
+            return ("File not found.", 400)
         csv = request.files['uploaded_data']
+        if csv.filename == '':
+            return("File not found", 400)
+        if csv and is_csv(csv.filename):
+            csv.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename)) # Secure filename?? See tutorial
+            return "File has been uploaded."
+        else:
+            return("Invalid file.  Please upload a CSV", 400)
+
+def is_csv(filename):
+    if '.' in filename and filename.rsplit('.', 1)[1].lower() == 'csv':
+        return True
+    else:
+        return False
 
 @application.route('/getCSVOptions', methods=['GET', 'POST'])
 def getOptions():
