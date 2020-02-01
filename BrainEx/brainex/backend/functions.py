@@ -8,9 +8,6 @@ application = Flask(_name_)
 application.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 brainexDB = None
-# For development purposes only, currently.  TODO: Update to final server specs
-num_cores = 4
-
 
 @application.route('/getCSV', methods=['GET', 'POST'])
 def getStoreCSV():
@@ -32,14 +29,25 @@ def is_csv(filename):
     else:
         return False
 
-@application.route('/getCSVOptions', methods=['GET', 'POST'])
+@application.route('/getCSVOptions')
 def getOptions():
     if request.method == 'POST':
-        feature_num = int(request.args['feature_num'])
+        feature_num = int(request.form['feature_num'])
+        num_worker = int(request.form['num_worker'])
+        use_spark_int = int(request.form['use_spark_int'])
+        if use_spark_int == 1:
+            use_spark = True
+            driver_mem = int(request.form['driver_mem'])
+            max_result_mem = int(request.form['max_result_mem'])
+        else:
+            use_spark = False
         # TODO: Need to update to add more args, make sure path to file is correct
         try:
-            brainexDB = gxdb.from_csv(UPLOAD_FOLDER/<filename>, feature_num=feature_num)
-            return "Correctly uploaded."
+            if use_spark:
+                brainexDB = gxdb.from_csv(UPLOAD_FOLDER/<filename>, feature_num=feature_num, use_spark=use_spark, num_worker=num_worker, driver_mem=driver_mem, max_result_mem=max_result_mem)
+            else:
+                brainexDB = gxdb.from_csv(UPLOAD_FOLDER/<filename>, feature_num=feature_num, use_spark=use_spark, num_worker=num_worker)
+            return "Correctly input."
         except FileNotFoundError:
             return ("File not found.", 400)
         except TypeError:
