@@ -1,58 +1,47 @@
 import React, { Component } from "react";
 import {Link} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container';
-import logo from "../brain.png";
+import "../Stylesheets/BuildProgressMenu.css";
+import JSONPretty from 'react-json-pretty';
+import ProgressBar from 'react-bootstrap/ProgressBar'
 
-// todo refactor to be more responsive and take up full page
+// todo -- my concern: refreshing the page makes the form data disappear. user will lose progress if they refresh the window.
+//  how to get around this? looking into it but it is not a priority until we know what server/storage specs we have...
+
 class BuildProgressMenu extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            form_data: this.props.form_data
-        }
+            form_data: this.props.form_data,
+            progress: 60
+        };
     }
 
     render() {
-        return(
-            <div>
-                <p>{this.state.form_data}</p>
+        return (
+            <div className="full-height"> {/* todo replace any height: 100% with "full-height" class on App.css */}
+                <div className="prog-content">
+                    {/*todo make it so progress bar quickly finishes*/}
+                    {/*todo make certain versions of the screen show depending on the value of "now" (is it done or not?)*/}
+                    <ProgressBar animated now={this.state.progress} label={`${this.state.progress}%`} />
+                    {/*below is for when build is finished*/}
+                    <h5 className="prog-item">Preprocessing stage is complete!</h5>
+                    <h5 className="prog-item">Sequences Processed: N/A </h5>
+                    <div className="prog-item">
+                        <Link to="/" className="btn btn-secondary">
+                            Restart with another dataset
+                        </Link>
+                        <Link to="/ExploreClusters" className="btn btn-secondary">
+                            Explore loaded data
+                        </Link>
+                        <Link to="/QueryFinder" className="btn btn-primary">
+                            Find Similar Sequences
+                        </Link>
+                    </div>
+                </div>
             </div>
         );
     }
 }
 
 export default BuildProgressMenu;
-const buildProgressMenu = () => (
-        <Container className="container" style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-start', width: '100%' }}>
-
-            <div style={{backgroundColor: '#3C99DC', width: '100%', height: '17%', position: 'absolute', left:'0.01%', top:'0%'}}>
-                <img src={logo} className="App-logo" alt="logo"/>
-                <h1 className="App-title">BrainEx</h1>
-                <h3 className="App-Version">Version 1.0.0</h3>
-                <h4 className="options" style={{position:'absolute', top:'39%', left:'41%'}}>Finished Preprocessing!</h4>
-            </div>
-
-            <h5 align="left" style={{position:'absolute', top:'25%', left:'20%'}}>Preprocessing stage is complete!</h5>
-            <h5 align="left" style={{position:'absolute', top:'33%', left:'20%'}}>Sequences Processed: N/A </h5>
-
-            <div className="btnContainer btn-group" role="group" style={{position:'absolute', top:'50%', left:'20%'}}>
-                <Link to="/">
-                    <Button type="button" className="btn btn-secondary" style={{borderColor: 'black', backgroundColor:'#0F5298'}}>Restart with another Dataset</Button>
-                </Link>
-
-                <Link to="/ExploreClusters">
-                    <Button type="button" className="btn btn-secondary" style={{borderColor: 'black', backgroundColor:'#0F5298'}}>Explore Loaded Data</Button>
-                </Link>
-
-                <Link to="/QueryFinder">
-                    <Button type="button" className="btn btn-secondary" style={{borderColor: 'black', backgroundColor:'#0F5298'}}>Find Similar Sequences</Button>
-                </Link>
-            </div>
-
-            <Container className="Box" style={{backgroundColor:'#FFFFFF', width:'18rem', height:'12rem', position:'absolute', left:'1%', top:'65%'}}> </Container>
-
-
-        </Container>
-    );

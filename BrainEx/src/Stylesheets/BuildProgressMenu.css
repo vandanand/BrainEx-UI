@@ -1,0 +1,20 @@
+.prog-content {
+    width: max-content;
+    padding: 15% 0;
+    margin: 0 auto;
+}
+
+.prog-item {
+    margin: 0;
+    padding: 20px;
+}
+
+.btn {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.progress {
+    margin: 20px auto;
+    width: 100%;
+}
