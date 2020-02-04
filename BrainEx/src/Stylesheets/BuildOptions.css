@@ -1,64 +1,40 @@
-.row.no-gutters, .col.no-gutters {
-    height: 100%;
-}
-
 .build_form {
     height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
     padding: 40px 0;
-}
-
-.row {
+    display: table;
+    table-layout: auto;
+    justify-content: space-between;
+    margin: auto;
+    width: 60%;
     position: relative;
 }
 
-.build-btns {
-    position: absolute;
-    bottom: 5%;
-    left: 25%;
-    width: 50%;
-}
-
 .back, .start {
+    position: absolute;
     font-size: 1.1rem;
     width: max-content;
     padding: 10px 20px;
 }
 
 .back {
-    float: left;
+    left: 0;
 }
 
 .start {
-    float: right;
-}
-
-.form-group {
-    padding: 20px;
-    margin: 0;
+    right: 0;
 }
 
 .form_label {
-    font-size: 1.2rem;
-    margin: 0 10px 0 0;
+    text-align: left;
+    width: max-content;
 }
 
-.form-control {
-    width: auto;
-    margin: 0 0 0 10px;
+.form_input {
+    padding-right: 20px;
 }
 
-.custom-range {
-    margin: 0 10px;
-}
-
-.form-check {
+.form_input.is_range {
     display: flex;
     flex-direction: row;
-}
-
-.help_icon {
-    padding: 5px;
+    width: 100%;
 }
