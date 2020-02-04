@@ -41,7 +41,7 @@ def getOptions():
             max_result_mem = int(request.form['max_result_mem'])
         else:
             use_spark = False
-        # TODO: Need to update to add more args, make sure path to file is correct
+        # TODO: make sure path to file is correct
         try:
             if use_spark:
                 brainexDB = gxdb.from_csv(UPLOAD_FOLDER/<filename>, feature_num=feature_num, use_spark=use_spark, num_worker=num_worker, driver_mem=driver_mem, max_result_mem=max_result_mem)
@@ -56,3 +56,23 @@ def getOptions():
 @application.route('/cluster', methods=['GET', 'POST'])
 def cluster()
     if request.method == "POST":
+        similarity_threshold = int(request.form['similarity_threshold'])
+        dist_type = request.form['dist_type']
+        loii = int(request.form['loii'])
+        loif = int(request.form['loif'])
+        loi = slice(loii, loif)
+        try:
+            # Todo: get loading bar
+            brainexDB.build(similarity_threshold=similarity_threshold, dist_type=dist_type, loi=loi)
+            return "Preprocessing is complete"
+        except Exception as e:
+            return (e, 400)
+
+@application.route('/uploadSequence', methods=['GET', 'POST'])
+def uploadSequence()
+    if request.method == "POST":
+
+@application.route('/query', methods=['GET', 'POST'])
+def complete_query()
+    if request.method == "POST":
+        # First of my methods that will actually return anything
