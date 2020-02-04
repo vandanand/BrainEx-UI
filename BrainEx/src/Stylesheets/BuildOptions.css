@@ -1,41 +1,64 @@
+.row.no-gutters, .col.no-gutters {
+    height: 100%;
+}
+
 .build_form {
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     padding: 40px 0;
-    width: 60%;
+}
+
+.row {
+    position: relative;
+}
+
+.build-btns {
+    position: absolute;
+    bottom: 5%;
+    left: 25%;
+    width: 50%;
+}
+
+.back, .start {
+    font-size: 1.1rem;
+    width: max-content;
+    padding: 10px 20px;
 }
 
 .back {
     float: left;
-    margin: 10px;
 }
 
- .start {
-     float: right;
-     margin: 10px;
+.start {
+    float: right;
 }
 
- .form-group {
-     padding: 20px;
-     margin: 0;
- }
+.form-group {
+    padding: 20px;
+    margin: 0;
+}
 
- .form_label {
-     font-size: 1.2rem;
-     margin: 0 10px 0 0;
- }
+.form_label {
+    font-size: 1.2rem;
+    margin: 0 10px 0 0;
+}
 
- .form-control {
-     width: auto;
-     margin: 0 0 0 10px;
- }
+.form-control {
+    width: auto;
+    margin: 0 0 0 10px;
+}
 
- .custom-range {
-     margin: 0 10px;
- }
+.custom-range {
+    margin: 0 10px;
+}
 
- .help_icon {
-     padding: 5px;
- }
+.form-check {
+    display: flex;
+    flex-direction: row;
+}
+
+.help_icon {
+    padding: 5px;
+}
