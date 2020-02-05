@@ -1,8 +1,7 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import './App.css';
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import {BrowserRouter as Router, Route} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import csvViewer from './Components/csvViewer';
 import BuildOptions from "./Components/BuildOptions";
 import buildProgressMenu from "./Components/BuildProgressMenu";
 import QueryFinder from "./Components/QueryFinder";
@@ -13,7 +12,6 @@ import BrainExHeader from "./Components/BrainExHeader";
 import SelectNewDataset from "./Components/SelectNewDataset";
 
 class App extends Component {
-
     render() {
         return (
             <Router>
