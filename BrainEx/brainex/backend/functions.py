@@ -8,6 +8,13 @@ application = Flask(_name_)
 application.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 brainexDB = None
+querySeq = None
+
+def is_csv(filename):
+    if '.' in filename and filename.rsplit('.', 1)[1].lower() == 'csv':
+        return True
+    else:
+        return False
 
 @application.route('/getCSV', methods=['GET', 'POST'])
 def getStoreCSV():
@@ -22,12 +29,6 @@ def getStoreCSV():
             return "File has been uploaded."
         else:
             return("Invalid file.  Please upload a CSV", 400)
-
-def is_csv(filename):
-    if '.' in filename and filename.rsplit('.', 1)[1].lower() == 'csv':
-        return True
-    else:
-        return False
 
 @application.route('/getCSVOptions')
 def getOptions():
@@ -71,8 +72,28 @@ def cluster()
 @application.route('/uploadSequence', methods=['GET', 'POST'])
 def uploadSequence()
     if request.method == "POST":
+        # Assuming the file is just a series of points on one line (i.e. one row of a database
+        # csv with feature_num=0)
+        if 'sequence_file' not in request.files:
+            return ("File not found.", 400)
+        csv = request.files['sequence_file']
+        if csv.filename == '':
+            return("File not found", 400)
+        if csv and is_csv(csv.filename):
+            csv.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename)) # Secure filename?? See tutorial
+            # Check to make sure there's only one line there
+            with open(file.filename) as f:
+                numLines = sum(1 for line in f)
+            if numLines == 1:
+                with open(file.filename) as f:
+                    queryLine = f.readline()
+                    query = queryLine.rstrip.split(',')
+                return "File has been uploaded."
+            else:
+                return("Please only submit one sequence at a time", 400)
+        else:
+            return("Invalid file.  Please upload a CSV", 400)
 
 @application.route('/query', methods=['GET', 'POST'])
 def complete_query()
     if request.method == "POST":
-        # First of my methods that will actually return anything
