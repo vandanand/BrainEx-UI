@@ -32,7 +32,7 @@ class App extends Component {
         console.log(form_data);
         Object.assign(this.state.form_data, form_data); // assigns properties/values of form_data to state field
         console.log("parent received info!");
-        console.log(this.state); // print for debugging
+        console.log(this.state.form_data); // print for debugging
     };
 
     render() {

@@ -1,17 +1,25 @@
+table, tbody, tr {
+    position: relative;
+}
+
 .build_form {
     height: 100%;
     padding: 40px 0;
+    margin: auto;
+    position: relative;
+}
+
+table {
     display: table;
     table-layout: auto;
     justify-content: space-between;
     margin: auto;
-    width: 60%;
-    position: relative;
+    width: 50%;
+    height: 100%;
 }
 
 .back, .start {
     position: absolute;
-    font-size: 1.1rem;
     width: max-content;
     padding: 10px 20px;
 }
@@ -33,8 +41,33 @@
     padding-right: 20px;
 }
 
-.form_input.is_range {
+.form-control {
+    margin: auto 0;
+}
+
+.custom-range {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.form_input.is_range, .form_input.is_check {
     display: flex;
     flex-direction: row;
     width: 100%;
+}
+
+.advanced_spark, .hide {
+    display: none;
+}
+
+.left-element, .right-element {
+    width: 50%;
+}
+
+.left-element {
+    float: left;
+}
+
+.right-element {
+    float: right;
 }
