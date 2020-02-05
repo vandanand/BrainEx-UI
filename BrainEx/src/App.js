@@ -24,7 +24,7 @@ class App extends Component {
         super(props);
         this.state = {
             form_data: {}
-        }
+        };
         this.submit_form = this.submit_form.bind(this);
     }
 

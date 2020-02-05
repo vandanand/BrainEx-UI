@@ -4,8 +4,9 @@ import {Link} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
 // todo use Material-UI tooltip
-import { FaRegQuestionCircle } from 'react-icons/fa';
+import Slider, { Range } from 'rc-slider';
 import $ from 'jquery';
+import 'rc-slider/assets/index.css';
 
 class BuildOptions extends Component {
 
@@ -15,8 +16,9 @@ class BuildOptions extends Component {
             feature_val: 5,
             distance_val: "eu",
             sim_val: 0, /*[0:1]*/ /*todo get the desired default value*/
-            loi_val: 100, /*[0:max length]*/ /*todo change this to pull in the length of the longest time series*/
+            loi_val: [0, 100], /*[0:max length]*/ /*todo change this to pull in the length of the longest time series*/
             spark_val: true, /*todo should the default be yes/true?*/
+            num_workers: 3, /*todo get default value*/
             dm_val: 0, /*todo get default values for spark memory*/
             mrm_val: 0
         };
@@ -25,13 +27,14 @@ class BuildOptions extends Component {
         this.update_sim = this.update_sim.bind(this);
         this.update_loi = this.update_loi.bind(this);
         this.update_spark = this.update_spark.bind(this);
+        this.update_nw = this.update_nw.bind(this);
         this.update_dm = this.update_dm.bind(this);
         this.update_mrm = this.update_mrm.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount() {
-        // spark options listener
+        // spark options listener -- toggles display of additional options using a button/link
         $("#spark_toggle").click(function(){
             $(".advanced_spark").toggle();
             if ($(".advanced_spark").is(":visible")) {
@@ -44,6 +47,7 @@ class BuildOptions extends Component {
         });
     }
 
+    // dynamically update feature number value in state
     update_feature = (e) => {
         const feature_val = e.target.value;
         this.setState({
@@ -51,6 +55,7 @@ class BuildOptions extends Component {
         });
     };
 
+    // dynamically update distance type value in state
     update_distance = (e) => {
         const distance_val = e.target.value;
         this.setState({
@@ -59,21 +64,24 @@ class BuildOptions extends Component {
     };
 
     // dynamically update similarity threshold value shown to user
+    // value from Slider component is stored in e, not e.target.value
     update_sim = (e) => {
-        const sim_val = e.target.value;
+        const sim_val = e;
         this.setState({
             sim_val: sim_val
         });
     };
 
     // dynamically update length of interest value shown to user
+    // value from Range component is stored in e, not e.target.value
     update_loi = (e) => {
-        const loi_val = e.target.value;
+        const loi_val = e;
         this.setState({
             loi_val: loi_val
         });
     };
 
+    // dynamically update state of "use spark?" checkbox (checked/unchecked)
     update_spark = (e) => {
         const spark_val = e.target.checked;
         this.setState({
@@ -81,6 +89,15 @@ class BuildOptions extends Component {
         });
     };
 
+    // dynamically update number of workers/cores value in state
+    update_nw = (e) => {
+        const num_workers = e.target.value;
+        this.setState({
+            num_workers: num_workers
+        });
+    };
+
+    // dynamically update driver memory value in state
     update_dm = (e) => {
         const dm_val = e.target.value;
         this.setState({
@@ -88,6 +105,7 @@ class BuildOptions extends Component {
         });
     };
 
+    // dynamically update max result memory value in state
     update_mrm = (e) => {
         const mrm_val = e.target.value;
         this.setState({
@@ -95,7 +113,7 @@ class BuildOptions extends Component {
         });
     };
 
-    // submit the content to the parent component (App.js) and proceed to the next page
+    // submit the content to the parent component (App.js) and proceed to the next page (BuildProgressMenu.js)
     handleSubmit = (e) => {
         e.preventDefault();
         const form_data = this.state;
@@ -151,13 +169,13 @@ class BuildOptions extends Component {
                             <td className="form_input is_range">
                                 <span className="font-weight-bold indigo-text">0%</span>
                                 {/*todo update "defaultValue" to be recommended similarity threshold */}
-                                <input
-                                    type="range"
-                                    className="custom-range"
+                                <Slider
                                     id="sim_thresh"
-                                    min="0" max="100"
                                     value={this.state.sim_val}
-                                    onChange={this.update_sim}/>
+                                    min={0}
+                                    max={100}
+                                    onChange={this.update_sim}
+                                />
                                 <span className="font-weight-bold indigo-text">{this.state.sim_val}%</span>
                             </td>
                         </tr>
@@ -170,15 +188,15 @@ class BuildOptions extends Component {
                                 <label htmlFor="loi">Length of Interest:</label>
                             </td>
                             <td className="form_input is_range">
-                                <span className="font-weight-bold indigo-text">0</span>
-                                <input
-                                    type="range"
-                                    className="custom-range"
+                                <span className="font-weight-bold indigo-text">{this.state.loi_val[0]}</span>
+                                <Range
                                     id="loi"
-                                    min="0" max="100"
                                     value={this.state.loi_val}
-                                    onChange={this.update_loi}/>
-                                <span className="font-weight-bold indigo-text">{this.state.loi_val}</span>
+                                    min={0}
+                                    max={100}
+                                    onChange={this.update_loi}
+                                />
+                                <span className="font-weight-bold indigo-text">{this.state.loi_val[1]}</span>
                             </td>
                         </tr>
                         {/*form input 5*/}
@@ -198,11 +216,20 @@ class BuildOptions extends Component {
                                     <p className="hide">Hide advanced Spark options</p>
                                 </Button>
                             </td>
-                            {/*https://www.pair.com/support/kb/how-to-use-jquery-to-show-hide-a-form-on-click/*/}
                         </tr>
+                        {/*advanced spark form options*/}
                         <tr className="advanced_spark">
-                            <td colSpan={2}>
+                            <td className="spark-options" colSpan={2}>
                                 <div className="left-element">
+                                    <label>Number of Workers</label>
+                                    <input
+                                        className="form-control"
+                                        type="number"
+                                        value={this.state.num_workers}
+                                        id="driver_mem"
+                                        onChange={this.update_nw}/>
+                                </div>
+                                <div className="middle-element">
                                     <label>Driver Memory</label>
                                     <input
                                         className="form-control"
@@ -223,7 +250,7 @@ class BuildOptions extends Component {
                             </td>
                         </tr>
                         <tr>
-                            <td>
+                            <td colSpan={2}>
                                 <Link to="/SelectNewDataset" className="back btn btn-secondary">
                                     Back
                                 </Link>

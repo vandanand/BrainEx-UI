@@ -3,6 +3,7 @@ import Button from "react-bootstrap/Button";
 import {Link} from "react-router-dom";
 import '../Stylesheets/Home.css'
 import { preprocessed_files } from "../dummy_data";
+import ReactBootstrapSlider from "react-bootstrap-slider";
 
 class Home extends Component {
 
