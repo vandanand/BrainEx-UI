@@ -14,7 +14,6 @@ import Paper from '@material-ui/core/Paper';
 import Link from '@material-ui/core/Link';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import Chart from './Chart';
-import Legend from './Legend';
 import DataTable from './DataTable';
 import CurrSeqSelection from './CurrSeqSelection'
 import Filter from './Filter'
@@ -84,52 +83,47 @@ export default function Dashboard() {
             </AppBar>
             <main className={classes.content}>
                 <div className={classes.appBarSpacer}/>
-                <Container maxWidth="lg" className={classes.container}>
-                    <Grid container spacing={2} direction="row"
-                          justify="center"
-                          alignItems="center">
-                        <Grid container item spacing={2} xs={8} direction="column"
-                              justify="center"
-                              alignItems="flex-start">
+                <Container maxWidth='lg' className={classes.container}>
+                    <Grid container spacing={2} direction="row" justify="center"
+                          alignItems="flex-start">
+                        <Grid item container spacing={2} direction="column" lg={3}>
                             {/* current sequence selection thumbnail */}
-                            <Grid item xs={3}>
+                            <Grid item>
                                 <Paper className={classes.paper}>
                                     <CurrSeqSelection/>
                                 </Paper>
                             </Grid>
                             {/* filters */}
-                            <Grid item xs={3}>
+                            <Grid item>
                                 <Paper className={classes.paper}>
                                     <Filter/>
                                 </Paper>
                             </Grid>
-                            {/* stats*/}
-                            <Grid item xs={3}>
+                            {/*stats*/}
+                            <Grid item>
                                 <Paper className={classes.paper}>
                                     <Stats/>
                                 </Paper>
                             </Grid>
                         </Grid>
-                        <Grid container item spacing={2}>
+                        <Grid item container spacing={2} direction="row" lg={9}>
+                            {/*</Grid>*/}
+                            {/*<Grid item container spacing={2} direction="column">*/}
                             {/* Chart */}
-                            <Grid item xs={6}>
+                            <Grid item lg={12}>
                                 <Paper className={fixedHeightPaper}>
+                                    {/*<Paper className={classes.paper}>*/}
                                     <Chart/>
                                 </Paper>
                             </Grid>
-                            {/* Recent Deposits */}
-                            <Grid item xs={2}>
-                                <Paper className={fixedHeightPaper}>
-                                    <Legend/>
-                                </Paper>
-                            </Grid>
-                            {/* Recent Orders */}
-                            <Grid item xs={8}>
+                            <Grid item lg={12}>
                                 <Paper className={classes.paper}>
                                     <DataTable/>
                                 </Paper>
+                                {/*</Grid>*/}
                             </Grid>
                         </Grid>
+                        {/*</Grid>*/}
                     </Grid>
                     <Box pt={4}>
                         <Copyright/>
