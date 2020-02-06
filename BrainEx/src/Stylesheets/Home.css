@@ -23,19 +23,19 @@
     height: 100%;
 }
 
-.build-btn {
+.MuiLink-root.build-btn {
     position: absolute;
-    padding: 10px 20px;
+    /*padding: 10px 20px;*/
     width: max-content;
-    font-size: 1.5rem;
+    /*font-size: 1.5rem;*/
 }
 
-.build-btn.left-btn {
+.MuiLink-root.build-btn.left-btn {
     left: 5%;
     bottom: 5%;
 }
 
-.build-btn.right-btn {
+.MuiLink-root.build-btn.right-btn {
     right: 5%;
     bottom: 5%;
 }
@@ -51,7 +51,7 @@
     margin: 10px auto;
 }
 
-.directions {
+.MuiTypography-root.directions {
     padding: 10px;
     width: 70%;
     display: inline-block;
@@ -69,7 +69,8 @@
     font-size: 1.1rem;
 }
 
-.file-list {
+.MuiButtonGroup-root.file-list {
+    display: block;
     padding: 13px;
     overflow: auto;
     max-height: 40vh;
@@ -85,12 +86,12 @@
     width: 60%;
 }
 
-.btn-primary {
+.MuiButton-root.btn-primary, .MuiLink-root.btn-primary {
     background-color: #0f5298;
     border-color: #0f5298;
 }
 
-.btn-file {
+.MuiButton-root.btn-file {
     border-color: black;
     width: 90%;
     background-color: #0F5298;
