@@ -3,10 +3,9 @@ import '../Stylesheets/BuildOptions.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Slider, { Range } from 'rc-slider';
 import 'rc-slider/assets/index.css';
-import { TextField, Select, MenuItem, Checkbox, Button, Link } from '@material-ui/core';
-import $ from 'jquery';
-// import Button from 'react-bootstrap/Button';
+import { TextField, Select, MenuItem, Checkbox, Button, Link, InputLabel } from '@material-ui/core';
 import { Link as RouterLink } from "react-router-dom";
+import $ from 'jquery';
 
 class BuildOptions extends Component {
 
@@ -150,7 +149,7 @@ class BuildOptions extends Component {
                         {/*form input 1*/}
                         <tr className="form-group">
                             <td className="form_label">
-                                <label htmlFor="feature_num">Feature Number:</label>
+                                <InputLabel htmlFor="feature_num">Feature Number:</InputLabel>
                             </td>
                             <td className="form_input">
                                 <TextField
@@ -164,7 +163,7 @@ class BuildOptions extends Component {
                         {/*form input 2*/}
                         <tr className="form-group">
                             <td className="form_label">
-                                <label htmlFor="distance_type">Distance Type:</label>
+                                <InputLabel htmlFor="distance_type">Distance Type:</InputLabel>
                             </td>
                             <td className="form_input">
                                 <Select
@@ -182,7 +181,7 @@ class BuildOptions extends Component {
                         {/*form input 3*/}
                         <tr className="form-group">
                             <td className="form_label">
-                                <label htmlFor="sim_thresh">Similarity Threshold:</label>
+                                <InputLabel htmlFor="sim_thresh">Similarity Threshold:</InputLabel>
                             </td>
                             <td className="form_input is_range">
                                 {/*todo update "defaultValue" to be recommended similarity threshold */}
@@ -213,7 +212,7 @@ class BuildOptions extends Component {
                                     SelectADataset into BuildOptions state */}
                             {/*todo update "defaultValue" to be same as max */}
                             <td className="form_label">
-                                <label htmlFor="loi">Length of Interest:</label>
+                                <InputLabel htmlFor="loi">Length of Interest:</InputLabel>
                             </td>
                             <td className="form_input is_range">
                                 <TextField
@@ -242,7 +241,7 @@ class BuildOptions extends Component {
                         {/*form input 5*/}
                         <tr className="form-group">
                             <td className="form_label">
-                                <label htmlFor="use_spark">Use Spark:</label>
+                                <InputLabel htmlFor="use_spark">Use Spark:</InputLabel>
                             </td>
                             <td className="form_input is_check">
                                 <Checkbox
@@ -261,7 +260,7 @@ class BuildOptions extends Component {
                         <tr className="advanced_spark">
                             <td className="spark-options" colSpan={2}>
                                 <div className="left-element">
-                                    <label>Number of Workers</label>
+                                    <InputLabel>Number of Workers</InputLabel>
                                     <TextField
                                         id="driver_mem"
                                         type="number"
@@ -270,7 +269,7 @@ class BuildOptions extends Component {
                                     />
                                 </div>
                                 <div className="middle-element">
-                                    <label>Driver Memory</label>
+                                    <InputLabel>Driver Memory</InputLabel>
                                     <TextField
                                         id="driver_mem"
                                         type="number"
@@ -280,7 +279,7 @@ class BuildOptions extends Component {
                                     <span className="font-weight-bold indigo-text">GB</span>
                                 </div>
                                 <div className="right-element">
-                                    <label>Max Result Memory</label>
+                                    <InputLabel>Max Result Memory</InputLabel>
                                     <TextField
                                         id="max_result_mem"
                                         type="number"

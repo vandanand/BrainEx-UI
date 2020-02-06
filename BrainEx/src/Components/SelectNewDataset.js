@@ -48,7 +48,7 @@ class SelectNewDataset extends Component {
                         <div className="left d-flex justify-content-center align-items-center">
                             <div className="home-content">
                                 <Typography className="directions" variant="h5">Select a dataset to preview here</Typography>
-                                <ButtonGroup orientation="vertical" color="primary" className="file-list"> {/*todo button group?*/}
+                                <ButtonGroup className="file-list" orientation="vertical" color="primary">
                                     { this.state.all_files.map((file, index) => (
                                         <Button className="btn-file" variant="contained" key={index}>{file}</Button>
                                     ))}
@@ -77,7 +77,7 @@ class SelectNewDataset extends Component {
                                     Next
                                 </Link>
                                 <Link
-                                    className="build-btn left-btn btn btn-primary"
+                                    className="build-btn left-btn btn btn-secondary"
                                     variant="button"
                                     color="default"
                                     underline="none"

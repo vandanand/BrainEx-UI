@@ -31,9 +31,10 @@ table {
     margin-right: 100px;
 }
 
-.form_label {
+.form_label .MuiInputLabel-root {
     text-align: left;
     width: max-content;
+    color: #000;
 }
 
 .form_input {
