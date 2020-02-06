@@ -26,6 +26,8 @@ class BuildOptions extends Component {
         this.update_sim_range = this.update_sim_range.bind(this);
         this.update_sim_text = this.update_sim_text.bind(this);
         this.update_loi = this.update_loi.bind(this);
+        this.update_loi_start = this.update_loi_start.bind(this);
+        this.update_loi_end = this.update_loi_end.bind(this);
         this.update_spark = this.update_spark.bind(this);
         this.update_nw = this.update_nw.bind(this);
         this.update_dm = this.update_dm.bind(this);
