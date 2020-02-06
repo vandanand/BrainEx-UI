@@ -18,5 +18,5 @@ def client():
 
 def test_getStoreCSV(client):
     data = {}
-    data['file'] = open("ItalyPower.csv")
+    data['file'] = "./ItalyPower.csv"
     return client.post("/getCSV", data=data, content_type="multipart/form-data")

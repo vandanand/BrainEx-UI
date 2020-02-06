@@ -1,7 +1,6 @@
 import genex.database.genex_database as gxdb
 from pyspark import SparkContext, SparkConf
-from flask import Flask
-import flask
+from flask import Flask, request
 
 UPLOAD_FOLDER = "/uploads" # Note: to fix
 
