@@ -4,8 +4,6 @@ import logo from "../brain.png";
 class BrainExHeader extends Component {
 
     render() {
-        // style={{backgroundColor: '#3C99DC', width: '100%', height: '17%', position: 'absolute', left:'0.01%', top:'0%'}}
-        // style={{position:'absolute', top:'39%', left:'48%'}}
         return(
             <div className="header">
                 <div className="info">
