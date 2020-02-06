@@ -48,11 +48,11 @@ class SelectNewDataset extends Component {
                         <div className="left d-flex justify-content-center align-items-center">
                             <div className="home-content">
                                 <Typography className="directions" variant="h5">Select a dataset to preview here</Typography>
-                                <div className="file-list"> {/*todo button group?*/}
+                                <ButtonGroup orientation="vertical" color="primary" className="file-list"> {/*todo button group?*/}
                                     { this.state.all_files.map((file, index) => (
-                                        <Button className="btn-file" variant="contained" color="primary" key={index}>{file}</Button>
+                                        <Button className="btn-file" variant="contained" key={index}>{file}</Button>
                                     ))}
-                                </div>
+                                </ButtonGroup>
                                 {/*adding a new file*/}
                                 <div className="form-group files home-content">
                                     <Typography className="directions" variant="h6">Load another dataset</Typography>

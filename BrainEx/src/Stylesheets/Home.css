@@ -69,7 +69,8 @@
     font-size: 1.1rem;
 }
 
-.file-list {
+.MuiButtonGroup-root.file-list {
+    display: block;
     padding: 13px;
     overflow: auto;
     max-height: 40vh;
