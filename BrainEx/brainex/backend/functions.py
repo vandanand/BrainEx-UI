@@ -1,12 +1,14 @@
 import genex.database.genex_database as gxdb
 from pyspark import SparkContext, SparkConf
+from flask import Flask
 import flask
 
-UPLOAD_FOLDER = /uploads # Note: to fix
+UPLOAD_FOLDER = "/uploads" # Note: to fix
 
-application = Flask(_name_)
+application = Flask(__name__)
 application.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+uploadPath = None
 brainexDB = None
 querySeq = None
 
@@ -25,7 +27,8 @@ def getStoreCSV():
         if csv.filename == '':
             return("File not found", 400)
         if csv and is_csv(csv.filename):
-            csv.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename)) # Secure filename?? See tutorial
+            csv.save(os.path.join(application.config['UPLOAD_FOLDER'], file.filename)) # Secure filename?? See tutorial
+            uploadPath = "uploads/", csv.filename
             return "File has been uploaded."
         else:
             return("Invalid file.  Please upload a CSV", 400)
@@ -42,12 +45,11 @@ def getOptions():
             max_result_mem = int(request.form['max_result_mem'])
         else:
             use_spark = False
-        # TODO: make sure path to file is correct
         try:
             if use_spark:
-                brainexDB = gxdb.from_csv(UPLOAD_FOLDER/<filename>, feature_num=feature_num, use_spark=use_spark, num_worker=num_worker, driver_mem=driver_mem, max_result_mem=max_result_mem)
+                brainexDB = gxdb.from_csv(uploadPath, feature_num=feature_num, use_spark=use_spark, num_worker=num_worker, driver_mem=driver_mem, max_result_mem=max_result_mem)
             else:
-                brainexDB = gxdb.from_csv(UPLOAD_FOLDER/<filename>, feature_num=feature_num, use_spark=use_spark, num_worker=num_worker)
+                brainexDB = gxdb.from_csv(uploadPath, feature_num=feature_num, use_spark=use_spark, num_worker=num_worker)
             return "Correctly input."
         except FileNotFoundError:
             return ("File not found.", 400)
@@ -55,7 +57,7 @@ def getOptions():
             return ("Incorrect input.", 400)
 
 @application.route('/cluster', methods=['GET', 'POST'])
-def cluster()
+def cluster():
     if request.method == "POST":
         similarity_threshold = int(request.form['similarity_threshold'])
         dist_type = request.form['dist_type']
@@ -70,7 +72,7 @@ def cluster()
             return (e, 400)
 
 @application.route('/uploadSequence', methods=['GET', 'POST'])
-def uploadSequence()
+def uploadSequence():
     if request.method == "POST":
         # Assuming the file is just a series of points on one line (i.e. one row of a database
         # csv with feature_num=0)
@@ -80,7 +82,7 @@ def uploadSequence()
         if csv.filename == '':
             return("File not found", 400)
         if csv and is_csv(csv.filename):
-            csv.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename)) # Secure filename?? See tutorial
+            csv.save(os.path.join(application.config['UPLOAD_FOLDER'], file.filename)) # Secure filename?? See tutorial
             # Check to make sure there's only one line there
             with open(file.filename) as f:
                 numLines = sum(1 for line in f)
@@ -95,5 +97,6 @@ def uploadSequence()
             return("Invalid file.  Please upload a CSV", 400)
 
 @application.route('/query', methods=['GET', 'POST'])
-def complete_query()
+def complete_query():
     if request.method == "POST":
+        quit()
