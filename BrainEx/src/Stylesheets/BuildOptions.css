@@ -78,6 +78,6 @@ table {
 }
 
 /*for debugging*/
-/*table, tbody, tr, td {
+table, tbody, tr, td, div {
     border: solid 1px black;
-}*/
+}

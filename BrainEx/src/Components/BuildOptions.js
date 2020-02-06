@@ -157,6 +157,7 @@ class BuildOptions extends Component {
                                 <TextField
                                     id="feature_num"
                                     type="number"
+                                    InputProps={{ inputProps: { min: 0 } }}
                                     value={this.state.feature_val}
                                     onChange={this.update_feature}
                                 />
@@ -200,6 +201,10 @@ class BuildOptions extends Component {
                                     className="percent_text"
                                     id="sim_thresh"
                                     type="number"
+                                    InputProps={{
+                                        inputProps: {
+                                            min:0, max:1
+                                        }}}
                                     value={this.state.sim_val}
                                     onChange={this.update_sim_text}
                                     inputProps={{
@@ -266,6 +271,7 @@ class BuildOptions extends Component {
                                     <TextField
                                         id="driver_mem"
                                         type="number"
+                                        InputProps={{ inputProps: { min: 0 } }}
                                         value={this.state.num_workers}
                                         onChange={this.update_nw}
                                     />
@@ -275,6 +281,7 @@ class BuildOptions extends Component {
                                     <TextField
                                         id="driver_mem"
                                         type="number"
+                                        InputProps={{ inputProps: { min: 0 } }}
                                         value={this.state.dm_val}
                                         onChange={this.update_dm}
                                     />
@@ -285,6 +292,7 @@ class BuildOptions extends Component {
                                     <TextField
                                         id="max_result_mem"
                                         type="number"
+                                        InputProps={{ inputProps: { min: 0 } }}
                                         value={this.state.mrm_val}
                                         onChange={this.update_mrm}
                                     />
