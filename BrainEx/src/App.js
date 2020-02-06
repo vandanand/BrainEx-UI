@@ -11,13 +11,6 @@ import ClusterExplorer from "./Components/ClusterExplorer";
 import BrainExHeader from "./Components/BrainExHeader";
 import SelectNewDataset from "./Components/SelectNewDataset";
 
-{/* todo to send props through Link component: */}
-                    {/*<Link to={{ pathname: '/', state: 'flushDeal' }}>
-                        Home
-                    </Link>
-                    source: https://medium.com/@dcai900/how-to-refresh-data-when-using-react-router-link-396a2ddf8373
-                    */}
-
 class App extends Component {
 
     constructor(props) {
@@ -57,6 +50,12 @@ class App extends Component {
     }
 }
 
-
-
 export default App;
+
+/*
+todo to send props through Link component:
+    <Link to={{ pathname: '/', state: 'flushDeal' }}>
+        Home
+    </Link>
+source: https://medium.com/@dcai900/how-to-refresh-data-when-using-react-router-link-396a2ddf8373
+                   */

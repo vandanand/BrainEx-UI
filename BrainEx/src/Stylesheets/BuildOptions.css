@@ -28,6 +28,7 @@ table {
 
 .start {
     float: right;
+    margin-right: 100px;
 }
 
 .form_label {

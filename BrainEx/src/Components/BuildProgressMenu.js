@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import {Link} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "../Stylesheets/BuildProgressMenu.css";
-import JSONPretty from 'react-json-pretty';
 import ProgressBar from 'react-bootstrap/ProgressBar'
 
 // todo -- my concern: refreshing the page makes the form data disappear. user will lose progress if they refresh the window.
