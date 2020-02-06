@@ -14,7 +14,7 @@ class BuildOptions extends Component {
         this.state = {
             feature_val: 5,
             distance_val: "eu",
-            sim_val: 10, /*[0:1]*/ /*todo get the desired default value*/
+            sim_val: 0.1, /*[0:1]*/ /*todo get the desired default value*/
             loi_val: [0, 100], /*[0:max length]*/ /*todo change this to pull in the length of the longest time series*/
             spark_val: true, /*todo should the default be yes/true?*/
             num_workers: 3, /*todo get default value*/
@@ -74,7 +74,7 @@ class BuildOptions extends Component {
         });
     };
     update_sim_text = (e) => {
-        const sim_val = parseInt(e.target.value);
+        const sim_val = parseFloat(e.target.value);
         this.setState({
             sim_val: sim_val
         });
@@ -191,7 +191,8 @@ class BuildOptions extends Component {
                                     id="sim_thresh"
                                     value={this.state.sim_val}
                                     min={0}
-                                    max={100}
+                                    max={1}
+                                    step={0.01}
                                     onChange={this.update_sim_range}
                                 />
                                 {/*todo hitting enter with cursor in TextField submits form*/}
@@ -205,7 +206,6 @@ class BuildOptions extends Component {
                                         style: {width: 65}
                                     }}
                                 />
-                                <span className="font-weight-bold indigo-text">%</span>
                             </td>
                         </tr>
                         {/*form input 4*/}

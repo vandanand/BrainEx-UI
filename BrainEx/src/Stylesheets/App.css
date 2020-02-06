@@ -8,6 +8,10 @@
   font-size: 1em !important;
 }
 
+.MuiInputBase-root {
+  font-size: 1.1em !important;
+}
+
 .header {
   display: block;
   padding-top: 10px;
