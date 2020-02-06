@@ -86,44 +86,39 @@ export default function Dashboard() {
                 <Container maxWidth='lg' className={classes.container}>
                     <Grid container spacing={2} direction="row" justify="center"
                           alignItems="flex-start">
-                        <Grid item container spacing={2} direction="column" lg={3}>
+                        <Grid item container spacing={2} direction="column" lg={4}>
                             {/* current sequence selection thumbnail */}
-                            <Grid item>
+                            <Grid item lg={12}>
                                 <Paper className={classes.paper}>
                                     <CurrSeqSelection/>
                                 </Paper>
                             </Grid>
                             {/* filters */}
-                            <Grid item>
+                            <Grid item lg={12}>
                                 <Paper className={classes.paper}>
                                     <Filter/>
                                 </Paper>
                             </Grid>
                             {/*stats*/}
-                            <Grid item>
+                            <Grid item lg={12}>
                                 <Paper className={classes.paper}>
                                     <Stats/>
                                 </Paper>
                             </Grid>
                         </Grid>
-                        <Grid item container spacing={2} direction="row" lg={9}>
-                            {/*</Grid>*/}
-                            {/*<Grid item container spacing={2} direction="column">*/}
+                        <Grid item container spacing={2} direction="row" lg={8}>
                             {/* Chart */}
                             <Grid item lg={12}>
                                 <Paper className={fixedHeightPaper}>
-                                    {/*<Paper className={classes.paper}>*/}
                                     <Chart/>
                                 </Paper>
                             </Grid>
                             <Grid item lg={12}>
-                                <Paper className={classes.paper}>
+                                <Paper className={fixedHeightPaper}>
                                     <DataTable/>
                                 </Paper>
-                                {/*</Grid>*/}
                             </Grid>
                         </Grid>
-                        {/*</Grid>*/}
                     </Grid>
                     <Box pt={4}>
                         <Copyright/>

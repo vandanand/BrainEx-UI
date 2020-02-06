@@ -13,7 +13,7 @@ class Line extends React.Component {
         const {xScale, yScale, data, lineGenerator} = this.props;
 
         const initialData = data.map(d => ({
-            name: d.name,
+            timeStamp: d.timeStamp,
             value: 0
         }));
 

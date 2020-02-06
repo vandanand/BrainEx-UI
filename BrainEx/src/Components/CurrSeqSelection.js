@@ -3,7 +3,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import Title from "./Title";
 import Button from '@material-ui/core/Button';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-import curSeqLineChart from "./ChartUpdate";
+import CurSeqLineChart from "./CurSeqLineChart";
 
 
 function preventDefault(event) {
@@ -24,8 +24,8 @@ export default function CurrSeqSelection() {
     return (
         <React.Fragment>
             <div className={classes.root}>
-                <Title>Current Selection</Title>
-                <curSeqLineChart/>
+                <Title>Current Sequence Selection</Title>
+                <CurSeqLineChart/>
                 <input
                     accept="text/csv/*"
                     className={classes.input}

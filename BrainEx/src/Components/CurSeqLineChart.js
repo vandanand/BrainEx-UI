@@ -6,23 +6,52 @@ import {curveMonotoneX, line} from 'd3-shape';
 import {extent} from 'd3-array';
 import {transition} from 'd3-transition';
 
-class curSeqLineChart extends Component {
+// import LogoButtonCard from '../molecules/Cards/LogoButtonCard';
+
+// const useStyles = makeStyles(theme => ({
+//     root: {
+//         display: 'flex',
+//         alignItems: 'center',
+//         justifyContent: 'center',
+//         margin: theme.spacing(1)
+//     },
+//     highlight: {
+//         backgroundColor: 'red',
+//     }
+// }));
+//
+// const classes = useStyles();
+
+class CurSeqLineChart extends Component {
     constructor() {
         super();
         this.state = {
             data: [
-                {name: 'Jan', value: 30},
-                {name: 'Feb', value: 10},
-                {name: 'Mar', value: 50},
-                {name: 'Apr', value: 20},
-                {name: 'May', value: 80},
-                {name: 'Jun', value: 30},
-                {name: 'July', value: 0},
-                {name: 'Aug', value: 20},
-                {name: 'Sep', value: 100},
-                {name: 'Oct', value: 55},
-                {name: 'Nov', value: 60},
-                {name: 'Dec', value: 80},
+                {timeStamp: 'Jan', value: 30},
+                {timeStamp: 'Feb', value: 10},
+                {timeStamp: 'Mar', value: 50},
+                {timeStamp: 'Apr', value: 20},
+                {timeStamp: 'May', value: 80},
+                {timeStamp: 'Jun', value: 30},
+                {timeStamp: 'July', value: 0},
+                {timeStamp: 'Aug', value: 20},
+                {timeStamp: 'Sep', value: 100},
+                {timeStamp: 'Oct', value: 55},
+                {timeStamp: 'Nov', value: 60},
+                {timeStamp: 'Dec', value: 80},
+                {timeStamp: 'Jan', value: 30},
+                {timeStamp: 'Feb', value: 10},
+                {timeStamp: 'Mar', value: 50},
+                {timeStamp: 'Apr', value: 20},
+                {timeStamp: 'May', value: 80},
+                {timeStamp: 'Jun', value: 30},
+                {timeStamp: 'July', value: 0},
+                {timeStamp: 'Aug', value: 20},
+                {timeStamp: 'Sep', value: 100},
+                {timeStamp: 'Oct', value: 55},
+                {timeStamp: 'Nov', value: 60},
+                {timeStamp: 'Dec', value: 80},
+
             ],
         }
     }
@@ -31,7 +60,7 @@ class curSeqLineChart extends Component {
         e.preventDefault();
         this.setState((prevState) => {
             const data = prevState.data.map(d => ({
-                name: d.name,
+                timeStamp: d.timeStamp,
                 value: Math.floor((Math.random() * 100) + 1)
             }))
             return {
@@ -58,7 +87,7 @@ class curSeqLineChart extends Component {
         const t = transition().duration(1000);
 
         const xScale = scaleBand()
-            .domain(data.map(d => d.name))
+            .domain(data.map(d => d.timeStamp))
             .rangeRound([0, width]).padding(0.1);
 
         const yScale = scaleLinear()
@@ -67,7 +96,7 @@ class curSeqLineChart extends Component {
             .nice();
 
         const lineGenerator = line()
-            .x(d => xScale(d.name))
+            .x(d => xScale(d.timeStamp))
             .y(d => yScale(d.value))
             .curve(curveMonotoneX);
 
@@ -90,5 +119,5 @@ class curSeqLineChart extends Component {
     }
 }
 
-export default curSeqLineChart;
+export default CurSeqLineChart;
 // render(<curSeqLineChart />, document.getElementById('root'));
