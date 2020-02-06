@@ -47,7 +47,7 @@ class SelectNewDataset extends Component {
                     <div className="col col-3 no-gutters">
                         <div className="left d-flex justify-content-center align-items-center">
                             <div className="home-content">
-                                <Typography className="directions" variant="h5">Select a dataset to preview here</Typography>
+                                <Typography className="directions" variant="h4">Select a dataset to preview here</Typography>
                                 <ButtonGroup className="file-list" orientation="vertical" color="primary">
                                     { this.state.all_files.map((file, index) => (
                                         <Button className="btn-file" variant="contained" key={index}>{file}</Button>
@@ -55,7 +55,7 @@ class SelectNewDataset extends Component {
                                 </ButtonGroup>
                                 {/*adding a new file*/}
                                 <div className="form-group files home-content">
-                                    <Typography className="directions" variant="h6">Load another dataset</Typography>
+                                    <Typography className="directions" variant="h5">Load another dataset</Typography>
                                     <div className="new-file d-flex justify-content-center align-items-center">
                                         <input type="file" name="file" className="form-control-file" accept=".csv" onChange={this.onChangeHandler} multiple/>
                                         <Button className="btn-primary" variant="contained" color="primary" onClick={this.onClickHandler}>Add</Button>

@@ -25,9 +25,9 @@
 
 .MuiLink-root.build-btn {
     position: absolute;
-    /*padding: 10px 20px;*/
+    padding: 10px 20px;
     width: max-content;
-    /*font-size: 1.5rem;*/
+    font-size: 1.5rem;
 }
 
 .MuiLink-root.build-btn.left-btn {
@@ -86,12 +86,16 @@
     width: 60%;
 }
 
+.MuiButton-root, .MuiLink-root {
+    font-size: 1em !important;
+}
+
 .MuiButton-root.btn-primary, .MuiLink-root.btn-primary {
     background-color: #0f5298;
     border-color: #0f5298;
 }
 
-.MuiButton-root.btn-file {
+.MuiButtonGroup-root .MuiButton-root.btn-file {
     border-color: black;
     width: 90%;
     background-color: #0F5298;

@@ -18,17 +18,16 @@ table {
     height: 100%;
 }
 
-.back, .start {
+.MuiLink-root.back, .MuiButton-root.start {
     width: max-content;
 }
 
-.back {
+.MuiLink-root.back {
     float: left;
 }
 
-.start {
+.MuiButton-root.start {
     float: right;
-    margin-right: 100px;
 }
 
 .form_label .MuiInputLabel-root {
@@ -79,6 +78,6 @@ table {
 }
 
 /*for debugging*/
-/*table, tbody, tr, td {
+table, tbody, tr, td {
     border: solid 1px black;
-}*/
+}

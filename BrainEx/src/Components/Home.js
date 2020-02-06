@@ -59,7 +59,7 @@ class Home extends Component {
                     <div className="col col-3 no-gutters"> {/*bootstrap columns should add up to 12 (4 + 8 = 12)*/}
                         <div className="left d-flex justify-content-center align-items-center">
                             <div className="home-content">
-                                <Typography className="directions" variant="h5">Select a preprocessed dataset to explore here</Typography>
+                                <Typography className="directions" variant="h4">Select a preprocessed dataset to explore here</Typography>
                                 <ButtonGroup className="file-list" orientation="vertical" color="primary">
                                     { this.state.all_files.map((file, index) => (
                                         <Button className="btn-file" variant="contained" key={index}>{file}</Button>
@@ -67,7 +67,7 @@ class Home extends Component {
                                 </ButtonGroup>
                                 {/*adding a new file*/}
                                 <div className="form-group files home-content">
-                                    <Typography className="directions" variant="h6">Load another dataset</Typography>
+                                    <Typography className="directions" variant="h5">Load another preprocessed dataset</Typography>
                                     <div className="new-file d-flex justify-content-center align-items-center">
                                         <input type="file" name="file" className="form-control-file" accept=".csv" onChange={this.onChangeHandler} multiple/>
                                          <Button className="btn-primary" variant="contained" color="primary" onClick={this.onClickHandler}>Add</Button>
@@ -79,7 +79,7 @@ class Home extends Component {
                     <div className="col no-gutters">
                         <div className="right d-flex justify-content-center align-items-center">
                             <div className="home-content">
-                                <Typography className="directions" variant="h6">The tool that helps find the top similar matches in fNIRS time series sequences</Typography>
+                                <Typography className="directions" variant="h5">The tool that helps find the top similar matches in fNIRS time series sequences</Typography>
                                 <Link
                                     className="right-item preprocess-bt btn btn-primary"
                                     variant="button"
