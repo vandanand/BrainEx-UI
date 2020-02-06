@@ -1,12 +1,12 @@
 import React , { Component } from "react";
 import '../Stylesheets/BuildOptions.css';
-import {Link} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Button from 'react-bootstrap/Button';
-// todo use Material-UI tooltip
 import Slider, { Range } from 'rc-slider';
-import $ from 'jquery';
 import 'rc-slider/assets/index.css';
+import { TextField, Select, MenuItem, Checkbox, Button, Link } from '@material-ui/core';
+import $ from 'jquery';
+// import Button from 'react-bootstrap/Button';
+import { Link as RouterLink } from "react-router-dom";
 
 class BuildOptions extends Component {
 
@@ -15,7 +15,7 @@ class BuildOptions extends Component {
         this.state = {
             feature_val: 5,
             distance_val: "eu",
-            sim_val: 0, /*[0:1]*/ /*todo get the desired default value*/
+            sim_val: 10, /*[0:1]*/ /*todo get the desired default value*/
             loi_val: [0, 100], /*[0:max length]*/ /*todo change this to pull in the length of the longest time series*/
             spark_val: true, /*todo should the default be yes/true?*/
             num_workers: 3, /*todo get default value*/
@@ -24,7 +24,8 @@ class BuildOptions extends Component {
         };
         this.update_feature = this.update_feature.bind(this);
         this.update_distance = this.update_distance.bind(this);
-        this.update_sim = this.update_sim.bind(this);
+        this.update_sim_range = this.update_sim_range.bind(this);
+        this.update_sim_text = this.update_sim_text.bind(this);
         this.update_loi = this.update_loi.bind(this);
         this.update_spark = this.update_spark.bind(this);
         this.update_nw = this.update_nw.bind(this);
@@ -65,8 +66,14 @@ class BuildOptions extends Component {
 
     // dynamically update similarity threshold value shown to user
     // value from Slider component is stored in e, not e.target.value
-    update_sim = (e) => {
+    update_sim_range = (e) => {
         const sim_val = e;
+        this.setState({
+            sim_val: sim_val
+        });
+    };
+    update_sim_text = (e) => {
+        const sim_val = parseInt(e.target.value);
         this.setState({
             sim_val: sim_val
         });
@@ -80,6 +87,20 @@ class BuildOptions extends Component {
             loi_val: loi_val
         });
     };
+    update_loi_start = (e) => {
+        const loi_start = parseInt(e.target.value);
+        const loi_end = this.state.loi_val[1];
+        this.setState({
+            loi_val: [loi_start, loi_end]
+        });
+    };
+    update_loi_end = (e) => {
+        const loi_start = this.state.loi_val[0];
+        const loi_end = parseInt(e.target.value);
+        this.setState({
+            loi_val: [loi_start, loi_end]
+        });
+    };
 
     // dynamically update state of "use spark?" checkbox (checked/unchecked)
     update_spark = (e) => {
@@ -88,7 +109,6 @@ class BuildOptions extends Component {
             spark_val: spark_val
         });
     };
-
     // dynamically update number of workers/cores value in state
     update_nw = (e) => {
         const num_workers = e.target.value;
@@ -96,7 +116,6 @@ class BuildOptions extends Component {
             num_workers: num_workers
         });
     };
-
     // dynamically update driver memory value in state
     update_dm = (e) => {
         const dm_val = e.target.value;
@@ -104,7 +123,6 @@ class BuildOptions extends Component {
             dm_val: dm_val
         });
     };
-
     // dynamically update max result memory value in state
     update_mrm = (e) => {
         const mrm_val = e.target.value;
@@ -135,12 +153,12 @@ class BuildOptions extends Component {
                                 <label htmlFor="feature_num">Feature Number:</label>
                             </td>
                             <td className="form_input">
-                                <input
-                                    className="form-control"
+                                <TextField
+                                    id="feature_num"
                                     type="number"
                                     value={this.state.feature_val}
-                                    id="feature_num"
-                                    onChange={this.update_feature}/>
+                                    onChange={this.update_feature}
+                                />
                             </td>
                         </tr>
                         {/*form input 2*/}
@@ -149,16 +167,16 @@ class BuildOptions extends Component {
                                 <label htmlFor="distance_type">Distance Type:</label>
                             </td>
                             <td className="form_input">
-                                <select
-                                    className="form-control"
+                                <Select
                                     id="distance_type"
                                     value={this.state.distance_val}
-                                    onChange={this.update_distance}>
-                                    <option value="eu">Warped Euclidean</option>
-                                    <option value="ma">Warped Manhattan</option>
-                                    <option value="mi">Warped Minkowski</option>
-                                    <option value="ch">Warped Chebyshev</option>
-                                </select>
+                                    onChange={this.update_distance}
+                                >
+                                    <MenuItem value="eu">Warped Euclidean</MenuItem>
+                                    <MenuItem value="ma">Warped Manhattan</MenuItem>
+                                    <MenuItem value="mi">Warped Minkowski</MenuItem>
+                                    <MenuItem value="ch">Warped Chebyshev</MenuItem>
+                                </Select>
                             </td>
                         </tr>
                         {/*form input 3*/}
@@ -167,16 +185,26 @@ class BuildOptions extends Component {
                                 <label htmlFor="sim_thresh">Similarity Threshold:</label>
                             </td>
                             <td className="form_input is_range">
-                                <span className="font-weight-bold indigo-text">0%</span>
                                 {/*todo update "defaultValue" to be recommended similarity threshold */}
                                 <Slider
                                     id="sim_thresh"
                                     value={this.state.sim_val}
                                     min={0}
                                     max={100}
-                                    onChange={this.update_sim}
+                                    onChange={this.update_sim_range}
                                 />
-                                <span className="font-weight-bold indigo-text">{this.state.sim_val}%</span>
+                                {/*todo hitting enter with cursor in TextField submits form*/}
+                                <TextField
+                                    className="percent_text"
+                                    id="sim_thresh"
+                                    type="number"
+                                    value={this.state.sim_val}
+                                    onChange={this.update_sim_text}
+                                    inputProps={{
+                                        style: {width: 65}
+                                    }}
+                                />
+                                <span className="font-weight-bold indigo-text">%</span>
                             </td>
                         </tr>
                         {/*form input 4*/}
@@ -188,7 +216,13 @@ class BuildOptions extends Component {
                                 <label htmlFor="loi">Length of Interest:</label>
                             </td>
                             <td className="form_input is_range">
-                                <span className="font-weight-bold indigo-text">{this.state.loi_val[0]}</span>
+                                <TextField
+                                    label="start"
+                                    id="loi"
+                                    type="number"
+                                    value={this.state.loi_val[0]}
+                                    onChange={this.update_loi_start}
+                                />
                                 <Range
                                     id="loi"
                                     value={this.state.loi_val}
@@ -196,7 +230,13 @@ class BuildOptions extends Component {
                                     max={100}
                                     onChange={this.update_loi}
                                 />
-                                <span className="font-weight-bold indigo-text">{this.state.loi_val[1]}</span>
+                                <TextField
+                                    label="end"
+                                    id="loi"
+                                    type="number"
+                                    value={this.state.loi_val[1]}
+                                    onChange={this.update_loi_end}
+                                />
                             </td>
                         </tr>
                         {/*form input 5*/}
@@ -205,13 +245,13 @@ class BuildOptions extends Component {
                                 <label htmlFor="use_spark">Use Spark:</label>
                             </td>
                             <td className="form_input is_check">
-                                <input
-                                    className="form-control"
-                                    type="checkbox"
+                                <Checkbox
                                     id="use_spark"
+                                    color="primary"
                                     checked={this.state.spark_val}
-                                    onChange={this.update_spark}/>
-                                <Button id="spark_toggle" className="btn" variant="link">
+                                    onChange={this.update_spark}
+                                />
+                                <Button id="spark_toggle" color="primary">
                                     <p className="display">Display advanced Spark options</p>
                                     <p className="hide">Hide advanced Spark options</p>
                                 </Button>
@@ -222,39 +262,49 @@ class BuildOptions extends Component {
                             <td className="spark-options" colSpan={2}>
                                 <div className="left-element">
                                     <label>Number of Workers</label>
-                                    <input
-                                        className="form-control"
+                                    <TextField
+                                        id="driver_mem"
                                         type="number"
                                         value={this.state.num_workers}
-                                        id="driver_mem"
-                                        onChange={this.update_nw}/>
+                                        onChange={this.update_nw}
+                                    />
                                 </div>
                                 <div className="middle-element">
                                     <label>Driver Memory</label>
-                                    <input
-                                        className="form-control"
+                                    <TextField
+                                        id="driver_mem"
                                         type="number"
                                         value={this.state.dm_val}
-                                        id="driver_mem"
-                                        onChange={this.update_dm}/>
+                                        onChange={this.update_dm}
+                                    />
+                                    <span className="font-weight-bold indigo-text">GB</span>
                                 </div>
                                 <div className="right-element">
                                     <label>Max Result Memory</label>
-                                    <input
-                                        className="form-control"
+                                    <TextField
+                                        id="max_result_mem"
                                         type="number"
                                         value={this.state.mrm_val}
-                                        id="max_result_mem"
-                                        onChange={this.update_mrm}/>
+                                        onChange={this.update_mrm}
+                                    />
+                                    <span className="font-weight-bold indigo-text">GB</span>
                                 </div>
                             </td>
                         </tr>
                         <tr>
                             <td colSpan={2}>
-                                <Link to="/SelectNewDataset" className="back btn btn-secondary">
+                                <Link
+                                    className="back btn btn-secondary"
+                                    variant="button"
+                                    color="default"
+                                    underline="none"
+                                    component={RouterLink}
+                                    to="/SelectNewDataset">
                                     Back
                                 </Link>
-                                <Button className="start btn btn-primary" type="submit">Start Preprocessing</Button>
+                                <Button className="start" variant="contained" color="primary" type="submit">
+                                    Start Preprocessing
+                                </Button>
                             </td>
                         </tr>
                         </tbody>

@@ -11,7 +11,7 @@ class Home extends Component {
         this.state = {
             upload_files: null, // todo have this set to pull from wherever the files are pulled from -mg
             all_files: []
-        }
+        };
         this.onChangeHandler = this.onChangeHandler.bind(this);
         this.onClickHandler = this.onClickHandler.bind(this);
     }

@@ -14,22 +14,20 @@ table {
     table-layout: auto;
     justify-content: space-between;
     margin: auto;
-    width: 50%;
+    width: 60%;
     height: 100%;
 }
 
 .back, .start {
-    position: absolute;
     width: max-content;
-    padding: 10px 20px;
 }
 
 .back {
-    left: 0;
+    float: left;
 }
 
 .start {
-    right: 0;
+    float: right;
 }
 
 .form_label {
@@ -39,6 +37,7 @@ table {
 
 .form_input {
     padding-right: 20px;
+    text-align: left;
 }
 
 .form-control {
@@ -50,13 +49,21 @@ table {
     margin-right: 10px;
 }
 
+.is_range .MuiFormControl-root.MuiTextField-root {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
 .form_input.is_range, .form_input.is_check {
     display: flex;
     flex-direction: row;
     width: 100%;
     height: 100%;
-    justify-content: center;
     align-items: center;
+}
+
+#spark_toggle p {
+    margin: auto 0;
 }
 
 .advanced_spark, .hide {
