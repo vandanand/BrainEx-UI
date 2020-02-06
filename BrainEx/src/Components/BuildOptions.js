@@ -40,11 +40,11 @@ class BuildOptions extends Component {
         $("#spark_toggle").click(function(){
             $(".advanced_spark").toggle();
             if ($(".advanced_spark").is(":visible")) {
-                $(".display").hide();
-                $(".hide").show();
+                $(".display-this").hide();
+                $(".hide-this").show();
             } else {
-                $(".display").show();
-                $(".hide").hide();
+                $(".display-this").show();
+                $(".hide-this").hide();
             }
         });
     }
@@ -253,8 +253,8 @@ class BuildOptions extends Component {
                                     onChange={this.update_spark}
                                 />
                                 <Button id="spark_toggle" color="primary">
-                                    <p className="display">Display advanced Spark options</p>
-                                    <p className="hide">Hide advanced Spark options</p>
+                                    <p className="display-this">Display advanced Spark options</p>
+                                    <p className="hide-this">Hide advanced Spark options</p>
                                 </Button>
                             </td>
                         </tr>
