@@ -75,7 +75,7 @@
     display: block;
     padding: 13px;
     overflow: auto;
-    max-height: 40vh;
+    max-height: 50vh;
     box-shadow: 0 0 5px #0F5298;
     max-width: inherit;
 }
@@ -104,7 +104,6 @@
     background-color: #0F5298;
     display: block;
     margin: 5px auto;
-
 }
 
 .MuiButton-label {
