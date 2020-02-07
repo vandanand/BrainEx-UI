@@ -30,7 +30,7 @@
 }
 
 .logo, .title, .version {
-  margin: 0 5px;
+  margin: 0 5px !important;
 }
 
 .logo img {
@@ -38,17 +38,17 @@
   height: auto;
 }
 
-.title{
-  font-size: 265%;
+.title {
+  font-size: 265% !important;
   padding: 0;
 }
 
-.version{
-  font-size: 100%;
+.version {
+  font-size: 100% !important;
 }
 
 .homepage{
-  font-family: Futura;
+  font-family: Futura, serif;
   position: absolute;
   left: 60.5%;
   top: 36%;
