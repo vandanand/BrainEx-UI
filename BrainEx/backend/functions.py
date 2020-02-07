@@ -1,8 +1,10 @@
+import os
+
 import genex.database.genex_database as gxdb
 from pyspark import SparkContext, SparkConf
 from flask import Flask, request
 
-UPLOAD_FOLDER = "/uploads" # Note: to fix
+UPLOAD_FOLDER = "./uploads" # Note: to fix
 
 application = Flask(__name__)
 application.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -26,7 +28,7 @@ def getStoreCSV():
         if csv.filename == '':
             return("File not found", 400)
         if csv and is_csv(csv.filename):
-            csv.save(os.path.join(application.config['UPLOAD_FOLDER'], file.filename)) # Secure filename?? See tutorial
+            csv.save(os.path.join(application.config['UPLOAD_FOLDER'], csv.filename)) # Secure filename?? See tutorial
             uploadPath = "uploads/", csv.filename
             return "File has been uploaded."
         else:
