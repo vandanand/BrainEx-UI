@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import './Stylesheets/App.css';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
-import React, {Component} from 'react';
-import './App.css';
-import {BrowserRouter as Router, Route} from 'react-router-dom';
+import './Stylesheets/App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import BuildOptions from "./Components/BuildOptions";
 import BuildProgressMenu from "./Components/BuildProgressMenu";
