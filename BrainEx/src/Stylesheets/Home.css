@@ -4,6 +4,7 @@
 
 .row {
     height: 100%;
+    width: 100%; /*prevents wonky scroll bars*/
 }
 
 .col.col-3 {
@@ -11,7 +12,7 @@
 }
 
 .left, .right {
-    min-height: 100%; /*makes both columns same height*/
+    height: 100%; /*makes both columns same height*/
 }
 
 .left {
@@ -44,6 +45,7 @@
     padding-top: 10px;
     padding-bottom: 10px;
     text-align: center;
+    width: 100%;
 }
 
 .right .home-content .right-item {
@@ -73,8 +75,9 @@
     display: block;
     padding: 13px;
     overflow: auto;
-    max-height: 40vh;
+    max-height: 50vh;
     box-shadow: 0 0 5px #0F5298;
+    max-width: inherit;
 }
 
 .new-file {
@@ -101,4 +104,16 @@
     background-color: #0F5298;
     display: block;
     margin: 5px auto;
+}
+
+.MuiButton-label {
+    width: calc(100%); /*without calc text overlap ellipses will not work*/
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+/*for debugging purposes*/
+.curr-file {
+    display: none;
 }
