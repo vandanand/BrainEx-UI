@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 import App from './App.js'
+import NavBar from "./Components/NavBar";
+import {BrowserRouter as Router} from 'react-router-dom';
 
 ReactDOM.render(<App/>, document.getElementById('root'));
 

@@ -20,8 +20,8 @@
   border-bottom: 1px solid #3C99DC;
 }
 
-.info {
-  font-family: Futura;
+.MuiToolbar-root.info {
+  font-family: Futura, serif !important;
   display: flex;
   flex-flow: row nowrap;
   justify-content: flex-start;

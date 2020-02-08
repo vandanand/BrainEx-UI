@@ -13,13 +13,6 @@ class BrainExHeader extends Component {
                     <Typography className="version" variant="h3">Version 1.0.0</Typography>
                 </Toolbar>
             </AppBar>
-            /*<div className="header">
-                <div className="info">
-                    <div className="logo"><img src={logo}  alt="logo"/></div>
-                    <h1 className="title">BrainEx</h1>
-                    <h3 className="version">Version 1.0.0</h3>
-                </div>
-            </div>*/
         );
     }
 }

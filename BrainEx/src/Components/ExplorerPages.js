@@ -1,7 +1,14 @@
 import React , {Component} from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import NavBar from "./NavBar";
 
-class QueryFinder extends Component {
+class ExplorerPages extends Component {
+    constructor(props) {
+        super(props);
+        this.state ={
+            currentPath: "/QueryFinder"
+        }
+    }
 
     render() {
 
@@ -9,10 +16,10 @@ class QueryFinder extends Component {
         //style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-start', width: '100%' }}
         return(
             <div >
-                <h1>Find Similar sequences</h1>
+                <NavBar currentPath={this.state.currentPath}/>
             </div>
         );
     }
 }
 
-export default QueryFinder;
+export default ExplorerPages;

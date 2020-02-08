@@ -201,10 +201,9 @@ class BuildOptions extends Component {
                                     className="percent_text"
                                     id="sim_thresh"
                                     type="number"
-                                    InputProps={{
-                                        inputProps: {
-                                            min:0, max:1
-                                        }}}
+                                    step={0.01}
+                                    min={0}
+                                    max={1}
                                     value={this.state.sim_val}
                                     onChange={this.update_sim_text}
                                     inputProps={{

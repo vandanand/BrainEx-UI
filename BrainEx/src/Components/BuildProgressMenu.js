@@ -17,7 +17,7 @@ class BuildProgressMenu extends Component {
     }
 
     componentDidMount() {
-        $(".title").click(function(){
+        $(".info").click(function(){
             if ($(".in-progress").is(":visible")) {
                 $(".display-this").hide();
                 $(".hide-this").show();
@@ -80,7 +80,7 @@ class BuildProgressMenu extends Component {
                                 color="default"
                                 underline="none"
                                 component={RouterLink}
-                                to="/ExploreClusters">
+                                to="/ExplorerPages">
                                 Explore loaded data
                             </Link>
                             <Link
@@ -89,7 +89,7 @@ class BuildProgressMenu extends Component {
                                 color="default"
                                 underline="none"
                                 component={RouterLink}
-                                to="/QueryFinder">
+                                to="/ExplorerPages">
                                 Find Similar Sequences
                             </Link>
                         </ButtonGroup>
