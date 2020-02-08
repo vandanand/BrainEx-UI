@@ -5,6 +5,7 @@ import { Button, Link, Typography, ButtonGroup } from '@material-ui/core';
 import { Link as RouterLink } from "react-router-dom";
 import FormData from "form-data";
 import $ from "jquery";
+import axios from 'axios';
 
 class SelectNewDataset extends Component {
 
@@ -66,18 +67,32 @@ class SelectNewDataset extends Component {
         let file_form = new FormData();
         let new_files = this.state.upload_files;
         new_files.map((file) => {
-            file_form.append("file", file); // add upload_files to FormData object
+            file_form.append("uploaded_data", file); // add upload_files to FormData object
         });
         console.log(...file_form); // for debugging purposes
         let all_files = this.state.all_files;
-        // todo instead of below, send file_form to the server and make state update somehow
-        this.setState({
-            all_files: all_files.concat(new_files),
-            upload_files: null // reset upload_files to none
-        }, () => {
-            console.log("files \"uploaded\" successfully"); // for debugging purposes
-            console.log(this.state.all_files);
+        // Hook up to Kyra's server
+        console.log("Right before")
+        axios.post('http://localhost:5000/getCSV', file_form)
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
         });
+        console.log("Right after")
+
+
+
+
+        // // todo instead of below, send file_form to the server and make state update somehow
+        // this.setState({
+        //     all_files: all_files.concat(new_files),
+        //     upload_files: null // reset upload_files to none
+        // }, () => {
+        //     console.log("files \"uploaded\" successfully"); // for debugging purposes
+        //     console.log(this.state.all_files);
+        // });
     };
 
     render() {
