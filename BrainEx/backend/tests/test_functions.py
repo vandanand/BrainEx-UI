@@ -30,4 +30,4 @@ def test_getOptions(client):
     data['num_worker'] = 4
     data['use_spark_int'] = 0
     sendRequest = client.post("/getCSVOptions", data=data)
-    assert sendRequest.data == 200
+    assert sendRequest.status_code == 200

@@ -1,11 +1,14 @@
 import os
 
-import genex.database.genex_database as gxdb
+import genex.database.genexengine as gxdb
+from genex.utils.gxe_utils import from_csv
+
 from pyspark import SparkContext, SparkConf
+
 from flask import Flask, request
 from flask_cors import CORS
 
-UPLOAD_FOLDER = "./uploads" # Note: to fix
+UPLOAD_FOLDER = "./uploads"
 
 application = Flask(__name__)
 CORS(application)
@@ -23,6 +26,8 @@ def is_csv(filename):
 
 @application.route('/getCSV', methods=['GET', 'POST'])
 def getStoreCSV():
+    global uploadPath
+
     if request.method == 'POST':
         if 'uploaded_data' not in request.files:
             return ("File not found.", 400)
@@ -39,6 +44,8 @@ def getStoreCSV():
 
 @application.route('/getCSVOptions', methods=['GET', 'POST'])
 def getOptions():
+    global brainexDB, uploadPath
+
     if request.method == 'POST':
         feature_num = int(request.form['feature_num'])
         num_worker = int(request.form['num_worker'])
@@ -51,9 +58,9 @@ def getOptions():
             use_spark = False
         try:
             if use_spark:
-                brainexDB = gxdb.from_csv(uploadPath, feature_num=feature_num, use_spark=use_spark, num_worker=num_worker, driver_mem=driver_mem, max_result_mem=max_result_mem)
+                brainexDB = from_csv(uploadPath, feature_num=feature_num, use_spark=use_spark, num_worker=num_worker, driver_mem=driver_mem, max_result_mem=max_result_mem)
             else:
-                brainexDB = gxdb.from_csv(uploadPath, feature_num=feature_num, use_spark=use_spark, num_worker=num_worker)
+                brainexDB = from_csv(uploadPath, feature_num=feature_num, use_spark=use_spark, num_worker=num_worker)
             return "Correctly input."
         except FileNotFoundError:
             return ("File not found.", 400)
