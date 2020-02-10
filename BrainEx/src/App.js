@@ -10,7 +10,7 @@ import RawDataExplorer from "./Components/RawDataExplorer"
 import ClusterExplorer from "./Components/ClusterExplorer";
 import BrainExHeader from "./Components/BrainExHeader";
 import SelectNewDataset from "./Components/SelectNewDataset";
-import ExplorerPages from "./Components/ExplorerPages";
+import MainApp from "./Components/MainApp";
 
 class App extends Component {
 
@@ -40,10 +40,7 @@ class App extends Component {
                         {/*todo below is how you pass props through React Router*/}
                         <Route exact path="/BuildOptions" component={(props) => <BuildOptions {...props} submit_form={this.submit_form}/>} />
                         <Route exact path="/BuildProgressMenu" component={(props) => <BuildProgressMenu {...props} form_data={JSON.stringify(this.state.form_data)}/>} />
-                        <Route exact path="/ExplorerPages" component={ExplorerPages}/>
-                        {/*<Route exact path="/ExploreRawData" component={RawDataExplorer} />
-                        <Route exact path="/ExploreClusters" component={ClusterExplorer} />
-                        <Route exact path="/QueryFinder" component={QueryFinder} />*/}
+                        <Route exact path="/MainApp" component={MainApp}/>
                     </div>
                 </div>
             </Router>
