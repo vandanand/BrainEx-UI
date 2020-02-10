@@ -4,8 +4,22 @@ https://www.python.org/downloads/release/python-370/
 <br/>
 Microsoft Visual C++ Build Tools:<br/>
 https://go.microsoft.com/fwlink/?LinkId=691126
+<br/>
+The "release" branch of Genex:<br/>
+`git clone https://github.com/ApocalyVec/Genex.git --branch release --single-branch`<br/>
+Then, paste the `Genex/genex` folder into `BrainEx-UI` like so:
+```
++---BrainEx
++---genex
++---venv
++---.gitignore
++---README.md
+```
 
 ### to install requirements
+
+copy and paste the "genex" folder of your Genex clone into the root directory of BrainEx-UI<br/>
+
 
 `pip install -r requirments`
 
