@@ -10,6 +10,21 @@ The "release" branch of Genex:<br/>
 Then, paste the `Genex/genex` folder into `BrainEx-UI` like so:
 ```
 +---BrainEx
++---*genex*
++---venv
++---.gitignore
++---README.md
+```
+Now change directories to `/BrainEx/backend`<br/>
+```
++---BrainEx
+|   +---*backend*
+|   |   +---tests
+|   |   +---__init__.py
+|   |   +---functions.py
+|   |   +---ItalyPower.csv
+|   |   +---README.md
+|   |   +---requirements.txt
 +---genex
 +---venv
 +---.gitignore
