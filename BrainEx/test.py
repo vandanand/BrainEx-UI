@@ -1,4 +1,4 @@
-import genex.database.genex_database as gxdb
+import genex as gxdb
 from pyspark import SparkContext, SparkConf
 # create the spark context
 num_cores = 4
