@@ -3,6 +3,10 @@
   height: 100vh; /*this styling lets the content stretch to bottom of page*/
 }
 
+.MuiButton-root {
+  text-transform: none !important;
+}
+
 /*override @material-ui's css settings*/
 .MuiButton-root, .MuiButtonGroup-root, .MuiInputLabel-root, .MuiSelect-select {
   font-size: 1em !important;
@@ -20,8 +24,8 @@
   border-bottom: 1px solid #3C99DC;
 }
 
-.info {
-  font-family: Futura;
+.MuiToolbar-root.info {
+  font-family: Futura, serif !important;
   display: flex;
   flex-flow: row nowrap;
   justify-content: flex-start;
@@ -30,7 +34,7 @@
 }
 
 .logo, .title, .version {
-  margin: 0 5px;
+  margin: 0 5px !important;
 }
 
 .logo img {
@@ -38,17 +42,17 @@
   height: auto;
 }
 
-.title{
-  font-size: 265%;
+.title {
+  font-size: 265% !important;
   padding: 0;
 }
 
-.version{
-  font-size: 100%;
+.version {
+  font-size: 100% !important;
 }
 
 .homepage{
-  font-family: Futura;
+  font-family: Futura, serif;
   position: absolute;
   left: 60.5%;
   top: 36%;
@@ -59,4 +63,3 @@
   left: 87%;
   top: 30%;
 }
-

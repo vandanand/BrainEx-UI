@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
-import NavBar from "./NavBar";
+import {withRouter} from 'react-router-dom';
 
 class ClusterExplorer extends Component {
     render() {
+        console.log("we are in ClusterExplorer")
         return(
             //todo template
             <div>
-                <NavBar />
                 <h1>Clusters</h1>
             </div>
         );
     }
 }
 
-export default ClusterExplorer;
+export default withRouter(ClusterExplorer);

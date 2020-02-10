@@ -1,8 +1,7 @@
-import React, { Component } from 'react';
 import './Stylesheets/App.css';
-import {BrowserRouter as Router, Route} from 'react-router-dom';
-import './Stylesheets/App.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import React, {Component} from 'react';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 import BuildOptions from "./Components/BuildOptions";
 import BuildProgressMenu from "./Components/BuildProgressMenu";
 import QueryFinder from "./Components/QueryFinder";
@@ -11,6 +10,8 @@ import RawDataExplorer from "./Components/RawDataExplorer"
 import ClusterExplorer from "./Components/ClusterExplorer";
 import BrainExHeader from "./Components/BrainExHeader";
 import SelectNewDataset from "./Components/SelectNewDataset";
+import MainApp from "./Components/MainApp";
+import NavBar from "./Components/NavBar";
 
 class App extends Component {
 
@@ -40,9 +41,16 @@ class App extends Component {
                         {/*todo below is how you pass props through React Router*/}
                         <Route exact path="/BuildOptions" component={(props) => <BuildOptions {...props} submit_form={this.submit_form}/>} />
                         <Route exact path="/BuildProgressMenu" component={(props) => <BuildProgressMenu {...props} form_data={JSON.stringify(this.state.form_data)}/>} />
-                        <Route exact path="/ExploreRawData" component={RawDataExplorer} />
-                        <Route exact path="/ExploreClusters" component={ClusterExplorer} />
-                        <Route exact path="/QueryFinder" component={QueryFinder} />
+                        {/*below is single page app version of the main page containing the explorers and query*/}
+                        {/*todo if you want to make changes to what/where/how the dashboard stuff is rendered change these to match*/}
+                        <MainApp>
+                            <Route path="/MainPage" component={NavBar} /> {/*renders navbar if the pathname contains MainPage*/}
+                            <Switch>
+                                <Route exact path="/MainPage/ExploreRawData" component={RawDataExplorer} />
+                                <Route exact path="/MainPage/ExploreClusters" component={ClusterExplorer} />
+                                <Route exact path="/MainPage/QueryFinder" component={QueryFinder} />
+                            </Switch>
+                        </MainApp>
                     </div>
                 </div>
             </Router>
@@ -52,11 +60,3 @@ class App extends Component {
 }
 
 export default App;
-
-/*
-todo to send props through Link component:
-    <Link to={{ pathname: '/', state: 'flushDeal' }}>
-        Home
-    </Link>
-source: https://medium.com/@dcai900/how-to-refresh-data-when-using-react-router-link-396a2ddf8373
-                   */

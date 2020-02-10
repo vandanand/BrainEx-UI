@@ -1,5 +1,5 @@
 .full-height {
-    height: calc(100% - 75px);
+    height: calc(100% - 64px); /*64px is height of header*/
 }
 
 .row {
@@ -104,6 +104,7 @@
     background-color: #0F5298;
     display: block;
     margin: 5px auto;
+    text-transform: none !important;
 }
 
 .MuiButton-label {
