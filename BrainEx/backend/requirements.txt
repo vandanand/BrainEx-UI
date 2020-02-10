@@ -1,14 +1,6 @@
-## navigate to /backend directory
-
-## to install requirements:
-# pip install -r requirements.txt
-
-## to run flask app
-# set FLASK_APP=function.py
-# flask run
-
 Click==7.0
 Cython==0.29.15
+fastdtw==0.3.4
 Flask==1.1.1
 Flask-Cors==3.0.8
 itsdangerous==1.1.0
