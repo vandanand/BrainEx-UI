@@ -30,9 +30,8 @@ class BuildProgressMenu extends Component {
 
     render() {
         return (
-            <div className="full-height"> {/* todo replace any height: 100% with "full-height" class on App.css */}
-                {/*todo make it so progress bar quickly finishes*/}
-                {/*todo make certain versions of the screen show depending on the value of "now" (is it done or not?)*/}
+            <div className="full-height">
+                {/*todo make certain versions of the screen show depending on the value of "now" (can this be done or not?)*/}
                 {/*display when build is in progress*/}
                 <div className="prog-content in-progress display-this">
                     <LinearProgress className="progress" />
