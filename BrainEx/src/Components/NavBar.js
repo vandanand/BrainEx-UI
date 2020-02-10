@@ -8,6 +8,28 @@ import RawDataExplorer from "./RawDataExplorer";
 import ClusterExplorer from "./ClusterExplorer";
 import QueryFinder from "./QueryFinder";
 import Home from "./Home";
+import Typography from "@material-ui/core/Typography";
+import withStyles from "@material-ui/core/styles/withStyles";
+
+const StyledMenu = withStyles({
+  paper: {
+    border: '1px solid #d3d4d5',
+  },
+})(props => (
+  <Menu
+    elevation={0}
+    getContentAnchorEl={null}
+    anchorOrigin={{
+      vertical: 'bottom',
+      horizontal: 'center',
+    }}
+    transformOrigin={{
+      vertical: 'top',
+      horizontal: 'center',
+    }}
+    {...props}
+  />
+));
 
 class NavBar extends Component {
 
@@ -20,10 +42,15 @@ class NavBar extends Component {
         this.handleClick = this.handleClick.bind(this);
         this.handleClose = this.handleClose.bind(this);
         this.goHome = this.goHome.bind(this);
+        this.goToQuery = this.goToQuery.bind(this);
     }
 
     goHome = (e) => {
         this.props.history.push('/');
+    };
+
+    goToQuery = (e) => {
+        this.props.history.push("/MainPage/QueryFinder");
     };
 
     handleClick = (e) => {
@@ -44,25 +71,31 @@ class NavBar extends Component {
                 <nav className="navbar navbar-expand">
                     <ul className="navbar-nav mr-auto">
                         <li className="nav-item">
-                            <Button onClick={this.goHome}>Home</Button>
+                            <Button onClick={this.goHome}>
+                                <Typography className="nav_text">Home</Typography>
+                            </Button>
                         </li>
                         <div className="nav-item">
-                            <Button aria-controls="simple-menu" aria-haspopup="true" onClick={this.handleClick}>Explore Data</Button>
-                            <Menu id="simple-menu" anchorEl={this.state.curr_target} keepMounted open={Boolean(this.state.curr_target)} onClose={this.handleClose}>
+                            <Button aria-controls="simple-menu" aria-haspopup="true" onClick={this.handleClick}>
+                                <Typography className="nav_text">Explore Data</Typography>
+                            </Button>
+                            <StyledMenu id="simple-menu" anchorEl={this.state.curr_target} keepMounted open={Boolean(this.state.curr_target)} onClose={this.handleClose}>
                                 <MenuItem onClick={this.handleClose}>
-                                    <li className="nav-item">
-                                        <Link className="nav-link" to="/MainPage/ExploreRawData">Explore Raw Data</Link>
-                                    </li>
+                                        <Link className="nav-link" to="/MainPage/ExploreRawData">
+                                            <Typography className="dd_text">Explore Raw Data</Typography>
+                                        </Link>
                                 </MenuItem>
                                 <MenuItem onClick={this.handleClose}>
-                                    <li className="nav-item">
-                                        <Link className="nav-link" to="/MainPage/ExploreClusters">Explore Clustered Data</Link>
-                                    </li>
+                                        <Link className="nav-link" to="/MainPage/ExploreClusters">
+                                            <Typography className="dd_text">Explore Clustered Data</Typography>
+                                        </Link>
                                 </MenuItem>
-                            </Menu>
+                            </StyledMenu>
                         </div>
                         <li className="nav-item">
-                            <Link className="nav-link" to="/MainPage/QueryFinder">Find Similar Sequences</Link>
+                            <Button onClick={this.goToQuery}>
+                                <Typography className="nav_text">Find Similar Sequences</Typography>
+                            </Button>
                         </li>
                     </ul>
                 </nav>
