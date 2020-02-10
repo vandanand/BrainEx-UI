@@ -11,8 +11,6 @@ class MainApp extends Component {
         super(props);
     }
 
-    /*todo try this: https://stackoverflow.com/questions/42933167/react-router-with-a-custom-root-and-a-base-component*/
-
     render() {
         return(
             <div>

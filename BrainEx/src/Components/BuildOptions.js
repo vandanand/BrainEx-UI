@@ -1,6 +1,6 @@
 import React , { Component } from "react";
 import '../Stylesheets/BuildOptions.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 import Slider, { Range } from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import { TextField, Select, MenuItem, Checkbox, Button, Link, InputLabel } from '@material-ui/core';

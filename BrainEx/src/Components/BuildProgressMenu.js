@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import {Link as RouterLink} from "react-router-dom";
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 import "../Stylesheets/BuildProgressMenu.css";
 import {Link, ButtonGroup, Typography, LinearProgress } from '@material-ui/core';
 import $ from "jquery";

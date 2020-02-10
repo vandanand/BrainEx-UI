@@ -1,7 +1,7 @@
 import './Stylesheets/App.css';
 import React, {Component} from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 import BuildOptions from "./Components/BuildOptions";
 import BuildProgressMenu from "./Components/BuildProgressMenu";
 import QueryFinder from "./Components/QueryFinder";
