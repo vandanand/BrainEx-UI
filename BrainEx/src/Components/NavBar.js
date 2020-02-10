@@ -46,7 +46,7 @@ class NavBar extends Component {
                         <li className="nav-item">
                             <Button onClick={this.goHome}>Home</Button>
                         </li>
-                        <div>
+                        <div className="nav-item">
                             <Button aria-controls="simple-menu" aria-haspopup="true" onClick={this.handleClick}>Explore Data</Button>
                             <Menu id="simple-menu" anchorEl={this.state.curr_target} keepMounted open={Boolean(this.state.curr_target)} onClose={this.handleClose}>
                                 <MenuItem onClick={this.handleClose}>

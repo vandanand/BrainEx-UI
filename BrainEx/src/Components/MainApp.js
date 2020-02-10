@@ -14,7 +14,7 @@ class MainApp extends Component {
     render() {
         return(
             <div>
-                <NavBar/>
+                <NavBar/> {/*todo rn this navigation bar shows up on the entire app ugh*/}
                 {this.props.children}
             </div>
         );

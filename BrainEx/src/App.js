@@ -41,6 +41,8 @@ class App extends Component {
                         <Route exact path="/BuildOptions" component={(props) => <BuildOptions {...props} submit_form={this.submit_form}/>} />
                         <Route exact path="/BuildProgressMenu" component={(props) => <BuildProgressMenu {...props} form_data={JSON.stringify(this.state.form_data)}/>} />
                         {/*below is single page app version of the main page containing the explorers and query*/}
+                        {/*todo if you want to make changes to what/where/how the dashboard stuff is rendered change these to match*/}
+                        {/*todo fix the fact that navbar renders on all screens*/}
                         <MainApp>
                             <Switch>
                                 <Route exact path="/ExploreRawData" component={RawDataExplorer} />
@@ -57,11 +59,3 @@ class App extends Component {
 }
 
 export default App;
-
-/*
-todo to send props through Link component:
-    <Link to={{ pathname: '/', state: 'flushDeal' }}>
-        Home
-    </Link>
-source: https://medium.com/@dcai900/how-to-refresh-data-when-using-react-router-link-396a2ddf8373
-                   */
