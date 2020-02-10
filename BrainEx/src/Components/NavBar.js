@@ -51,57 +51,22 @@ class NavBar extends Component {
                             <Menu id="simple-menu" anchorEl={this.state.curr_target} keepMounted open={Boolean(this.state.curr_target)} onClose={this.handleClose}>
                                 <MenuItem onClick={this.handleClose}>
                                     <li className="nav-item">
-                                        <Link className="nav-link" to="/ExploreRawData">Explore Raw Data</Link>
+                                        <Link className="nav-link" to="/MainPage/ExploreRawData">Explore Raw Data</Link>
                                     </li>
                                 </MenuItem>
                                 <MenuItem onClick={this.handleClose}>
                                     <li className="nav-item">
-                                        <Link className="nav-link" to="/ExploreClusters">Explore Clustered Data</Link>
+                                        <Link className="nav-link" to="/MainPage/ExploreClusters">Explore Clustered Data</Link>
                                     </li>
                                 </MenuItem>
                             </Menu>
                         </div>
                         <li className="nav-item">
-                            <Link className="nav-link" to="/QueryFinder">Find Similar Sequences</Link>
+                            <Link className="nav-link" to="/MainPage/QueryFinder">Find Similar Sequences</Link>
                         </li>
                     </ul>
                 </nav>
             </div>
-            // TODO transfer relevant router info to here and continue trying to make central page where you pass in some sort of prop to go to the right place
-            // TODO (cont) so when the user clicks "explore loaded data", what should that go to (i.e. should it go to a page that has directions or default to clustered data)
-            /*<nav className="navbar navbar-expand">
-                <ul className="navbar-nav mr-auto">
-                    <li className="nav-item">
-                        <Link className="nav-link" to="/">Home</Link>
-                    </li>
-                    <div> {/!*MUI DROP DOWN MENU*!/}
-                        <Button aria-controls="simple-menu" aria-haspopup="true" onClick={this.handleClick}>
-                            Open Menu
-                        </Button>
-                        <Menu
-                            id="simple-menu"
-                            anchorEl={this.state.curr_target} // state
-                            keepMounted
-                            open={Boolean(this.state.curr_target)} // state
-                            onClose={this.handleClose}
-                        >
-                            <MenuItem onClick={this.handleClose}>
-                                <li className="nav-item">
-                                    <Link className="nav-link" to="/RawDataExplorer">Explore Raw Data</Link>
-                                </li>
-                            </MenuItem>
-                            <MenuItem onClick={this.handleClose}>
-                                <li className="nav-item">
-                                    <Link className="nav-link" to="/ClusterExplorer">Explore Clustered Data</Link>
-                                </li>
-                            </MenuItem>
-                        </Menu>
-                    </div>
-                    <li className="nav-item">
-                        <Link className="nav-link" to="/QueryFinder">Find Similar Sequences</Link>
-                    </li>
-                </ul>
-            </nav>*/
         );
     }
 }

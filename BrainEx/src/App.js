@@ -11,6 +11,7 @@ import ClusterExplorer from "./Components/ClusterExplorer";
 import BrainExHeader from "./Components/BrainExHeader";
 import SelectNewDataset from "./Components/SelectNewDataset";
 import MainApp from "./Components/MainApp";
+import NavBar from "./Components/NavBar";
 
 class App extends Component {
 
@@ -42,12 +43,12 @@ class App extends Component {
                         <Route exact path="/BuildProgressMenu" component={(props) => <BuildProgressMenu {...props} form_data={JSON.stringify(this.state.form_data)}/>} />
                         {/*below is single page app version of the main page containing the explorers and query*/}
                         {/*todo if you want to make changes to what/where/how the dashboard stuff is rendered change these to match*/}
-                        {/*todo fix the fact that navbar renders on all screens*/}
                         <MainApp>
+                            <Route path="/MainPage" component={NavBar} /> {/*renders navbar if the pathname contains MainPage*/}
                             <Switch>
-                                <Route exact path="/ExploreRawData" component={RawDataExplorer} />
-                                <Route exact path="/ExploreClusters" component={ClusterExplorer} />
-                                <Route exact path="/QueryFinder" component={QueryFinder} />
+                                <Route exact path="/MainPage/ExploreRawData" component={RawDataExplorer} />
+                                <Route exact path="/MainPage/ExploreClusters" component={ClusterExplorer} />
+                                <Route exact path="/MainPage/QueryFinder" component={QueryFinder} />
                             </Switch>
                         </MainApp>
                     </div>
