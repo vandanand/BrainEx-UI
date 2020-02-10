@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import {withRouter} from 'react-router-dom';
 
 class RawDataExplorer extends Component {
     render() {
-        // todo template
+        console.log("we are in RawDataExplorer");
         return(
             <div>
                 <h1>Raw Data</h1>
@@ -11,4 +12,4 @@ class RawDataExplorer extends Component {
     }
 }
 
-export default RawDataExplorer;
+export default withRouter(RawDataExplorer);

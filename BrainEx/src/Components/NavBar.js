@@ -22,16 +22,6 @@ class NavBar extends Component {
         this.goHome = this.goHome.bind(this);
     }
 
-    componentDidUpdate(prevProps) {
-        if (this.props.location !== prevProps.location) {
-            console.log("this.props.location: ");
-            console.log(this.props.location);
-            console.log("prevProps.location: ");
-            console.log(prevProps.location);
-            this.props.updatePath(this.props.location);
-        }
-    }
-
     goHome = (e) => {
         this.props.history.push('/');
     };

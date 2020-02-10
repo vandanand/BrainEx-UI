@@ -80,12 +80,7 @@ class BuildProgressMenu extends Component {
                             color="default"
                             underline="none"
                             component={RouterLink}
-                            to={{
-                                pathname: '/MainApp',
-                                state: {
-                                    currentPath: "/ExploreRawData"
-                                }
-                            }}>
+                            to='/ExploreRawData'>
                             Explore loaded data
                         </Link>
                         <Link
@@ -94,12 +89,7 @@ class BuildProgressMenu extends Component {
                             color="default"
                             underline="none"
                             component={RouterLink}
-                            to={{
-                                pathname: '/MainApp',
-                                state: {
-                                    currentPath: "/QueryFinder"
-                                }
-                            }}>
+                            to='/QueryFinder'>
                             Find Similar Sequences
                         </Link>
                     </ButtonGroup>

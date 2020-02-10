@@ -1,6 +1,6 @@
 import './Stylesheets/App.css';
 import React, {Component} from 'react';
-import {BrowserRouter as Router, Route} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import BuildOptions from "./Components/BuildOptions";
 import BuildProgressMenu from "./Components/BuildProgressMenu";
@@ -40,7 +40,14 @@ class App extends Component {
                         {/*todo below is how you pass props through React Router*/}
                         <Route exact path="/BuildOptions" component={(props) => <BuildOptions {...props} submit_form={this.submit_form}/>} />
                         <Route exact path="/BuildProgressMenu" component={(props) => <BuildProgressMenu {...props} form_data={JSON.stringify(this.state.form_data)}/>} />
-                        <Route exact path="/MainApp" component={MainApp}/>
+                        {/*below is single page app version of the main page containing the explorers and query*/}
+                        <MainApp>
+                            <Switch>
+                                <Route exact path="/ExploreRawData" component={RawDataExplorer} />
+                                <Route exact path="/ExploreClusters" component={ClusterExplorer} />
+                                <Route exact path="/QueryFinder" component={QueryFinder} />
+                            </Switch>
+                        </MainApp>
                     </div>
                 </div>
             </Router>

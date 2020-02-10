@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import {withRouter} from 'react-router-dom';
 
 class ClusterExplorer extends Component {
     render() {
+        console.log("we are in ClusterExplorer")
         return(
             //todo template
             <div>
@@ -11,4 +13,4 @@ class ClusterExplorer extends Component {
     }
 }
 
-export default ClusterExplorer;
+export default withRouter(ClusterExplorer);
