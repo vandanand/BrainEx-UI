@@ -1,8 +1,13 @@
+### Prerequisites
+Python 3.7:<br/>
+https://www.python.org/downloads/release/python-370/
+<br/>
+Microsoft Visual C++ Build Tools:<br/>
+https://go.microsoft.com/fwlink/?LinkId=691126
+
 ### to install requirements
 
 `pip install -r requirments`
-<br/>
-install https://go.microsoft.com/fwlink/?LinkId=691126 to your machine
 
 ### to run app
 
