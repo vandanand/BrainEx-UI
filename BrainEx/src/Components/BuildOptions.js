@@ -1,6 +1,6 @@
 import React , { Component } from "react";
 import '../Stylesheets/BuildOptions.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 import Slider, { Range } from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import { TextField, Select, MenuItem, Checkbox, Button, Link, InputLabel } from '@material-ui/core';
@@ -201,14 +201,13 @@ class BuildOptions extends Component {
                                     className="percent_text"
                                     id="sim_thresh"
                                     type="number"
-                                    InputProps={{
-                                        inputProps: {
-                                            min:0, max:1
-                                        }}}
                                     value={this.state.sim_val}
                                     onChange={this.update_sim_text}
                                     inputProps={{
-                                        style: {width: 65}
+                                        style: {width: 65},
+                                        max: 1,
+                                        min: 0,
+                                        step: 0.01
                                     }}
                                 />
                             </td>

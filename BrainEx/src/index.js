@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
-import Dashboard from './Components/Dashboard.js'
-import App from "./App";
+import App from './App.js'
+import Dashboard from './Components/Dashboard.js';
 
 ReactDOM.render(<App/>, document.getElementById('root'));
 

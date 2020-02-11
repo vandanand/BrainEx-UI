@@ -1,4 +1,4 @@
-/* This css makes it so the navbar doesnt collapse but we retain the functionality of the dropdown */
+/*!* This css makes it so the navbar doesnt collapse but we retain the functionality of the dropdown *!
 .navbar-collapse.collapse {
   display: block!important;
 }
@@ -14,11 +14,19 @@
 .navbar-right {
   float: right!important;
 }
-/* end of this portion */
+!* end of this portion *!*/
 
 /* use this to change background color of nav bar */
 nav {
   background-color: #0F5298;
+}
+
+.navbar {
+  border-radius: 0; /*overrides an auto format*/
+}
+
+.nav-item {
+  padding: 0 7px;
 }
 
 /* use this to style the text in each nav item */
@@ -31,10 +39,15 @@ nav.navbar.navbar-expand {
   padding: 0;
 }
 
-.dropdown-menu {
-  padding: 0;
+.MuiTypography-root.nav_text {
+  font-size: 1.5rem;
+  color: #FFF;
 }
 
-.dropdown-item {
-  padding: 4px;
+.MuiTypography-root.dd_text {
+  font-size: 1.25rem;
+}
+
+.MuiMenuItem-root {
+  padding: 0 !important;
 }

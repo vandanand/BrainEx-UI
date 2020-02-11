@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
-import NavBar from "./NavBar";
+import {withRouter} from 'react-router-dom';
 
 class RawDataExplorer extends Component {
     render() {
-        // todo template
+        console.log("we are in RawDataExplorer");
         return(
             <div>
-                <NavBar/>
                 <h1>Raw Data</h1>
             </div>
         );
     }
 }
 
-export default RawDataExplorer;
+export default withRouter(RawDataExplorer);
