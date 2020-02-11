@@ -8,6 +8,8 @@ from pyspark import SparkContext, SparkConf
 from flask import Flask, request
 from flask_cors import CORS
 
+import pandas as pd
+
 UPLOAD_FOLDER = "./uploads"
 
 application = Flask(__name__)
@@ -17,6 +19,7 @@ application.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 uploadPath = None
 brainexDB = None
 querySeq = None
+numFeatures = None
 
 def is_csv(filename):
     if '.' in filename and filename.rsplit('.', 1)[1].lower() == 'csv':
@@ -38,16 +41,21 @@ def getStoreCSV():
             toSave = os.path.join(application.config['UPLOAD_FOLDER'], csv.filename)
             csv.save(toSave) # Secure filename?? See tutorial
             uploadPath = toSave
-            return "File has been uploaded."
+            dataframe = pd.read_csv(uploadPath, delimiter=',', prefix='D')
+            # Kyra to do: i for i in test_list if subs in i, use that to get column name of start and end, then get maxdifference and end of features
+            if ('Start' in i in dataframe.columns or 'start' in i in dataframe.columns) and ('End' in i in dataframe.columns or 'end' in i in dataframe.columns):
+                indexOfMax = ()
+                return "File has been uploaded."
+            else:
+                return("Please include a start and end column", 400)
         else:
             return("Invalid file.  Please upload a CSV", 400)
 
 @application.route('/getCSVOptions', methods=['GET', 'POST'])
 def getOptions():
-    global brainexDB, uploadPath
+    global brainexDB, uploadPath, numFeatures
 
     if request.method == 'POST':
-        feature_num = int(request.form['feature_num'])
         num_worker = int(request.form['num_worker'])
         use_spark_int = int(request.form['use_spark_int'])
         if use_spark_int == 1:
@@ -58,9 +66,9 @@ def getOptions():
             use_spark = False
         try:
             if use_spark:
-                brainexDB = from_csv(uploadPath, feature_num=feature_num, use_spark=use_spark, num_worker=num_worker, driver_mem=driver_mem, max_result_mem=max_result_mem)
+                brainexDB = from_csv(uploadPath, feature_num=numFeatures, use_spark=use_spark, num_worker=num_worker, driver_mem=driver_mem, max_result_mem=max_result_mem)
             else:
-                brainexDB = from_csv(uploadPath, feature_num=feature_num, use_spark=use_spark, num_worker=num_worker)
+                brainexDB = from_csv(uploadPath, feature_num=numFeatures, use_spark=use_spark, num_worker=num_worker)
             return "Correctly input."
         except FileNotFoundError:
             return ("File not found.", 400)

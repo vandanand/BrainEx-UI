@@ -26,7 +26,6 @@ def test_getStoreCSV(client):
 
 def test_getOptions(client):
     data = {}
-    data['feature_num'] = 2
     data['num_worker'] = 4
     data['use_spark_int'] = 0
     sendRequest = client.post("/getCSVOptions", data=data)
