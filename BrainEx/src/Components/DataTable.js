@@ -22,6 +22,7 @@ function createData(id, toggle, color, subjectID, eventName, channelNum, startTi
   )
 ];*/
 
+// generates x number of unique hex values
 function generateColors(numColors)
 {
     let j = 360 / (numColors - 1); // distribute the colors evenly on the hue range
@@ -67,7 +68,7 @@ export default function DataTable() {
                 <TableHead>
                     <TableRow>
                         <TableCell>Show</TableCell>
-                        <TableCell>Color</TableCell>
+                        {/*<TableCell>Color</TableCell>*/}
                         <TableCell>Subject ID</TableCell>
                         <TableCell>Event Name</TableCell>
                         <TableCell>Channel Number</TableCell>
@@ -78,10 +79,10 @@ export default function DataTable() {
                 <TableBody>
                     {data.map(row => (
                         <TableRow key={row.id}>
-                            <TableCell>{row.toggle}</TableCell>
-                            <TableCell style={{backgroundColor: "#" + row.color}}>
+                            <TableCell style={{backgroundColor: "#" + row.color}}>{row.toggle}</TableCell>
+                            {/*<TableCell >
                                 {row.color}
-                            </TableCell>
+                            </TableCell>*/}
                             <TableCell>{row.subjectID}</TableCell>
                             <TableCell>{row.eventName}</TableCell>
                             <TableCell>{row.channelNum}</TableCell>
