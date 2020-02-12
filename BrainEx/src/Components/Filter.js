@@ -37,9 +37,9 @@ function valuetext(value) {
 export default function Filter() {
     const classes = useStyles();
     //range slider
-    const [rangeVal, setRangeVal] = useState([0, 100]);
-    const [startVal, setStartVal] = useState(0);
-    const [endVal, setEndVal] = useState(100);
+    const [rangeVal, setRangeVal] = useState([0.00, 100.00]);
+    const [startVal, setStartVal] = useState(0.00);
+    const [endVal, setEndVal] = useState(100.00);
     //overlap percentage default
     /*const [values, setValues] = useState({
         percentage: '40',
@@ -56,9 +56,9 @@ export default function Filter() {
         const newRangeVal = event;
         setRangeVal(newRangeVal); // new value is stored in the event, not the newValue
         /*update input values*/
-        const newStartVal = parseInt(newRangeVal[0]);
+        const newStartVal = parseFloat(newRangeVal[0]);
         setStartVal(newStartVal);
-        const newEndVal = parseInt(newRangeVal[1]);
+        const newEndVal = parseFloat(newRangeVal[1]);
         setEndVal(newEndVal);
     }
 
@@ -67,7 +67,7 @@ export default function Filter() {
         /*get original range value*/
         let newRangeVal = rangeVal;
         /*update only the starting value*/
-        const newStartVal = parseInt(event.target.value);
+        const newStartVal = parseFloat(event.target.value);
         setStartVal(newStartVal);
         // console.log("new start val: " + newStartVal);
         /*update range value*/
@@ -78,7 +78,7 @@ export default function Filter() {
         /*get original range value*/
         let newRangeVal = rangeVal;
         /*update only the end value*/
-        const newEndVal = parseInt(event.target.value);
+        const newEndVal = parseFloat(event.target.value);
         // console.log("new end val: " + newEndVal);
         setEndVal(newEndVal);
         /*update range value*/
@@ -114,7 +114,7 @@ export default function Filter() {
                                         onChange={handleInputChangeStart}
                                         onBlur={handleBlur}
                                         inputProps={{
-                                            step: 10,
+                                            step: 0.1,
                                             min: 0,
                                             max: 100,
                                             type: 'number',
@@ -125,6 +125,7 @@ export default function Filter() {
                                 <Grid item xs>
                                     <Range
                                         value={rangeVal}
+                                        step={0.1}
                                         min={0} /*todo set as min loi from build options*/
                                         max={100} /*todo set as max loi from build options*/
                                         onChange={handleRangeChange}
@@ -139,7 +140,7 @@ export default function Filter() {
                                         onBlur={handleBlur}
                                         valueLabelDisplay="auto"
                                         inputProps={{
-                                            step: 1,
+                                            step: 0.1,
                                             min: 0,/*todo set as min loi from build options*/
                                             max: 100,/*todo set as max loi from build options*/
                                             type: 'number',
