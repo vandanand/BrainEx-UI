@@ -65,38 +65,35 @@ def build():
     global brainexDB, uploadPath, numFeatures
 
     if request.method == 'POST':
+        num_worker = request.json['num_workers']
+        use_spark_int = request.json['spark_val']
+        if use_spark_int == 1:
+            use_spark = True
+            driver_mem = request.json['dm_val']
+            max_result_mem = request.json['mrm_val']
+        else:
+            use_spark = False
         try:
-            num_worker = int(request.json['num_workers'])
-            use_spark_int = int(request.json['spark_val'])
-            if use_spark_int == 1:
-                use_spark = True
-                driver_mem = int(request.json['dm_val'])
-                max_result_mem = int(request.json['mrm_val'])
+            num_worker = int(num_worker)
+            if use_spark:
+                driver_mem = int(driver_mem)
+                max_result_mem = int(max_result_mem)
+                brainexDB = from_csv(uploadPath, feature_num=numFeatures, use_spark=use_spark, num_worker=num_worker, driver_mem=driver_mem, max_result_mem=max_result_mem)
             else:
-                use_spark = False
-            try:
-                if use_spark:
-                    brainexDB = from_csv(uploadPath, feature_num=numFeatures, use_spark=use_spark, num_worker=num_worker, driver_mem=driver_mem, max_result_mem=max_result_mem)
-                else:
-                    brainexDB = from_csv(uploadPath, feature_num=numFeatures, use_spark=use_spark, num_worker=num_worker)
-                similarity_threshold = float(request.json['sim_val'])
-                dist_type = request.json['distance_val']
-                lois = request.json['loi_val']
-                loitoSp = lois.split('[')[1]
-                loitoSp2 = loitoSp.split(']')[0]
-                loiA = loitoSp2.split(',')
-                loi = [float(loiA[0]), float(loiA[1])]
-                try:
-                    brainexDB.build(st=similarity_threshold, dist_type=dist_type, loi=loi)
-                    return "Preprocessed!"
-                except Exception as e:
-                    return (str(e), 401)
-            except FileNotFoundError:
-                return ("File not found.", 402)
-            except TypeError:
-                return ("Incorrect input.", 403)
-        except Exception:
-            return("One more", 404)
+                brainexDB = from_csv(uploadPath, feature_num=numFeatures, use_spark=use_spark, num_worker=num_worker)
+        except FileNotFoundError:
+            return ("File not found.", 400)
+        try:
+            similarity_threshold = request.json['sim_val']
+            dist_type = request.json['distance_val']
+            lois = request.json['loi_val']
+            loiA = lois.split(',')
+            loi = [float(loiA[0]), float(loiA[1])]
+            similarity_threshold = float(similarity_threshold)
+            brainexDB.build(st=similarity_threshold, dist_type=dist_type, loi=loi)
+            return "Preprocessed!"
+        except Exception as e:
+            return (str(e), 400)
 
 @application.route('/uploadSequence', methods=['GET', 'POST'])
 def uploadSequence():

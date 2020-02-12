@@ -8,7 +8,6 @@ import { Link as RouterLink } from "react-router-dom";
 import $ from 'jquery';
 import axios from 'axios';
 import Input from "@material-ui/core/Input";
-import axios from 'axios';
 
 class BuildOptions extends Component {
 
@@ -140,11 +139,15 @@ class BuildOptions extends Component {
         e.preventDefault();
         const form_data = this.state;
         // convert spark true/false to 1/0 for backend
-        form_data.spark_val = (form_data.spark_val) ? 1 : 0;
+        form_data.spark_val = (form_data.spark_val) ? "1" : "0";
+        form_data.num_workers = form_data.num_workers.toString();
+        form_data.dm_val = form_data.dm_val.toString();
+        form_data.mrm_val = form_data.mrm_val.toString();
+        form_data.sim_val = form_data.sim_val.toString();
+        form_data.loi_val = form_data.loi_val.toString();
         // console.log(form_data);
         // send form info where it needs to go here (use state values)
         // Hook up to Kyra's server
-        console.log("Right before");
         axios.post('http://localhost:5000/build', form_data)
         .then(function (response) {
           console.log(response);
@@ -152,7 +155,6 @@ class BuildOptions extends Component {
         .catch(function (error) {
           console.log(error);
         });
-        console.log("Right after");
         this.props.history.push('/BuildProgressMenu'); // proceed to next page once information has been passed
     };
 
