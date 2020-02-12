@@ -8,21 +8,12 @@ import TableRow from '@material-ui/core/TableRow';
 import Title from './Title';
 import Checkbox from '@material-ui/core/Checkbox';
 import { query_results_dd } from "../data/query_results_dd";
-import Color from 'color';
-import convert from "color-convert";
 import Rainbow from 'rainbowvis.js';
 
-// Generate Order Data
+// creates a row of data
 function createData(id, toggle, color, subjectID, eventName, channelNum, startTime, endTime) {
     return {id, toggle, color, subjectID, eventName, channelNum, startTime, endTime};
 }
-
-/*const rows = [
-  createData(0, <Checkbox/>, '101-SART-June2018-AS', 'target correct', 'Channel-1 HbO', 126468, 167986
-  ),
-  createData(1, <Checkbox/>, '101-SART-June2018-AS', 'target correct', 'Channel-1 HbO', 274131, 315653
-  )
-];*/
 
 // generates x number of unique hex values
 function generateColors(numColors, top_color, bottom_color) {
@@ -34,18 +25,6 @@ function generateColors(numColors, top_color, bottom_color) {
         colors.push(color_range.colorAt(i));
     }
     return colors;
-
-    /*
-        var numberOfItems = 8;
-        var rainbow = new Rainbow();
-        rainbow.setNumberRange(1, numberOfItems);
-        rainbow.setSpectrum('red', 'black');
-        var s = '';
-        for (var i = 1; i <= numberOfItems; i++) {
-        var hexColour = rainbow.colourAt(i);
-        s += '#' + hexColour + ', ';
-    }
-*/
 
     //todo use below for non-query data tables
     /*let j = 360 / (numColors - 1); // distribute the colors evenly on the hue range
@@ -70,10 +49,6 @@ function createTable(data) {
     console.log(table);
     return table;
 }
-
-/*function preventDefault(event) {
-  event.preventDefault();
-}*/
 
 const useStyles = makeStyles(theme => ({
     // styles go here
@@ -103,9 +78,6 @@ export default function DataTable() {
                     {data.map(row => (
                         <TableRow key={row.id}>
                             <TableCell style={{backgroundColor: "#" + row.color}}>{row.toggle}</TableCell>
-                            {/*<TableCell >
-                                {row.color}
-                            </TableCell>*/}
                             <TableCell>{row.subjectID}</TableCell>
                             <TableCell>{row.eventName}</TableCell>
                             <TableCell>{row.channelNum}</TableCell>
