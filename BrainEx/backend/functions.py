@@ -66,7 +66,6 @@ def build():
 
     if request.method == 'POST':
         try:
-            return(request.json['spark_val'])
             num_worker = int(request.json['num_workers'])
             use_spark_int = int(request.json['spark_val'])
             if use_spark_int == 1:
@@ -101,6 +100,8 @@ def build():
 
 @application.route('/uploadSequence', methods=['GET', 'POST'])
 def uploadSequence():
+    global querySeq
+
     if request.method == "POST":
         # Assuming the file is just a series of points on one line (i.e. one row of a database
         # csv with feature_num=0)
@@ -110,14 +111,14 @@ def uploadSequence():
         if csv.filename == '':
             return("File not found", 400)
         if csv and is_csv(csv.filename):
-            csv.save(os.path.join(application.config['UPLOAD_FOLDER'], file.filename)) # Secure filename?? See tutorial
+            csv.save(os.path.join(application.config['UPLOAD_FOLDER'], csv.filename)) # Secure filename?? See tutorial
             # Check to make sure there's only one line there
-            with open(file.filename) as f:
+            with open(csv.filename) as f:
                 numLines = sum(1 for line in f)
             if numLines == 1:
-                with open(file.filename) as f:
+                with open(csv.filename) as f:
                     queryLine = f.readline()
-                    query = queryLine.rstrip.split(',')
+                    querySeq = queryLine.split(',')
                 return "File has been uploaded."
             else:
                 return("Please only submit one sequence at a time", 400)
