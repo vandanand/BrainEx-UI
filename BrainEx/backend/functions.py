@@ -67,7 +67,7 @@ def build():
     if request.method == 'POST':
         num_worker = request.json['num_workers']
         use_spark_int = request.json['spark_val']
-        if use_spark_int == 1:
+        if use_spark_int == "1":
             use_spark = True
             driver_mem = request.json['dm_val']
             max_result_mem = request.json['mrm_val']
