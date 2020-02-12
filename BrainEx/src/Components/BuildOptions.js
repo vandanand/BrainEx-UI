@@ -13,7 +13,7 @@ class BuildOptions extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            feature_val: 5,
+            // feature_val: 5,
             distance_val: "eu",
             sim_val: 0.1, /*[0:1]*/ /*todo get the desired default value*/
             loi_val: [0, 100], /*[0:max length]*/ /*todo change this to pull in the length of the longest time series*/
@@ -139,9 +139,17 @@ class BuildOptions extends Component {
         const form_data = this.state;
         console.log(form_data);
         // send form info where it needs to go here (use state values)
-        console.log("child about to send info");
-        this.props.submit_form(form_data);
-        this.props.history.push('/BuildProgressMenu'); // proceed to next page once information has been passed
+        // Hook up to Kyra's server
+        console.log("Right before")
+        axios.post('http://localhost:5000/build', form_data)
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+        console.log("Right after")
+        // this.props.history.push('/BuildProgressMenu'); // proceed to next page once information has been passed
     };
 
     render() {
@@ -150,21 +158,6 @@ class BuildOptions extends Component {
                 <form className="build_form" onSubmit={this.handleSubmit}>
                     <table>
                         <tbody>
-                        {/*form input 1*/}
-                        <tr className="form-group">
-                            <td className="form_label">
-                                <InputLabel htmlFor="feature_num">Feature Number:</InputLabel>
-                            </td>
-                            <td className="form_input">
-                                <TextField
-                                    id="feature_num"
-                                    type="number"
-                                    InputProps={{ inputProps: { min: 0 } }}
-                                    value={this.state.feature_val}
-                                    onChange={this.update_feature}
-                                />
-                            </td>
-                        </tr>
                         {/*form input 2*/}
                         <tr className="form-group">
                             <td className="form_label">

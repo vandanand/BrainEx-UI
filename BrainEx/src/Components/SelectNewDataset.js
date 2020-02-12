@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {preprocessed_files, rawdata_files} from "../dummy_data";
+import {preprocessed_files, rawdata_files} from "../data/dummy_data";
 import '../Stylesheets/Home.css';
 import { Button, Link, Typography, ButtonGroup } from '@material-ui/core';
 import { Link as RouterLink } from "react-router-dom";
