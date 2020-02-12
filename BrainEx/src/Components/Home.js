@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Link as RouterLink} from "react-router-dom";
 import '../Stylesheets/Home.css'
-import { preprocessed_files } from "../dummy_data";
+import { preprocessed_files } from "../data/dummy_data";
 import { Button, Link, Typography, ButtonGroup } from '@material-ui/core';
 import FormData from 'form-data';
 
