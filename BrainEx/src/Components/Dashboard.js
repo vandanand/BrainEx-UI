@@ -17,6 +17,7 @@ import Chart from './Chart';
 import DataTable from './DataTable';
 import CurrSeqSelection from './CurrSeqSelection'
 import Filter from './Filter'
+import DataViz from './DataViz'
 import Stats from './Stats'
 
 function Copyright() {
@@ -110,7 +111,8 @@ export default function Dashboard() {
                             {/* Chart */}
                             <Grid item lg={12}>
                                 <Paper className={fixedHeightPaper}>
-                                    <Chart/>
+                                    {/*<Chart/>*/}
+                                    <DataViz/>
                                 </Paper>
                             </Grid>
                             <Grid item lg={12}>

@@ -22,7 +22,7 @@ import {transition} from 'd3-transition';
 //
 // const classes = useStyles();
 
-class CurSeqLineChart extends Component {
+class CurSeqChartViz extends Component {
     constructor() {
         super();
         this.state = {
@@ -119,5 +119,5 @@ class CurSeqLineChart extends Component {
     }
 }
 
-export default CurSeqLineChart;
+export default CurSeqChartViz;
 // render(<curSeqLineChart />, document.getElementById('root'));
