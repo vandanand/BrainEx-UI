@@ -26,7 +26,10 @@ def test_getStoreCSV(client):
 
 def test_getOptions(client):
     data = {}
-    data['num_worker'] = 4
-    data['use_spark_int'] = 0
-    sendRequest = client.post("/getCSVOptions", data=data)
+    data['num_workers'] = 4
+    data['spark_val'] = 0
+    data['sim_val'] = 0.1
+    data['distance_val'] = 'eu'
+    data['loi'] = '[10000,10000]'
+    sendRequest = client.post("/build", data=data)
     assert sendRequest.status_code == 200

@@ -5,7 +5,7 @@ from genex.utils.gxe_utils import from_csv
 
 from pyspark import SparkContext, SparkConf
 
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 
 import pandas as pd
@@ -29,7 +29,7 @@ def is_csv(filename):
 
 @application.route('/getCSV', methods=['GET', 'POST'])
 def getStoreCSV():
-    global uploadPath
+    global uploadPath, numFeatures
 
     if request.method == 'POST':
         if 'uploaded_data' not in request.files:
@@ -41,54 +41,63 @@ def getStoreCSV():
             toSave = os.path.join(application.config['UPLOAD_FOLDER'], csv.filename)
             csv.save(toSave) # Secure filename?? See tutorial
             uploadPath = toSave
-            dataframe = pd.read_csv(uploadPath, delimiter=',', prefix='D')
-            # Kyra to do: i for i in test_list if subs in i, use that to get column name of start and end, then get maxdifference and end of features
-            if ('Start' in i in dataframe.columns or 'start' in i in dataframe.columns) and ('End' in i in dataframe.columns or 'end' in i in dataframe.columns):
-                indexOfMax = ()
-                return "File has been uploaded."
-            else:
+            dataframe = pd.read_csv(uploadPath, delimiter=',')
+            dataframe.columns = map(str.lower, dataframe.columns)
+            if not 'start time' in dataframe.columns and not 'end time' in dataframe.columns:
                 return("Please include a start and end column", 400)
+            else:
+                maxVal = (dataframe['end time'] - dataframe['start time']).max()
+                notFeature = 0
+                for elem in dataframe.columns:
+                    if 'unnamed' in elem:
+                        notFeature = notFeature + 1;
+                numFeatures = len(dataframe.columns) - notFeature
+                returnDict = {
+                    "message": "File has been uploaded.",
+                    "maxLength": str(maxVal)
+                }
+                return jsonify(returnDict)
         else:
             return("Invalid file.  Please upload a CSV", 400)
 
-@application.route('/getCSVOptions', methods=['GET', 'POST'])
-def getOptions():
+@application.route('/build', methods=['GET', 'POST'])
+def build():
     global brainexDB, uploadPath, numFeatures
 
     if request.method == 'POST':
-        num_worker = int(request.form['num_worker'])
-        use_spark_int = int(request.form['use_spark_int'])
-        if use_spark_int == 1:
-            use_spark = True
-            driver_mem = int(request.form['driver_mem'])
-            max_result_mem = int(request.form['max_result_mem'])
-        else:
-            use_spark = False
         try:
-            if use_spark:
-                brainexDB = from_csv(uploadPath, feature_num=numFeatures, use_spark=use_spark, num_worker=num_worker, driver_mem=driver_mem, max_result_mem=max_result_mem)
+            return(request.json['spark_val'])
+            num_worker = int(request.json['num_workers'])
+            use_spark_int = int(request.json['spark_val'])
+            if use_spark_int == 1:
+                use_spark = True
+                driver_mem = int(request.json['dm_val'])
+                max_result_mem = int(request.json['mrm_val'])
             else:
-                brainexDB = from_csv(uploadPath, feature_num=numFeatures, use_spark=use_spark, num_worker=num_worker)
-            return "Correctly input."
-        except FileNotFoundError:
-            return ("File not found.", 400)
-        except TypeError:
-            return ("Incorrect input.", 400)
-
-@application.route('/cluster', methods=['GET', 'POST'])
-def cluster():
-    if request.method == "POST":
-        similarity_threshold = int(request.form['similarity_threshold'])
-        dist_type = request.form['dist_type']
-        loii = int(request.form['loii'])
-        loif = int(request.form['loif'])
-        loi = slice(loii, loif)
-        try:
-            # Todo: get loading bar
-            brainexDB.build(similarity_threshold=similarity_threshold, dist_type=dist_type, loi=loi)
-            return "Preprocessing is complete"
-        except Exception as e:
-            return (e, 400)
+                use_spark = False
+            try:
+                if use_spark:
+                    brainexDB = from_csv(uploadPath, feature_num=numFeatures, use_spark=use_spark, num_worker=num_worker, driver_mem=driver_mem, max_result_mem=max_result_mem)
+                else:
+                    brainexDB = from_csv(uploadPath, feature_num=numFeatures, use_spark=use_spark, num_worker=num_worker)
+                similarity_threshold = float(request.json['sim_val'])
+                dist_type = request.json['distance_val']
+                lois = request.json['loi_val']
+                loitoSp = lois.split('[')[1]
+                loitoSp2 = loitoSp.split(']')[0]
+                loiA = loitoSp2.split(',')
+                loi = [float(loiA[0]), float(loiA[1])]
+                try:
+                    brainexDB.build(st=similarity_threshold, dist_type=dist_type, loi=loi)
+                    return "Preprocessed!"
+                except Exception as e:
+                    return (str(e), 401)
+            except FileNotFoundError:
+                return ("File not found.", 402)
+            except TypeError:
+                return ("Incorrect input.", 403)
+        except Exception:
+            return("One more", 404)
 
 @application.route('/uploadSequence', methods=['GET', 'POST'])
 def uploadSequence():
