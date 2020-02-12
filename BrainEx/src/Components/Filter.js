@@ -1,21 +1,12 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Divider from "@material-ui/core/Divider";
-import {makeStyles} from "@material-ui/core/styles";
 import Title from "./Title";
-import Button from '@material-ui/core/Button';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
-import FormControl from '@material-ui/core/FormControl';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import clsx from 'clsx';
-import Typography from '@material-ui/core/Typography';
-import Slider from '@material-ui/core/Slider';
-import Input from '@material-ui/core/Input';
-import Grid from '@material-ui/core/Grid';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import TextField from '@material-ui/core/TextField';
-
+import { Range } from 'rc-slider';
+import 'rc-slider/assets/index.css';
+import { makeStyles, Button, ButtonGroup, FormControl,
+    FormGroup, FormControlLabel, Checkbox, Typography,
+    Slider, Input, Grid, InputAdornment, TextField } from "@material-ui/core";
 
 function preventDefault(event) {
     event.preventDefault();
@@ -46,41 +37,60 @@ function valuetext(value) {
 export default function Filter() {
     const classes = useStyles();
     //range slider
-    const [value, setValue] = React.useState([20, 37]);
+    const [rangeVal, setRangeVal] = useState([0.00, 100.00]);
+    const [startVal, setStartVal] = useState(0.00);
+    const [endVal, setEndVal] = useState(100.00);
     //overlap percentage default
-    const [values, setValues] = React.useState({
+    /*const [values, setValues] = useState({
         percentage: '40',
-    });
+    });*/
 
-    const handleChange = prop => event => {
+    /*const handleChange = prop => event => {
         // setState({ ...state, [name]: event.target.checked });
         setValues({...values, [prop]: event.target.value});
-    };
+    };*/
 
-    const handleRangeChange = (event, newValue) => {
-        setValue(newValue);
-    };
+    /*update the range values for loi range*/
+    function handleRangeChange(event) {
+        // console.log(event);
+        const newRangeVal = event;
+        setRangeVal(newRangeVal); // new value is stored in the event, not the newValue
+        /*update input values*/
+        const newStartVal = parseFloat(newRangeVal[0]);
+        setStartVal(newStartVal);
+        const newEndVal = parseFloat(newRangeVal[1]);
+        setEndVal(newEndVal);
+    }
 
-
-    const handleSliderChangeStart = (event, newValue) => {
-        setValue(newValue);
-    };
-    const handleSliderChangeEnd = (event, newValue) => {
-        setValue(newValue);
-    };
-
+    /*update the input boxes for the loi range*/
     const handleInputChangeStart = event => {
-        setValue(event.target.value === '' ? '' : Number(event.target.value));
+        /*get original range value*/
+        let newRangeVal = rangeVal;
+        /*update only the starting value*/
+        const newStartVal = parseFloat(event.target.value);
+        setStartVal(newStartVal);
+        // console.log("new start val: " + newStartVal);
+        /*update range value*/
+        newRangeVal[0] = newStartVal;
+        setRangeVal(newRangeVal);
     };
     const handleInputChangeEnd = event => {
-        setValue(event.target.value === '' ? '' : Number(event.target.value));
+        /*get original range value*/
+        let newRangeVal = rangeVal;
+        /*update only the end value*/
+        const newEndVal = parseFloat(event.target.value);
+        // console.log("new end val: " + newEndVal);
+        setEndVal(newEndVal);
+        /*update range value*/
+        newRangeVal[1] = newEndVal;
+        setRangeVal(newRangeVal);
     };
 
     const handleBlur = () => {
-        if (value < 0) {
-            setValue(0);
-        } else if (value > 100) {
-            setValue(100);
+        if (rangeVal < 0) {
+            setRangeVal(0);
+        } else if (rangeVal > 100) {
+            setRangeVal(100);
         }
     };
 
@@ -93,18 +103,18 @@ export default function Filter() {
                     <FormControl component="fieldset">
                         <FormGroup>
                             <Typography id="range-slider" gutterBottom>
-                                Length of interest of sequence matches
+                                Lengths of interest for matches
                             </Typography>
                             <Grid container spacing={2} alignItems="center">
                                 <Grid item>
                                     <Input
                                         className={classes.input}
-                                        value={value}
+                                        value={startVal}
                                         margin="dense"
                                         onChange={handleInputChangeStart}
                                         onBlur={handleBlur}
                                         inputProps={{
-                                            step: 10,
+                                            step: 0.1,
                                             min: 0,
                                             max: 100,
                                             type: 'number',
@@ -113,33 +123,26 @@ export default function Filter() {
                                     />
                                 </Grid>
                                 <Grid item xs>
-                                    {/*<Slider*/}
-                                    {/*    // value={typeof value === 'number' ? value : 0}*/}
-                                    {/*    onChange={handleSliderChangeEnd}*/}
-                                    {/*    aria-labelledby="input-slider"*/}
-                                    {/*/>*/}
-
-                                    <Slider
-                                        // value={value}
-                                        value={value}
+                                    <Range
+                                        value={rangeVal}
+                                        step={0.1}
+                                        min={0} /*todo set as min loi from build options*/
+                                        max={100} /*todo set as max loi from build options*/
                                         onChange={handleRangeChange}
-                                        valueLabelDisplay="auto"
-                                        aria-labelledby="range-slider"
-                                        getAriaValueText={valuetext}
                                     />
                                 </Grid>
                                 <Grid item>
                                     <Input
                                         className={classes.input}
-                                        value={value}
+                                        value={endVal}
                                         margin="dense"
                                         onChange={handleInputChangeEnd}
                                         onBlur={handleBlur}
                                         valueLabelDisplay="auto"
                                         inputProps={{
-                                            step: 10,
-                                            min: 0,
-                                            max: 100,
+                                            step: 0.1,
+                                            min: 0,/*todo set as min loi from build options*/
+                                            max: 100,/*todo set as max loi from build options*/
                                             type: 'number',
                                             'aria-labelledby': 'input-slider',
                                         }}
