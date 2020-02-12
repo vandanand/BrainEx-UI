@@ -54,7 +54,7 @@ export default function DataTable() {
               <TableCell>Show</TableCell>
               <TableCell>Subject ID</TableCell>
               <TableCell>Event Name</TableCell>
-              <TableCell>Chanel Number</TableCell>
+              <TableCell>Channel Number</TableCell>
               <TableCell>Start Time</TableCell>
               <TableCell>End Time</TableCell>
             </TableRow>
