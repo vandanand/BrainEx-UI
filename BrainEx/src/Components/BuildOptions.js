@@ -8,6 +8,13 @@ import { Link as RouterLink } from "react-router-dom";
 import $ from 'jquery';
 import axios from 'axios';
 import Input from "@material-ui/core/Input";
+import {default_dv,
+    default_st,
+    default_loi,
+    default_sv,
+    default_nw,
+    default_dm,
+    default_mrm} from "../data/default_values";
 
 class BuildOptions extends Component {
 
@@ -15,13 +22,13 @@ class BuildOptions extends Component {
         super(props);
         this.state = {
             // feature_val: 5,
-            distance_val: "eu",
-            sim_val: 0.1, /*[0:1]*/ /*todo get the desired default value*/
-            loi_val: [0, 100], /*[0:max length]*/ /*todo change this to pull in the length of the longest time series*/
-            spark_val: true, /*todo should the default be yes/true?*/
-            num_workers: 3, /*todo get default value*/
-            dm_val: 16, /*todo get default values for spark memory*/
-            mrm_val: 16
+            distance_val: default_dv,
+            sim_val: default_st, /*[0:1]*/
+            loi_val: default_loi, /*[0:max length]*/
+            spark_val: default_sv,
+            num_workers: default_nw,
+            dm_val: default_dm,
+            mrm_val: default_mrm
         };
         this.update_feature = this.update_feature.bind(this);
         this.update_distance = this.update_distance.bind(this);
@@ -140,6 +147,7 @@ class BuildOptions extends Component {
         const form_data = this.state;
         // convert spark true/false to 1/0 for backend
         form_data.spark_val = (form_data.spark_val) ? "1" : "0";
+        // convert form data elements to strings for parsing in the backend
         form_data.num_workers = form_data.num_workers.toString();
         form_data.dm_val = form_data.dm_val.toString();
         form_data.mrm_val = form_data.mrm_val.toString();
@@ -188,7 +196,6 @@ class BuildOptions extends Component {
                                 <InputLabel htmlFor="sim_thresh">Similarity Threshold:</InputLabel>
                             </td>
                             <td className="form_input is_range">
-                                {/*todo update "defaultValue" to be recommended similarity threshold */}
                                 <Slider
                                     id="sim_thresh"
                                     value={this.state.sim_val}
@@ -197,7 +204,7 @@ class BuildOptions extends Component {
                                     step={0.01}
                                     onChange={this.update_sim_range}
                                 />
-                                {/*todo hitting enter with cursor in TextField submits form*/}
+                                {/* hitting enter with cursor in TextField submits form - is this still true?*/}
                                 <TextField
                                     className="percent_text"
                                     id="sim_thresh"
@@ -217,7 +224,6 @@ class BuildOptions extends Component {
                         <tr className="form-group">
                             {/*todo range "max" will have to be dynamically set by passing props from
                                     SelectADataset into BuildOptions state */}
-                            {/*todo update "defaultValue" to be same as max */}
                             <td className="form_label">
                                 <InputLabel htmlFor="loi">Length of Interest:</InputLabel>
                             </td>

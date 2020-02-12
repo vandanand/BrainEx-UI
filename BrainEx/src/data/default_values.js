@@ -1,0 +1,10 @@
+const MAX = 100; // todo get this from API return
+export const default_dv = "eu";
+export const default_st = 0.1;
+export const default_loi = [0, MAX]; //todo this might might not happen here because of the max call
+export const default_sv = true;
+export const default_nw = 5;
+export const default_dm = 16;
+export const default_mrm = 16;
+export const top_color = "0000FF"; // blue
+export const bottom_color = "FFA500"; // orange

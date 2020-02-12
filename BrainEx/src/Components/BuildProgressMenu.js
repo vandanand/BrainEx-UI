@@ -5,8 +5,6 @@ import "../Stylesheets/BuildProgressMenu.css";
 import {Link, ButtonGroup, Typography, LinearProgress } from '@material-ui/core';
 import $ from "jquery";
 
-// todo -- my concern: refreshing the page makes the form data disappear. user will lose progress if they refresh the window.
-//  how to get around this? looking into it but it is not a priority until we know what server/storage specs we have...
 
 class BuildProgressMenu extends Component {
     constructor(props) {
@@ -31,7 +29,6 @@ class BuildProgressMenu extends Component {
     render() {
         return (
             <div className="full-height">
-                {/*todo make certain versions of the screen show depending on the value of "now" (can this be done or not?)*/}
                 {/*display when build is in progress*/}
                 <div className="prog-content in-progress display-this">
                     <LinearProgress className="progress" />
