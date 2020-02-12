@@ -6,6 +6,7 @@ import 'rc-slider/assets/index.css';
 import { TextField, Select, MenuItem, Checkbox, Button, Link, InputLabel } from '@material-ui/core';
 import { Link as RouterLink } from "react-router-dom";
 import $ from 'jquery';
+import Input from "@material-ui/core/Input";
 
 class BuildOptions extends Component {
 
@@ -89,7 +90,7 @@ class BuildOptions extends Component {
         });
     };
     update_loi_start = (e) => {
-        const loi_start = parseInt(e.target.value);
+        const loi_start = parseFloat(e.target.value);
         const loi_end = this.state.loi_val[1];
         this.setState({
             loi_val: [loi_start, loi_end]
@@ -97,7 +98,7 @@ class BuildOptions extends Component {
     };
     update_loi_end = (e) => {
         const loi_start = this.state.loi_val[0];
-        const loi_end = parseInt(e.target.value);
+        const loi_end = parseFloat(e.target.value);
         this.setState({
             loi_val: [loi_start, loi_end]
         });
@@ -136,6 +137,7 @@ class BuildOptions extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         const form_data = this.state;
+        console.log(form_data);
         // send form info where it needs to go here (use state values)
         console.log("child about to send info");
         this.props.submit_form(form_data);
@@ -224,21 +226,34 @@ class BuildOptions extends Component {
                                 <TextField
                                     label="start"
                                     id="loi"
-                                    type="number"
+                                    inputProps={{
+                                            step: 0.1,
+                                            min: 0,
+                                            max: 100,
+                                            type: 'number',
+                                            'aria-labelledby': 'input-slider',
+                                        }}
                                     value={this.state.loi_val[0]}
                                     onChange={this.update_loi_start}
                                 />
                                 <Range
                                     id="loi"
                                     value={this.state.loi_val}
+                                    step={0.1}
                                     min={0}
                                     max={100}
                                     onChange={this.update_loi}
                                 />
-                                <TextField
+                                <Input
                                     label="end"
                                     id="loi"
-                                    type="number"
+                                    inputProps={{
+                                            step: 0.1,
+                                            min: 0,
+                                            max: 100,
+                                            type: 'number',
+                                            'aria-labelledby': 'input-slider',
+                                        }}
                                     value={this.state.loi_val[1]}
                                     onChange={this.update_loi_end}
                                 />
