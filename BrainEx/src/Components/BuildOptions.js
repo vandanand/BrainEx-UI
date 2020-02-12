@@ -6,6 +6,7 @@ import 'rc-slider/assets/index.css';
 import { TextField, Select, MenuItem, Checkbox, Button, Link, InputLabel } from '@material-ui/core';
 import { Link as RouterLink } from "react-router-dom";
 import $ from 'jquery';
+import axios from 'axios';
 import Input from "@material-ui/core/Input";
 import axios from 'axios';
 
@@ -138,10 +139,12 @@ class BuildOptions extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         const form_data = this.state;
-        console.log(form_data);
+        // convert spark true/false to 1/0 for backend
+        form_data.spark_val = (form_data.spark_val) ? 1 : 0;
+        // console.log(form_data);
         // send form info where it needs to go here (use state values)
         // Hook up to Kyra's server
-        console.log("Right before")
+        console.log("Right before");
         axios.post('http://localhost:5000/build', form_data)
         .then(function (response) {
           console.log(response);
@@ -149,8 +152,8 @@ class BuildOptions extends Component {
         .catch(function (error) {
           console.log(error);
         });
-        console.log("Right after")
-        // this.props.history.push('/BuildProgressMenu'); // proceed to next page once information has been passed
+        console.log("Right after");
+        this.props.history.push('/BuildProgressMenu'); // proceed to next page once information has been passed
     };
 
     render() {
