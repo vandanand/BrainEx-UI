@@ -47,7 +47,7 @@ export default function DataTable() {
 
   return (
       <React.Fragment>
-        <Title>Sequence Table</Title>
+        <Title>Data Table</Title>
         <Table size="small">
           <TableHead>
             <TableRow>
