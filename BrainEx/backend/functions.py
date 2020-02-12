@@ -5,8 +5,10 @@ from genex.utils.gxe_utils import from_csv
 
 from pyspark import SparkContext, SparkConf
 
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from flask_cors import CORS
+
+import pandas as pd
 
 UPLOAD_FOLDER = "./uploads"
 
@@ -17,6 +19,7 @@ application.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 uploadPath = None
 brainexDB = None
 querySeq = None
+numFeatures = None
 
 def is_csv(filename):
     if '.' in filename and filename.rsplit('.', 1)[1].lower() == 'csv':
@@ -26,7 +29,7 @@ def is_csv(filename):
 
 @application.route('/getCSV', methods=['GET', 'POST'])
 def getStoreCSV():
-    global uploadPath
+    global uploadPath, numFeatures
 
     if request.method == 'POST':
         if 'uploaded_data' not in request.files:
@@ -38,52 +41,64 @@ def getStoreCSV():
             toSave = os.path.join(application.config['UPLOAD_FOLDER'], csv.filename)
             csv.save(toSave) # Secure filename?? See tutorial
             uploadPath = toSave
-            return "File has been uploaded."
+            dataframe = pd.read_csv(uploadPath, delimiter=',')
+            dataframe.columns = map(str.lower, dataframe.columns)
+            if not 'start time' in dataframe.columns and not 'end time' in dataframe.columns:
+                return("Please include a start and end column", 400)
+            else:
+                maxVal = (dataframe['end time'] - dataframe['start time']).max()
+                notFeature = 0
+                for elem in dataframe.columns:
+                    if 'unnamed' in elem:
+                        notFeature = notFeature + 1;
+                numFeatures = len(dataframe.columns) - notFeature
+                returnDict = {
+                    "message": "File has been uploaded.",
+                    "maxLength": str(maxVal)
+                }
+                return jsonify(returnDict)
         else:
             return("Invalid file.  Please upload a CSV", 400)
 
-@application.route('/getCSVOptions', methods=['GET', 'POST'])
-def getOptions():
-    global brainexDB, uploadPath
+@application.route('/build', methods=['GET', 'POST'])
+def build():
+    global brainexDB, uploadPath, numFeatures
 
     if request.method == 'POST':
-        feature_num = int(request.form['feature_num'])
-        num_worker = int(request.form['num_worker'])
-        use_spark_int = int(request.form['use_spark_int'])
+        num_worker = request.json['num_workers']
+        use_spark_int = request.json['spark_val']
         if use_spark_int == 1:
             use_spark = True
-            driver_mem = int(request.form['driver_mem'])
-            max_result_mem = int(request.form['max_result_mem'])
+            driver_mem = request.json['dm_val']
+            max_result_mem = request.json['mrm_val']
         else:
             use_spark = False
         try:
+            num_worker = int(num_worker)
             if use_spark:
-                brainexDB = from_csv(uploadPath, feature_num=feature_num, use_spark=use_spark, num_worker=num_worker, driver_mem=driver_mem, max_result_mem=max_result_mem)
+                driver_mem = int(driver_mem)
+                max_result_mem = int(max_result_mem)
+                brainexDB = from_csv(uploadPath, feature_num=numFeatures, use_spark=use_spark, num_worker=num_worker, driver_mem=driver_mem, max_result_mem=max_result_mem)
             else:
-                brainexDB = from_csv(uploadPath, feature_num=feature_num, use_spark=use_spark, num_worker=num_worker)
-            return "Correctly input."
+                brainexDB = from_csv(uploadPath, feature_num=numFeatures, use_spark=use_spark, num_worker=num_worker)
         except FileNotFoundError:
             return ("File not found.", 400)
-        except TypeError:
-            return ("Incorrect input.", 400)
-
-@application.route('/cluster', methods=['GET', 'POST'])
-def cluster():
-    if request.method == "POST":
-        similarity_threshold = int(request.form['similarity_threshold'])
-        dist_type = request.form['dist_type']
-        loii = int(request.form['loii'])
-        loif = int(request.form['loif'])
-        loi = slice(loii, loif)
         try:
-            # Todo: get loading bar
-            brainexDB.build(similarity_threshold=similarity_threshold, dist_type=dist_type, loi=loi)
-            return "Preprocessing is complete"
+            similarity_threshold = request.json['sim_val']
+            dist_type = request.json['distance_val']
+            lois = request.json['loi_val']
+            loiA = lois.split(',')
+            loi = [float(loiA[0]), float(loiA[1])]
+            similarity_threshold = float(similarity_threshold)
+            brainexDB.build(st=similarity_threshold, dist_type=dist_type, loi=loi)
+            return "Preprocessed!"
         except Exception as e:
-            return (e, 400)
+            return (str(e), 400)
 
 @application.route('/uploadSequence', methods=['GET', 'POST'])
 def uploadSequence():
+    global querySeq
+
     if request.method == "POST":
         # Assuming the file is just a series of points on one line (i.e. one row of a database
         # csv with feature_num=0)
@@ -93,14 +108,14 @@ def uploadSequence():
         if csv.filename == '':
             return("File not found", 400)
         if csv and is_csv(csv.filename):
-            csv.save(os.path.join(application.config['UPLOAD_FOLDER'], file.filename)) # Secure filename?? See tutorial
+            csv.save(os.path.join(application.config['UPLOAD_FOLDER'], csv.filename)) # Secure filename?? See tutorial
             # Check to make sure there's only one line there
-            with open(file.filename) as f:
+            with open(csv.filename) as f:
                 numLines = sum(1 for line in f)
             if numLines == 1:
-                with open(file.filename) as f:
+                with open(csv.filename) as f:
                     queryLine = f.readline()
-                    query = queryLine.rstrip.split(',')
+                    querySeq = queryLine.split(',')
                 return "File has been uploaded."
             else:
                 return("Please only submit one sequence at a time", 400)

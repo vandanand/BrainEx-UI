@@ -72,7 +72,6 @@ class SelectNewDataset extends Component {
         console.log(...file_form); // for debugging purposes
         let all_files = this.state.all_files;
         // Hook up to Kyra's server
-        console.log("Right before")
         axios.post('http://localhost:5000/getCSV', file_form)
         .then(function (response) {
           console.log(response);
@@ -80,7 +79,6 @@ class SelectNewDataset extends Component {
         .catch(function (error) {
           console.log(error);
         });
-        console.log("Right after")
 
 
 

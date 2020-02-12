@@ -2,6 +2,7 @@ import os
 import tempfile
 import pytest
 from io import BytesIO
+import json
 
 import functions
 
@@ -26,8 +27,18 @@ def test_getStoreCSV(client):
 
 def test_getOptions(client):
     data = {}
-    data['feature_num'] = 2
-    data['num_worker'] = 4
-    data['use_spark_int'] = 0
-    sendRequest = client.post("/getCSVOptions", data=data)
+    data['num_workers'] = 4
+    data['spark_val'] = 0
+    data['sim_val'] = 0.1
+    data['distance_val'] = 'eu'
+    data['loi'] = '[10000,10000]'
+    dataJ = json.loads(json.dumps(data))
+    sendRequest = client.post("/build", data=dataJ)
+    assert sendRequest.status_code == 200
+
+def test_uploadSequence(client):
+    with open("test_Seq.csv", 'rb') as f:
+        input = BytesIO(f.read())
+    data = {"sequence_file": (input, "test_Seq.csv")}
+    sendRequest = client.post("/uploadSequence", data=data, content_type="multipart/form-data")
     assert sendRequest.status_code == 200
