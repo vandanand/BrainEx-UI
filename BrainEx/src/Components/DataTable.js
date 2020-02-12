@@ -8,7 +8,9 @@ import TableRow from '@material-ui/core/TableRow';
 import Title from './Title';
 import Checkbox from '@material-ui/core/Checkbox';
 import { query_results_dd } from "../data/query_results_dd";
+import Color from 'color';
 import convert from "color-convert";
+import Rainbow from 'rainbowvis.js';
 
 // Generate Order Data
 function createData(id, toggle, color, subjectID, eventName, channelNum, startTime, endTime) {
@@ -23,22 +25,43 @@ function createData(id, toggle, color, subjectID, eventName, channelNum, startTi
 ];*/
 
 // generates x number of unique hex values
-function generateColors(numColors)
-{
-    let j = 360 / (numColors - 1); // distribute the colors evenly on the hue range
+function generateColors(numColors, top_color, bottom_color) {
+    let colors = [];
+    let color_range = new Rainbow();
+    color_range.setNumberRange(1, numColors);
+    color_range.setSpectrum(top_color, bottom_color);
+    for (let i=1; i <= numColors; i++) {
+        colors.push(color_range.colorAt(i));
+    }
+    return colors;
+
+    /*
+        var numberOfItems = 8;
+        var rainbow = new Rainbow();
+        rainbow.setNumberRange(1, numberOfItems);
+        rainbow.setSpectrum('red', 'black');
+        var s = '';
+        for (var i = 1; i <= numberOfItems; i++) {
+        var hexColour = rainbow.colourAt(i);
+        s += '#' + hexColour + ', ';
+    }
+*/
+
+    //todo use below for non-query data tables
+    /*let j = 360 / (numColors - 1); // distribute the colors evenly on the hue range
     let r = []; // hold the generated colors
     for (let i=0; i<numColors; i++)
     {
         // generate distinguishable hex colors using hsv and converting to hex
         r.push(convert.hsv.hex(j * i, 100, 100)); // you can also alternate the saturation and value for even more contrast between the colors
     }
-    return r;
+    return r;*/
 }
 
 // function to create the data table content using an external source (in this case, a constant from another file)
 function createTable(data) {
     const table = [];
-    let colors = generateColors(data.length);
+    let colors = generateColors(data.length, "0000FF", "FFA500"); //todo extract initial color as a default value
     console.log(colors);
     data.map( (row, index) => {
         let length = table.push(createData(row.id, <Checkbox/>, colors[index], row.subjectID, row.eventName, row.channelNum, row.startTime, row.endTime));
