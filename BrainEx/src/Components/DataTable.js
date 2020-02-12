@@ -8,7 +8,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Title from './Title';
 import Checkbox from '@material-ui/core/Checkbox';
 import { query_results_dd } from "../data/query_results_dd";
-import Rainbow from 'rainbowvis.js';
+import Rainbow from 'rainbowvis.js/rainbowvis.js';
 
 // creates a row of data
 function createData(id, toggle, color, subjectID, eventName, channelNum, startTime, endTime) {

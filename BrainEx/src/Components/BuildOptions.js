@@ -20,8 +20,8 @@ class BuildOptions extends Component {
             loi_val: [0, 100], /*[0:max length]*/ /*todo change this to pull in the length of the longest time series*/
             spark_val: true, /*todo should the default be yes/true?*/
             num_workers: 3, /*todo get default value*/
-            dm_val: 0, /*todo get default values for spark memory*/
-            mrm_val: 0
+            dm_val: 16, /*todo get default values for spark memory*/
+            mrm_val: 16
         };
         this.update_feature = this.update_feature.bind(this);
         this.update_distance = this.update_distance.bind(this);
