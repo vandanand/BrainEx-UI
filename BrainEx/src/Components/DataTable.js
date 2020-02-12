@@ -26,7 +26,7 @@ function createTable(data) {
   const table = [];
   data.map( (row) => {
     let length = table.push(createData(row.id, <Checkbox/>, row.subjectID, row.eventName, row.channelNum, row.startTime, row.endTime));
-    console.log("length: " + length);
+    // console.log("length: " + length);
   });
   console.log(table);
   return table;
