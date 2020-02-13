@@ -124,4 +124,19 @@ def uploadSequence():
 @application.route('/query', methods=['GET', 'POST'])
 def complete_query():
     if request.method == "POST":
-        quit()
+        #TODO: Ask Leo where loi is
+        # loi_temp = request.form['loi_temp']
+        # loiA = loi_temp.split('')
+        # loi = [float(loiA[0]), float(loiA[1])]
+        best_matches = int(request.form['best_matches_temp'])
+        overlap = float(request.form['overlap_temp'])
+        excludeS = request.form['exclude_temp']
+        if excludeS == "1":
+            exclude = True
+        else:
+            exclude = False
+        # try:
+        query_result = brainexDB.query(query=querySeq, best_k=best_matches, exclude_same_id=exclude, overlap=overlap)
+        return "Hey-o!"
+        # except Exception as e:
+        #     return (str(e), 400)
