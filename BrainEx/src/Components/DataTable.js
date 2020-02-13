@@ -31,7 +31,7 @@ export default function DataTable() {
   const classes = useStyles();
   return (
       <React.Fragment>
-        <Title>Sequence Table</Title>
+        <Title>Ranked Matching Sequences</Title>
         <Table size="small">
           <TableHead>
             <TableRow>

@@ -60,7 +60,7 @@ const useStyles = makeStyles(theme => ({
         flexDirection: 'column',
     },
     fixedHeight: {
-        height: 240,
+        height: 580,
     }
 }));
 
@@ -112,7 +112,7 @@ export default function Dashboard() {
                             <Grid item lg={12}>
                                 <Paper className={fixedHeightPaper}>
                                     {/*<Chart/>*/}
-                                    <ChartData/>
+                                    <Chart/>
                                 </Paper>
                             </Grid>
                             <Grid item lg={12}>

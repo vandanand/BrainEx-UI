@@ -24,7 +24,7 @@ export default function CurrSeqSelection() {
     return (
         <React.Fragment>
             <div className={classes.root}>
-                <Title>Current Sequence Selection</Title>
+                <Title>Query Sequence</Title>
                 <CurSeqChartViz/>
                 <input
                     accept="text/csv/*"
