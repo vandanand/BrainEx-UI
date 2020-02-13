@@ -10,6 +10,7 @@ import QueryFinder from "./QueryFinder";
 import Home from "./Home";
 import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
+import {cluster_exp, data_exp, query_page, root} from "../data/default_values";
 
 const StyledMenu = withStyles({
   paper: {
@@ -46,11 +47,11 @@ class NavBar extends Component {
     }
 
     goHome = (e) => {
-        this.props.history.push('/');
+        this.props.history.push(root);
     };
 
     goToQuery = (e) => {
-        this.props.history.push("/MainPage/QueryFinder");
+        this.props.history.push(query_page);
     };
 
     handleClick = (e) => {
@@ -81,12 +82,12 @@ class NavBar extends Component {
                             </Button>
                             <StyledMenu id="simple-menu" anchorEl={this.state.curr_target} keepMounted open={Boolean(this.state.curr_target)} onClose={this.handleClose}>
                                 <MenuItem onClick={this.handleClose}>
-                                        <Link className="nav-link" to="/MainPage/ExploreRawData">
+                                        <Link className="nav-link" to={data_exp}>
                                             <Typography className="dd_text">Explore Raw Data</Typography>
                                         </Link>
                                 </MenuItem>
                                 <MenuItem onClick={this.handleClose}>
-                                        <Link className="nav-link" to="/MainPage/ExploreClusters">
+                                        <Link className="nav-link" to={cluster_exp}>
                                             <Typography className="dd_text">Explore Clustered Data</Typography>
                                         </Link>
                                 </MenuItem>

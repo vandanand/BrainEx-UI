@@ -9,6 +9,7 @@ import Title from './Title';
 import Checkbox from '@material-ui/core/Checkbox';
 import { query_results_dd } from "../data/query_results_dd";
 import Rainbow from 'rainbowvis.js/rainbowvis.js';
+import {top_color, bottom_color} from '../data/default_values';
 
 // creates a row of data
 function createData(id, toggle, color, subjectID, eventName, channelNum, startTime, endTime) {
@@ -26,7 +27,7 @@ function generateColors(numColors, top_color, bottom_color) {
     }
     return colors;
 
-    //todo use below for non-query data tables
+    //// use below for non-query data tables
     /*let j = 360 / (numColors - 1); // distribute the colors evenly on the hue range
     let r = []; // hold the generated colors
     for (let i=0; i<numColors; i++)
@@ -40,7 +41,7 @@ function generateColors(numColors, top_color, bottom_color) {
 // function to create the data table content using an external source (in this case, a constant from another file)
 function createTable(data) {
     const table = [];
-    let colors = generateColors(data.length, "0000FF", "FFA500"); //todo extract initial color as a default value
+    let colors = generateColors(data.length, top_color, bottom_color);
     console.log(colors);
     data.map( (row, index) => {
         let length = table.push(createData(row.id, <Checkbox/>, colors[index], row.subjectID, row.eventName, row.channelNum, row.startTime, row.endTime));
