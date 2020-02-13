@@ -67,7 +67,7 @@ def build():
     if request.method == 'POST':
         num_worker = request.json['num_workers']
         use_spark_int = request.json['spark_val']
-        if use_spark_int == 1:
+        if use_spark_int == "1":
             use_spark = True
             driver_mem = request.json['dm_val']
             max_result_mem = request.json['mrm_val']
@@ -108,7 +108,6 @@ def uploadSequence():
         if csv.filename == '':
             return("File not found", 400)
         if csv and is_csv(csv.filename):
-            csv.save(os.path.join(application.config['UPLOAD_FOLDER'], csv.filename)) # Secure filename?? See tutorial
             # Check to make sure there's only one line there
             with open(csv.filename) as f:
                 numLines = sum(1 for line in f)
