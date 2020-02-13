@@ -1,5 +1,5 @@
 import React , { Component } from "react";
-import '../Stylesheets/BuildOptions.css';
+import '../../Stylesheets/BuildOptions.css';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import Slider, { Range } from 'rc-slider';
 import 'rc-slider/assets/index.css';
@@ -18,7 +18,7 @@ import {
     default_mrm,
     build_progress,
     select_new_dataset
-} from "../data/default_values";
+} from "../../data/default_values";
 
 class BuildOptions extends Component {
 

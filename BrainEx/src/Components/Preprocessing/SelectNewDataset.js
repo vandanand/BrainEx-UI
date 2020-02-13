@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import {preprocessed_files, rawdata_files} from "../data/dummy_data";
-import '../Stylesheets/Home.css';
+import {preprocessed_files, rawdata_files} from "../../data/dummy_data";
+import '../../Stylesheets/Home.css';
 import { Button, Link, Typography, ButtonGroup } from '@material-ui/core';
 import { Link as RouterLink } from "react-router-dom";
 import FormData from "form-data";
 import $ from "jquery";
 import axios from 'axios';
-import {build_options, root} from "../data/default_values";
+import {build_options, root} from "../../data/default_values";
 
 class SelectNewDataset extends Component {
 

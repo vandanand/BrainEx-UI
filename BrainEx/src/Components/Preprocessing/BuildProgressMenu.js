@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import {Link as RouterLink} from "react-router-dom";
 // import 'bootstrap/dist/css/bootstrap.min.css';
-import "../Stylesheets/BuildProgressMenu.css";
+import "../../Stylesheets/BuildProgressMenu.css";
 import {Link, ButtonGroup, Typography, LinearProgress } from '@material-ui/core';
 import $ from "jquery";
-import {query_page, data_exp, build_options, root} from "../data/default_values";
+import {query_page, data_exp, build_options, root} from "../../data/default_values";
 
 class BuildProgressMenu extends Component {
     constructor(props) {
