@@ -108,7 +108,6 @@ def uploadSequence():
         if csv.filename == '':
             return("File not found", 400)
         if csv and is_csv(csv.filename):
-            csv.save(os.path.join(application.config['UPLOAD_FOLDER'], csv.filename)) # Secure filename?? See tutorial
             # Check to make sure there's only one line there
             with open(csv.filename) as f:
                 numLines = sum(1 for line in f)
