@@ -6,6 +6,7 @@ import { Link as RouterLink } from "react-router-dom";
 import FormData from "form-data";
 import $ from "jquery";
 import axios from 'axios';
+import {build_options, root} from "../data/default_values";
 
 class SelectNewDataset extends Component {
 
@@ -128,7 +129,7 @@ class SelectNewDataset extends Component {
                                     color="default"
                                     underline="none"
                                     component={RouterLink}
-                                    to="/BuildOptions" >
+                                    to={build_options} >
                                     Next
                                 </Link>
                                 <Link
@@ -137,7 +138,7 @@ class SelectNewDataset extends Component {
                                     color="default"
                                     underline="none"
                                     component={RouterLink}
-                                    to="/">
+                                    to={root}>
                                     Back
                                 </Link>
                             </div>

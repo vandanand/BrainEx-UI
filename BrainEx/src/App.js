@@ -12,6 +12,16 @@ import BrainExHeader from "./Components/BrainExHeader";
 import SelectNewDataset from "./Components/SelectNewDataset";
 import MainApp from "./Components/MainApp";
 import NavBar from "./Components/NavBar";
+import {
+    select_new_dataset,
+    build_options,
+    build_progress,
+    main_app,
+    data_exp,
+    cluster_exp,
+    query_page,
+    root
+} from "./data/default_values";
 
 class App extends Component {
 
@@ -36,19 +46,19 @@ class App extends Component {
                 <div className="App">
                     <div style={{height: '100%'}}> {/*this styling lets the content stretch to bottom of page*/}
                         <BrainExHeader/>
-                        <Route exact path="/" component={Home} />
-                        <Route exact path="/SelectNewDataset" component={SelectNewDataset} />
+                        <Route exact path={root} component={Home} />
+                        <Route exact path={select_new_dataset} component={SelectNewDataset} />
                         {/*todo below is how you pass props through React Router*/}
-                        <Route exact path="/BuildOptions" component={(props) => <BuildOptions {...props} submit_form={this.submit_form}/>} />
-                        <Route exact path="/BuildProgressMenu" component={(props) => <BuildProgressMenu {...props} form_data={JSON.stringify(this.state.form_data)}/>} />
+                        <Route exact path={build_options} component={(props) => <BuildOptions {...props} submit_form={this.submit_form}/>} />
+                        <Route exact path={build_progress} component={(props) => <BuildProgressMenu {...props} form_data={JSON.stringify(this.state.form_data)}/>} />
                         {/*below is single page app version of the main page containing the explorers and query*/}
                         {/*todo if you want to make changes to what/where/how the dashboard stuff is rendered change these to match*/}
                         <MainApp>
-                            <Route path="/MainPage" component={NavBar} /> {/*renders navbar if the pathname contains MainPage*/}
+                            <Route path={main_app} component={NavBar} /> {/*renders navbar if the pathname contains MainPage*/}
                             <Switch>
-                                <Route exact path="/MainPage/ExploreRawData" component={RawDataExplorer} />
-                                <Route exact path="/MainPage/ExploreClusters" component={ClusterExplorer} />
-                                <Route exact path="/MainPage/QueryFinder" component={QueryFinder} />
+                                <Route exact path={data_exp} component={RawDataExplorer} />
+                                <Route exact path={cluster_exp} component={ClusterExplorer} />
+                                <Route exact path={query_page} component={QueryFinder} />
                             </Switch>
                         </MainApp>
                     </div>

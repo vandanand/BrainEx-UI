@@ -8,13 +8,17 @@ import { Link as RouterLink } from "react-router-dom";
 import $ from 'jquery';
 import axios from 'axios';
 import Input from "@material-ui/core/Input";
-import {default_dv,
+import {
+    default_dv,
     default_st,
     default_loi,
     default_sv,
     default_nw,
     default_dm,
-    default_mrm} from "../data/default_values";
+    default_mrm,
+    build_progress,
+    select_new_dataset
+} from "../data/default_values";
 
 class BuildOptions extends Component {
 
@@ -163,7 +167,7 @@ class BuildOptions extends Component {
         .catch(function (error) {
           console.log(error);
         });
-        this.props.history.push('/BuildProgressMenu'); // proceed to next page once information has been passed
+        this.props.history.push(build_progress); // proceed to next page once information has been passed
     };
 
     render() {
@@ -327,7 +331,7 @@ class BuildOptions extends Component {
                                     color="default"
                                     underline="none"
                                     component={RouterLink}
-                                    to="/SelectNewDataset">
+                                    to={select_new_dataset}>
                                     Back
                                 </Link>
                                 <Button className="start" variant="contained" color="primary" type="submit">

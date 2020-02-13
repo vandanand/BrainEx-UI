@@ -4,7 +4,7 @@ import {Link as RouterLink} from "react-router-dom";
 import "../Stylesheets/BuildProgressMenu.css";
 import {Link, ButtonGroup, Typography, LinearProgress } from '@material-ui/core';
 import $ from "jquery";
-
+import {query_page, data_exp, build_options, root} from "../data/default_values";
 
 class BuildProgressMenu extends Component {
     constructor(props) {
@@ -40,7 +40,7 @@ class BuildProgressMenu extends Component {
                             color="default"
                             underline="none"
                             component={RouterLink}
-                            to="/">
+                            to={root}>
                             Return to Home Page
                         </Link>
                         <Link
@@ -49,7 +49,7 @@ class BuildProgressMenu extends Component {
                             color="default"
                             underline="none"
                             component={RouterLink}
-                            to="/BuildOptions">
+                            to={build_options}>
                             Cancel
                         </Link>
                     </ButtonGroup>
@@ -67,7 +67,7 @@ class BuildProgressMenu extends Component {
                             color="default"
                             underline="none"
                             component={RouterLink}
-                            to="/">
+                            to={root}>
                             Restart with another dataset
                         </Link>
                         <Link
@@ -76,7 +76,7 @@ class BuildProgressMenu extends Component {
                             color="default"
                             underline="none"
                             component={RouterLink}
-                            to='/MainPage/ExploreRawData'>
+                            to={data_exp}>
                             Explore loaded data
                         </Link>
                         <Link
@@ -85,7 +85,7 @@ class BuildProgressMenu extends Component {
                             color="default"
                             underline="none"
                             component={RouterLink}
-                            to='/MainPage/QueryFinder'>
+                            to={query_page}>
                             Find Similar Sequences
                         </Link>
                     </ButtonGroup>

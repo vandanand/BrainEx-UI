@@ -4,6 +4,7 @@ import '../Stylesheets/Home.css'
 import { preprocessed_files } from "../data/dummy_data";
 import { Button, Link, Typography, ButtonGroup } from '@material-ui/core';
 import FormData from 'form-data';
+import {select_new_dataset} from "../data/default_values";
 
 class Home extends Component {
 
@@ -97,7 +98,7 @@ class Home extends Component {
                                     color="default"
                                     underline="none"
                                     component={RouterLink}
-                                    to="/SelectNewDataset" >
+                                    to={select_new_dataset} >
                                     Preprocess a new dataset
                                 </Link>
                             </div>
