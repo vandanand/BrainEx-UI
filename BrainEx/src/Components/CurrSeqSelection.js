@@ -4,7 +4,6 @@ import Title from "./Title";
 import Button from '@material-ui/core/Button';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import CurSeqChartViz from "./CurSeqChartViz";
-import CurSeqLineChart from "./CurSeqLineChart";
 import axios from 'axios';
 
 var file = null;
