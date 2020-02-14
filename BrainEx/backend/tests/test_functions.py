@@ -25,16 +25,16 @@ def test_getStoreCSV(client):
     sendRequest = client.post("/getCSV", data=data, content_type="multipart/form-data")
     assert sendRequest.status_code == 200
 
-def test_getOptions(client):
-    data = {}
-    data['num_workers'] = 4
-    data['spark_val'] = 0
-    data['sim_val'] = 0.1
-    data['distance_val'] = 'eu'
-    data['loi'] = '[10000,10000]'
-    dataJ = json.loads(json.dumps(data))
-    sendRequest = client.post("/build", data=dataJ)
-    assert sendRequest.status_code == 200
+# def test_getOptions(client):
+#     data = {}
+#     data['num_workers'] = 4
+#     data['spark_val'] = 0
+#     data['sim_val'] = 0.1
+#     data['distance_val'] = 'eu'
+#     data['loi'] = '[10000,10000]'
+#     dataJ = json.loads(json.dumps(data))
+#     sendRequest = client.post("/build", data=dataJ)
+#     assert sendRequest.status_code == 200
 
 def test_uploadSequence(client):
     with open("test_Seq.csv", 'rb') as f:

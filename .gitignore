@@ -1,5 +1,7 @@
-Genex-1
-node_modules
+.gitignore
+genex
+setup.py
 package-lock.json
 preprocessed_datasets
 venv
+node_modules
