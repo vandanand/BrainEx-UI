@@ -1,0 +1,5 @@
+Genex
+node_modules
+package-lock.json
+preprocessed_datasets
+venv

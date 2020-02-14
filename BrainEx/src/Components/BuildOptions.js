@@ -1,25 +1,38 @@
 import React , { Component } from "react";
 import '../Stylesheets/BuildOptions.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 import Slider, { Range } from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import { TextField, Select, MenuItem, Checkbox, Button, Link, InputLabel } from '@material-ui/core';
 import { Link as RouterLink } from "react-router-dom";
 import $ from 'jquery';
+import axios from 'axios';
+import Input from "@material-ui/core/Input";
+import {
+    default_dv,
+    default_st,
+    default_loi,
+    default_sv,
+    default_nw,
+    default_dm,
+    default_mrm,
+    build_progress,
+    select_new_dataset
+} from "../data/default_values";
 
 class BuildOptions extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            feature_val: 5,
-            distance_val: "eu",
-            sim_val: 0.1, /*[0:1]*/ /*todo get the desired default value*/
-            loi_val: [0, 100], /*[0:max length]*/ /*todo change this to pull in the length of the longest time series*/
-            spark_val: true, /*todo should the default be yes/true?*/
-            num_workers: 3, /*todo get default value*/
-            dm_val: 0, /*todo get default values for spark memory*/
-            mrm_val: 0
+            // feature_val: 5,
+            distance_val: default_dv,
+            sim_val: default_st, /*[0:1]*/
+            loi_val: default_loi, /*[0:max length]*/
+            spark_val: default_sv,
+            num_workers: default_nw,
+            dm_val: default_dm,
+            mrm_val: default_mrm
         };
         this.update_feature = this.update_feature.bind(this);
         this.update_distance = this.update_distance.bind(this);
@@ -89,7 +102,7 @@ class BuildOptions extends Component {
         });
     };
     update_loi_start = (e) => {
-        const loi_start = parseInt(e.target.value);
+        const loi_start = parseFloat(e.target.value);
         const loi_end = this.state.loi_val[1];
         this.setState({
             loi_val: [loi_start, loi_end]
@@ -97,7 +110,7 @@ class BuildOptions extends Component {
     };
     update_loi_end = (e) => {
         const loi_start = this.state.loi_val[0];
-        const loi_end = parseInt(e.target.value);
+        const loi_end = parseFloat(e.target.value);
         this.setState({
             loi_val: [loi_start, loi_end]
         });
@@ -136,10 +149,25 @@ class BuildOptions extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         const form_data = this.state;
+        // convert spark true/false to 1/0 for backend
+        form_data.spark_val = (form_data.spark_val) ? "1" : "0";
+        // convert form data elements to strings for parsing in the backend
+        form_data.num_workers = form_data.num_workers.toString();
+        form_data.dm_val = form_data.dm_val.toString();
+        form_data.mrm_val = form_data.mrm_val.toString();
+        form_data.sim_val = form_data.sim_val.toString();
+        form_data.loi_val = form_data.loi_val.toString();
+        // console.log(form_data);
         // send form info where it needs to go here (use state values)
-        console.log("child about to send info");
-        this.props.submit_form(form_data);
-        this.props.history.push('/BuildProgressMenu'); // proceed to next page once information has been passed
+        // Hook up to Kyra's server
+        axios.post('http://localhost:5000/build', form_data)
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+        this.props.history.push(build_progress); // proceed to next page once information has been passed
     };
 
     render() {
@@ -148,21 +176,6 @@ class BuildOptions extends Component {
                 <form className="build_form" onSubmit={this.handleSubmit}>
                     <table>
                         <tbody>
-                        {/*form input 1*/}
-                        <tr className="form-group">
-                            <td className="form_label">
-                                <InputLabel htmlFor="feature_num">Feature Number:</InputLabel>
-                            </td>
-                            <td className="form_input">
-                                <TextField
-                                    id="feature_num"
-                                    type="number"
-                                    InputProps={{ inputProps: { min: 0 } }}
-                                    value={this.state.feature_val}
-                                    onChange={this.update_feature}
-                                />
-                            </td>
-                        </tr>
                         {/*form input 2*/}
                         <tr className="form-group">
                             <td className="form_label">
@@ -187,7 +200,6 @@ class BuildOptions extends Component {
                                 <InputLabel htmlFor="sim_thresh">Similarity Threshold:</InputLabel>
                             </td>
                             <td className="form_input is_range">
-                                {/*todo update "defaultValue" to be recommended similarity threshold */}
                                 <Slider
                                     id="sim_thresh"
                                     value={this.state.sim_val}
@@ -196,19 +208,18 @@ class BuildOptions extends Component {
                                     step={0.01}
                                     onChange={this.update_sim_range}
                                 />
-                                {/*todo hitting enter with cursor in TextField submits form*/}
+                                {/* hitting enter with cursor in TextField submits form - is this still true?*/}
                                 <TextField
                                     className="percent_text"
                                     id="sim_thresh"
                                     type="number"
-                                    InputProps={{
-                                        inputProps: {
-                                            min:0, max:1
-                                        }}}
                                     value={this.state.sim_val}
                                     onChange={this.update_sim_text}
                                     inputProps={{
-                                        style: {width: 65}
+                                        style: {width: 65},
+                                        max: 1,
+                                        min: 0,
+                                        step: 0.01
                                     }}
                                 />
                             </td>
@@ -217,7 +228,6 @@ class BuildOptions extends Component {
                         <tr className="form-group">
                             {/*todo range "max" will have to be dynamically set by passing props from
                                     SelectADataset into BuildOptions state */}
-                            {/*todo update "defaultValue" to be same as max */}
                             <td className="form_label">
                                 <InputLabel htmlFor="loi">Length of Interest:</InputLabel>
                             </td>
@@ -225,21 +235,34 @@ class BuildOptions extends Component {
                                 <TextField
                                     label="start"
                                     id="loi"
-                                    type="number"
+                                    inputProps={{
+                                            step: 0.1,
+                                            min: 0,
+                                            max: 100,
+                                            type: 'number',
+                                            'aria-labelledby': 'input-slider',
+                                        }}
                                     value={this.state.loi_val[0]}
                                     onChange={this.update_loi_start}
                                 />
                                 <Range
                                     id="loi"
                                     value={this.state.loi_val}
+                                    step={0.1}
                                     min={0}
                                     max={100}
                                     onChange={this.update_loi}
                                 />
-                                <TextField
+                                <Input
                                     label="end"
                                     id="loi"
-                                    type="number"
+                                    inputProps={{
+                                            step: 0.1,
+                                            min: 0,
+                                            max: 100,
+                                            type: 'number',
+                                            'aria-labelledby': 'input-slider',
+                                        }}
                                     value={this.state.loi_val[1]}
                                     onChange={this.update_loi_end}
                                 />
@@ -308,7 +331,7 @@ class BuildOptions extends Component {
                                     color="default"
                                     underline="none"
                                     component={RouterLink}
-                                    to="/SelectNewDataset">
+                                    to={select_new_dataset}>
                                     Back
                                 </Link>
                                 <Button className="start" variant="contained" color="primary" type="submit">

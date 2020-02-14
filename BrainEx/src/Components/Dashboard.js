@@ -69,8 +69,8 @@ export default function Dashboard() {
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
     return (
         <div className={classes.root}>
-            <CssBaseline/>
-            <AppBar position="absolute">
+            {/*<CssBaseline/>*/}
+            {/*<AppBar position="absolute">
                 <Toolbar className={classes.toolbar}>
                     <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
                         BrainEx
@@ -81,9 +81,9 @@ export default function Dashboard() {
                         </Badge>
                     </IconButton>
                 </Toolbar>
-            </AppBar>
+            </AppBar>*/}
             <main className={classes.content}>
-                <div className={classes.appBarSpacer}/>
+                {/*<div className={classes.appBarSpacer}/>*/}
                 <Container maxWidth='lg' className={classes.container}>
                     <Grid container spacing={2} direction="row" justify="center"
                           alignItems="flex-start">
