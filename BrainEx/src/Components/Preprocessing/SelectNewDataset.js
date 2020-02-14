@@ -25,6 +25,7 @@ class SelectNewDataset extends Component {
 
     /*pull files from database here. this function is called after render() so all elements will be in place*/
     componentDidMount() {
+        //todo @Kyra -- pull all files from backend here (make the response an arrow function)
         this.setState({
             all_files: rawdata_files
         });
@@ -55,7 +56,7 @@ class SelectNewDataset extends Component {
                 upload_files: new_files
             }, () => {
             console.log("upload files added to state successfully:"); // for debugging purposes
-            console.log(this.state.upload_files) // cannot print text and object in the same console.log
+            // console.log(this.state.upload_files) // cannot print text and object in the same console.log
         }); // print state for debugging
     };
 
@@ -70,28 +71,26 @@ class SelectNewDataset extends Component {
         new_files.map((file) => {
             file_form.append("uploaded_data", file); // add upload_files to FormData object
         });
-        console.log(...file_form); // for debugging purposes
+        // console.log(...file_form); // for debugging purposes
         let all_files = this.state.all_files;
         // Hook up to Kyra's server
         axios.post('http://localhost:5000/getCSV', file_form)
-        .then(function (response) {
-          console.log(response);
+        .then((response) => {
+            console.log(response); // for debugging purposes
+            if (response.status === 200) { // if successful
+                // add uploaded_data to all_files in state
+                this.setState({
+                    all_files: all_files.concat(new_files),
+                    upload_files: null // reset upload_files to none
+                }, () => { // callback function for debugging
+                    console.log("files successfully uploaded to backend.");
+                    console.log(this.state.all_files);
+                })
+            }
         })
         .catch(function (error) {
           console.log(error);
         });
-
-
-
-
-        // // todo instead of below, send file_form to the server and make state update somehow
-        // this.setState({
-        //     all_files: all_files.concat(new_files),
-        //     upload_files: null // reset upload_files to none
-        // }, () => {
-        //     console.log("files \"uploaded\" successfully"); // for debugging purposes
-        //     console.log(this.state.all_files);
-        // });
     };
 
     render() {
