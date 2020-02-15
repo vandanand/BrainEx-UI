@@ -32,7 +32,8 @@ class BuildOptions extends Component {
             spark_val: default_sv,
             num_workers: default_nw,
             dm_val: default_dm,
-            mrm_val: default_mrm
+            mrm_val: default_mrm,
+            file: this.props.location.state.file
         };
         this.update_feature = this.update_feature.bind(this);
         this.update_distance = this.update_distance.bind(this);
@@ -148,7 +149,8 @@ class BuildOptions extends Component {
     // submit the content to the parent component (App.js) and proceed to the next page (BuildProgressMenu.js)
     handleSubmit = (e) => {
         e.preventDefault();
-        const form_data = this.state;
+        const form_data = Object.assign({}, this.state);
+        console.log(form_data);
         // convert spark true/false to 1/0 for backend
         form_data.spark_val = (form_data.spark_val) ? "1" : "0";
         // convert form data elements to strings for parsing in the backend
@@ -157,6 +159,7 @@ class BuildOptions extends Component {
         form_data.mrm_val = form_data.mrm_val.toString();
         form_data.sim_val = form_data.sim_val.toString();
         form_data.loi_val = form_data.loi_val.toString();
+        // todo form_data.current_file = form_data.current_file.toString();
         // console.log(form_data);
         // send form info where it needs to go here (use state values)
         // Hook up to Kyra's server

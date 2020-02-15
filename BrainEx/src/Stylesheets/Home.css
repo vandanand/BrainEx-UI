@@ -113,8 +113,3 @@
     white-space: nowrap;
     text-overflow: ellipsis;
 }
-
-/*for debugging purposes*/
-.curr-file {
-    display: none;
-}

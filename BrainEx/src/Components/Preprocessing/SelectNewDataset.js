@@ -15,7 +15,8 @@ class SelectNewDataset extends Component {
         this.state = {
             current_file: {}, /* for storing the currently selected file in the file-list */
             upload_files: null, /* for storing the file(s) chosen to be uploaded */
-            all_files: [] /* for storing files displayed in file-list */
+            all_files: [], /* for storing files displayed in file-list */
+            loi_max: null
         };
         /* binding all handlers to the class */
         this.onChangeHandler = this.onChangeHandler.bind(this);
@@ -34,15 +35,21 @@ class SelectNewDataset extends Component {
     /* file select handler. triggered once user clicks on a file in the file-list */
     // todo use this function to do any handling once a file in the list is selected
     fileHandler = (e) => {
-        $(".curr-file").show(); // for debugging purposes
-        let curr_file = e.currentTarget; // must use currentTarget to access only the button attributes
+        // get the id (index in all_files array) of the currently selected button
+        let id = e.currentTarget.id;
+        console.log(id);
+        // grab the file with that id from the list
+        let curr_file = this.state.all_files[id];
 
         console.log("current file:"); // for debugging purposes
-        console.log(curr_file); // for debugging purposes
+        console.log(curr_file);
+        /*console.log(curr_file); // for debugging purposes
 
         /* store the currently selected file in state */
         this.setState({
             current_file: curr_file
+        }, () => {
+            console.log("State updated.");
         });
     };
 
@@ -53,8 +60,8 @@ class SelectNewDataset extends Component {
         const new_files = [...e.target.files];
         /*store files to be uploaded in state*/
         this.setState({
-                upload_files: new_files
-            }, () => {
+            upload_files: new_files
+        }, () => {
             console.log("upload files added to state successfully:"); // for debugging purposes
             // console.log(this.state.upload_files) // cannot print text and object in the same console.log
         }); // print state for debugging
@@ -75,22 +82,27 @@ class SelectNewDataset extends Component {
         let all_files = this.state.all_files;
         // Hook up to Kyra's server
         axios.post('http://localhost:5000/getCSV', file_form)
-        .then((response) => {
-            console.log(response); // for debugging purposes
-            if (response.status === 200) { // if successful
-                // add uploaded_data to all_files in state
-                this.setState({
-                    all_files: all_files.concat(new_files),
-                    upload_files: null // reset upload_files to none
-                }, () => { // callback function for debugging
-                    console.log("files successfully uploaded to backend.");
-                    console.log(this.state.all_files);
-                })
-            }
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+            .then((response) => {
+                console.log(response); // for debugging purposes
+                // todo if the Files can be returned here I will do that instead, but will probably keep the if 200 just cause that's good practice
+                if (response.status === 200) { // if successful
+                    // add uploaded_data to all_files in state
+                    let loi_max = parseFloat(response.data.maxLength);
+                    this.setState({
+                        all_files: all_files.concat(new_files),
+                        upload_files: null, // reset upload_files to none
+                        loi_max: loi_max
+                    }, () => { // callback function for debugging
+                        console.log(response.data.message);
+                        console.log("loi_max: " + this.state.loi_max);
+                    })
+                } else {
+                    console.log("file upload unsuccessful. :(");
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
     };
 
     render() {
@@ -104,7 +116,7 @@ class SelectNewDataset extends Component {
                                 <Typography className="directions" variant="h4">Select a dataset to preview here</Typography>
                                 <ButtonGroup className="file-list" orientation="vertical" color="primary">
                                     { this.state.all_files.map((file, index) => (
-                                       <Button name={file.name} className="btn-file" variant="contained" key={index} onClick={this.fileHandler}>{file.name}</Button>
+                                        <Button id={index} className="btn-file" variant="contained" key={index} onClick={this.fileHandler}>{file.name}</Button>
                                     ))}
                                 </ButtonGroup>
                                 {/*adding a new file (upload_files)*/}
@@ -121,14 +133,24 @@ class SelectNewDataset extends Component {
                     <div className="col no-gutters">
                         <div className="right build">
                             <div className="home-content">
-                                <p className="curr-file">{this.state.current_file.name}</p> {/*for debugging purposes*/}
+                                {/*display currently selected file to the user*/}
+                                {(Object.keys(this.state.current_file).length !== 0) ? (
+                                    <p className="curr-file">File currently selected: {this.state.current_file.name}</p>
+                                ) : (
+                                    <p className="curr-file">There is no file currently selected</p>
+                                )}
                                 <Link
                                     className="build-btn right-btn btn btn-primary"
                                     variant="button"
                                     color="default"
                                     underline="none"
                                     component={RouterLink}
-                                    to={build_options} >
+                                    to={{
+                                        pathname: `${build_options}`,
+                                        state: {
+                                            loi_max: this.state.loi_max,
+                                            file: this.state.current_file
+                                        }}}>
                                     Next
                                 </Link>
                                 <Link
