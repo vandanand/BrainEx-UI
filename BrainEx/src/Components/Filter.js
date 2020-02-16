@@ -8,9 +8,9 @@ import { makeStyles, Button, ButtonGroup, FormControl,
     FormGroup, FormControlLabel, Checkbox, Typography,
     Input, Grid, InputAdornment, TextField } from "@material-ui/core";
 
-function preventDefault(event) {
+/*function preventDefault(event) {
     event.preventDefault();
-}
+}*/
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -30,9 +30,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-function valuetext(value) {
+/*function valuetext(value) {
     return `${value}milisecond`;
-}
+}*/
 
 export default function Filter() {
     const classes = useStyles();
@@ -40,15 +40,7 @@ export default function Filter() {
     const [rangeVal, setRangeVal] = useState([0.00, 100.00]);
     const [startVal, setStartVal] = useState(0.00);
     const [endVal, setEndVal] = useState(100.00);
-    //overlap percentage default
-    /*const [values, setValues] = useState({
-        percentage: '40',
-    });*/
-
-    /*const handleChange = prop => event => {
-        // setState({ ...state, [name]: event.target.checked });
-        setValues({...values, [prop]: event.target.value});
-    };*/
+    const [numMatches, setNumMatches] = useState(5);
 
     /*update the range values for loi range*/
     function handleRangeChange(event) {
@@ -63,7 +55,7 @@ export default function Filter() {
     }
 
     /*update the input boxes for the loi range*/
-    const handleInputChangeStart = event => {
+    const handleRangeChangeStart = event => {
         /*get original range value*/
         let newRangeVal = rangeVal;
         /*update only the starting value*/
@@ -74,7 +66,7 @@ export default function Filter() {
         newRangeVal[0] = newStartVal;
         setRangeVal(newRangeVal);
     };
-    const handleInputChangeEnd = event => {
+    const handleRangeChangeEnd = event => {
         /*get original range value*/
         let newRangeVal = rangeVal;
         /*update only the end value*/
@@ -84,6 +76,11 @@ export default function Filter() {
         /*update range value*/
         newRangeVal[1] = newEndVal;
         setRangeVal(newRangeVal);
+    };
+
+    const handleMatchChange = (e) => {
+        console.log(e.target.value);
+        setNumMatches(e.target.value);
     };
 
     /*when apply is clicked, submit the form to the backend*/
@@ -117,7 +114,7 @@ export default function Filter() {
                                         className={classes.input}
                                         value={startVal}
                                         margin="dense"
-                                        onChange={handleInputChangeStart}
+                                        onChange={handleRangeChangeStart}
                                         // onBlur={handleBlur}
                                         inputProps={{
                                             step: 0.1,
@@ -142,7 +139,7 @@ export default function Filter() {
                                         className={classes.input}
                                         value={endVal}
                                         margin="dense"
-                                        onChange={handleInputChangeEnd}
+                                        onChange={handleRangeChangeEnd}
                                         // onBlur={handleBlur}
                                         valueLabelDisplay="auto"
                                         inputProps={{
@@ -158,16 +155,19 @@ export default function Filter() {
 
                             <TextField
                                 required
+                                value={numMatches}
+                                onChange={handleMatchChange}
                                 id="outlined-number"
                                 label="Number of best sequence matches"
                                 placeholder="5"
-                                multiline
-                                type="number"
+                                // multiline
                                 size="small"
                                 variant="filled"
-                                // InputLabelProps={{
-                                //     shrink: true,
-                                // }}
+                                inputProps={{
+                                            step: 1,
+                                            min: 1,/*todo set as min loi from build options*/
+                                            type: 'number'
+                                        }}
                             />
                             <TextField
                                 required
