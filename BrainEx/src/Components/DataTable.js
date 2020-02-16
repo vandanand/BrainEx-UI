@@ -44,6 +44,7 @@ function createTable(data) {
     let colors = generateColors(data.length, top_color, bottom_color);
     console.log(colors);
     data.map( (row, index) => {
+        // todo add checkbox functionality here
         let length = table.push(createData(row.id, <Checkbox/>, colors[index], row.subjectID, row.eventName, row.channelNum, row.startTime, row.endTime));
         // console.log("length: " + length);
     });
