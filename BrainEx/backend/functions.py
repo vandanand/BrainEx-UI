@@ -30,7 +30,7 @@ def is_csv(filename):
 
 @application.route('/getCSV', methods=['GET', 'POST'])
 def getStoreCSV():
-    global uploadPath, numFeatures
+    global numFeatures
 
     if request.method == 'POST':
         if 'uploaded_data' not in request.files:
@@ -41,8 +41,7 @@ def getStoreCSV():
         if csv and is_csv(csv.filename):
             toSave = os.path.join(application.config['UPLOAD_FOLDER'], csv.filename)
             csv.save(toSave) # Secure filename?? See tutorial
-            uploadPath = toSave
-            dataframe = pd.read_csv(uploadPath, delimiter=',')
+            dataframe = pd.read_csv(toSave, delimiter=',')
             dataframe.columns = map(str.lower, dataframe.columns)
             if not 'start time' in dataframe.columns and not 'end time' in dataframe.columns:
                 return("Please include a start and end column", 400)
@@ -60,6 +59,14 @@ def getStoreCSV():
                 return jsonify(returnDict)
         else:
             return("Invalid file.  Please upload a CSV", 400)
+
+@application.route('/setFile', methods=['GET', 'POST'])
+def setFile():
+    global uploadPath
+
+    if request.method == 'POST':
+        uploadPath = os.path.join(application.config['UPLOAD_FOLDER'], request.form['set_data'])
+        return "Set the path."
 
 @application.route('/build', methods=['GET', 'POST'])
 def build():
@@ -91,7 +98,7 @@ def build():
             loiA = lois.split(',')
             loi = [float(loiA[0]), float(loiA[1])]
             similarity_threshold = float(similarity_threshold)
-            brainexDB.build(st=similarity_threshold, dist_type=dist_type)
+            brainexDB.build(st=similarity_threshold, dist_type=dist_type, loi=loi)
             return "Preprocessed!"
         except Exception as e:
             return (str(e), 400)

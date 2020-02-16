@@ -6,12 +6,8 @@ import { Range } from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import { makeStyles, Button, ButtonGroup, FormControl,
     FormGroup, FormControlLabel, Checkbox, Typography,
-<<<<<<< HEAD
     Slider, Input, Grid, InputAdornment, TextField } from "@material-ui/core";
 import axios from 'axios';
-=======
-    Input, Grid, InputAdornment, TextField } from "@material-ui/core";
->>>>>>> 1d7ac38b9835c58ba75aa4e69613fd404dc0359e
 
 /*function preventDefault(event) {
     event.preventDefault();
@@ -249,7 +245,6 @@ export default function Filter(props) {
                         </ButtonGroup>
                     </div>
                 </form>
-<<<<<<< HEAD
                 <div className={classes.root}>
                     <ButtonGroup>
                         <Button size="medium" variant="contained" color="primary" onClick={onClickHandler}>
@@ -260,8 +255,6 @@ export default function Filter(props) {
                         </Button>
                     </ButtonGroup>
                 </div>
-=======
->>>>>>> 1d7ac38b9835c58ba75aa4e69613fd404dc0359e
             </React.Fragment>
         </React.Fragment>
     );
