@@ -6,7 +6,7 @@ import { Range } from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import { makeStyles, Button, ButtonGroup, FormControl,
     FormGroup, FormControlLabel, Checkbox, Typography,
-    Slider, Input, Grid, InputAdornment, TextField } from "@material-ui/core";
+    Input, Grid, InputAdornment, TextField } from "@material-ui/core";
 
 function preventDefault(event) {
     event.preventDefault();
@@ -86,13 +86,19 @@ export default function Filter() {
         setRangeVal(newRangeVal);
     };
 
-    const handleBlur = () => {
-        if (rangeVal < 0) {
+    /*when apply is clicked, submit the form to the backend*/
+    const handleQuery = (e) => {
+        e.preventDefault(); // dont refresh the page on submit
+        console.log(e.currentTarget);
+    };
+
+    /*const handleBlur = () => {
+        if (rangeVal[0] < 0) {
             setRangeVal(0);
-        } else if (rangeVal > 100) {
+        } else if (rangeVal[1] > 100) {
             setRangeVal(100);
         }
-    };
+    };*/
 
     return (
         <React.Fragment>
@@ -112,7 +118,7 @@ export default function Filter() {
                                         value={startVal}
                                         margin="dense"
                                         onChange={handleInputChangeStart}
-                                        onBlur={handleBlur}
+                                        // onBlur={handleBlur}
                                         inputProps={{
                                             step: 0.1,
                                             min: 0,
@@ -137,7 +143,7 @@ export default function Filter() {
                                         value={endVal}
                                         margin="dense"
                                         onChange={handleInputChangeEnd}
-                                        onBlur={handleBlur}
+                                        // onBlur={handleBlur}
                                         valueLabelDisplay="auto"
                                         inputProps={{
                                             step: 0.1,
@@ -185,18 +191,19 @@ export default function Filter() {
 
 
                         </FormGroup>
+                        <div className={classes.root}>
+                            <ButtonGroup>
+                                <Button type="submit" size="medium" variant="contained" color="primary" onClick={handleQuery}>
+                                    Apply
+                                </Button>
+                                <Button size="medium" variant="contained" color="default">
+                                    Clear
+                                </Button>
+                            </ButtonGroup>
+                        </div>
                     </FormControl>
                 </form>
-                <div className={classes.root}>
-                    <ButtonGroup>
-                        <Button size="medium" variant="contained" color="primary">
-                            Apply
-                        </Button>
-                        <Button size="medium" variant="contained" color="default">
-                            Clear
-                        </Button>
-                    </ButtonGroup>
-                </div>
+
             </React.Fragment>
         </React.Fragment>
     );
