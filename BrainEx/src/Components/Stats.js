@@ -15,9 +15,9 @@ const useStyles = makeStyles({
 });
 
 
-function preventDefault(event) {
+/*function preventDefault(event) {
     event.preventDefault();
-}
+}*/
 
 
 export default function Stats() {
@@ -27,7 +27,7 @@ export default function Stats() {
             <React.Fragment>
                 <Title>Statistics</Title>
                 <Divider/>
-                <List component="nav" aria-label="primary">
+                <List aria-label="primary">
                     <ListItem>
                         <ListItemText primary="Mean" color="textPrimary"/>
                         <Typography color="textSecondary">3.52</Typography>
