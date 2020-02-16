@@ -44,6 +44,8 @@ export default function Filter() {
     const [numMatches, setNumMatches] = useState(5);
     //overlap of sequences
     const [overlapVal, setOverlapVal] = useState(40);
+    //exclude same id
+    const [excludeID, setExcludeID] = useState(true);
 
     /*update the range values for loi range*/
     function handleRangeChange(event) {
@@ -91,10 +93,26 @@ export default function Filter() {
         setOverlapVal(e.target.value);
     };
 
+    const handleExcludeIDChange = (e) => {
+        console.log(e.target.checked);
+        setExcludeID(e.target.checked);
+    };
+
     /*when apply is clicked, submit the form to the backend*/
     const handleQuery = (e) => {
         e.preventDefault(); // dont refresh the page on submit
-        console.log(e.currentTarget);
+        let loi = rangeVal.toString();
+        let best_matches = numMatches.toString();
+        let overlap = overlapVal.toString();
+        let excludeS = excludeID.toString();
+        let form_data = {
+            loi: loi,
+            best_matches: best_matches,
+            overlap: overlap,
+            excludeS: excludeS
+        };
+        console.log(form_data);
+        // todo @Kyra send query to backend here
     };
 
     /*const handleBlur = () => {
@@ -130,8 +148,7 @@ export default function Filter() {
                                             max: 100,
                                             type: 'number',
                                             'aria-labelledby': 'input-slider',
-                                        }}
-                                    />
+                                        }}/>
                                 </Grid>
                                 <Grid item xs>
                                     <Range
@@ -139,8 +156,7 @@ export default function Filter() {
                                         step={0.1}
                                         min={0} /*todo set as min loi from build options*/
                                         max={100} /*todo set as max loi from build options*/
-                                        onChange={handleRangeChange}
-                                    />
+                                        onChange={handleRangeChange}/>
                                 </Grid>
                                 <Grid item>
                                     <Input
@@ -156,8 +172,7 @@ export default function Filter() {
                                             max: 100,/*todo set as max loi from build options*/
                                             type: 'number',
                                             'aria-labelledby': 'input-slider',
-                                        }}
-                                    />
+                                        }}/>
                                 </Grid>
                             </Grid>
 
@@ -172,11 +187,10 @@ export default function Filter() {
                                 size="small"
                                 variant="filled"
                                 inputProps={{
-                                            step: 1,
-                                            min: 1,
-                                            type: 'number'
-                                        }}
-                            />
+                                    step: 1,
+                                    min: 1,
+                                    type: 'number'
+                                }}/>
                             <TextField
                                 required
                                 value={overlapVal}
@@ -193,31 +207,26 @@ export default function Filter() {
                                     min: 0,
                                     max: 100,
                                     type: 'number'
-                                }}
-                            />
-
+                                }}/>
                             <FormControlLabel
                                 value="checkBox"
-                                control={<Checkbox color="primary"/>}
+                                control={<Checkbox color="primary" checked={excludeID} onChange={handleExcludeIDChange}/>}
                                 label="Exclude subsequence matches from current sequence"
                                 labelPlacement="end"
                             />
-
-
                         </FormGroup>
-                        <div className={classes.root}>
-                            <ButtonGroup>
-                                <Button type="submit" size="medium" variant="contained" color="primary" onClick={handleQuery}>
-                                    Apply
-                                </Button>
-                                <Button size="medium" variant="contained" color="default">
-                                    Clear
-                                </Button>
-                            </ButtonGroup>
-                        </div>
                     </FormControl>
+                    <div className={classes.root}>
+                        <ButtonGroup>
+                            <Button type="submit" size="medium" variant="contained" color="primary" onClick={handleQuery}>
+                                Apply
+                            </Button>
+                            <Button size="medium" variant="contained" color="default">
+                                Clear
+                            </Button>
+                        </ButtonGroup>
+                    </div>
                 </form>
-
             </React.Fragment>
         </React.Fragment>
     );
