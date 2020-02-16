@@ -7,8 +7,6 @@ class QueryFinder extends Component {
 
     render() {
         console.log("we are in QueryFinder");
-        //todo template
-        //style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-start', width: '100%' }}
         return(
             <div >
                 <Dashboard/>

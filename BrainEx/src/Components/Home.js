@@ -4,13 +4,14 @@ import '../Stylesheets/Home.css'
 import { preprocessed_files } from "../data/dummy_data";
 import { Button, Link, Typography, ButtonGroup } from '@material-ui/core';
 import FormData from 'form-data';
+import {select_new_dataset} from "../data/default_values";
 
 class Home extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            upload_files: null, // todo have this set to pull from wherever the files are pulled from -mg
+            upload_files: null,
             all_files: []
         };
         this.onChangeHandler = this.onChangeHandler.bind(this);
@@ -21,7 +22,7 @@ class Home extends Component {
     // pull files from database here. this function will be called after render()
     componentDidMount() {
         this.setState({
-            all_files: preprocessed_files
+            all_files: preprocessed_files // todo have this set to pull from wherever the files are pulled from -mg
         });
     }
 
@@ -31,8 +32,6 @@ class Home extends Component {
         console.log(element.name);
     };
 
-    // todo link used for file upload logic:
-    //  https://programmingwithmosh.com/javascript/react-file-upload-proper-server-side-nodejs-easy/
     onChangeHandler = (e) => {
         // convert FileList to an array of files
         const new_files = [...e.target.files];
@@ -45,7 +44,7 @@ class Home extends Component {
     };
 
     //handles the "Add" button functionality to add selected file to the server
-    // todo eventually have this add the file to the "database" - mg
+    // todo eventually have this add the file to the backend - mg
     onClickHandler = (e) => {
         e.preventDefault(); // prevents page refresh
         let file_form = new FormData();
@@ -99,7 +98,7 @@ class Home extends Component {
                                     color="default"
                                     underline="none"
                                     component={RouterLink}
-                                    to="/SelectNewDataset" >
+                                    to={select_new_dataset} >
                                     Preprocess a new dataset
                                 </Link>
                             </div>

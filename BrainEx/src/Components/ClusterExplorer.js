@@ -5,7 +5,6 @@ class ClusterExplorer extends Component {
     render() {
         console.log("we are in ClusterExplorer")
         return(
-            //todo template
             <div>
                 <h1>Clusters</h1>
             </div>
