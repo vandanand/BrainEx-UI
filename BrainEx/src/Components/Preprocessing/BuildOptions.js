@@ -28,7 +28,7 @@ class BuildOptions extends Component {
             // feature_val: 5,
             distance_val: default_dv,
             sim_val: default_st, /*[0:1]*/
-            loi_val: default_loi, /*[0:max length]*/
+            loi_val: [0, this.props.location.state.loi_max], /*[0:max length]*/
             spark_val: default_sv,
             num_workers: default_nw,
             dm_val: default_dm,
@@ -241,7 +241,7 @@ class BuildOptions extends Component {
                                     inputProps={{
                                             step: 0.1,
                                             min: 0,
-                                            max: 100,
+                                            max: this.props.location.state.loi_max,
                                             type: 'number',
                                             'aria-labelledby': 'input-slider',
                                         }}
@@ -253,7 +253,7 @@ class BuildOptions extends Component {
                                     value={this.state.loi_val}
                                     step={0.1}
                                     min={0}
-                                    max={100}
+                                    max={this.props.location.state.loi_max}
                                     onChange={this.update_loi}
                                 />
                                 <Input
@@ -262,7 +262,7 @@ class BuildOptions extends Component {
                                     inputProps={{
                                             step: 0.1,
                                             min: 0,
-                                            max: 100,
+                                            max: this.props.location.state.loi_max,
                                             type: 'number',
                                             'aria-labelledby': 'input-slider',
                                         }}
