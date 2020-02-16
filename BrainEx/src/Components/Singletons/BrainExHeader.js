@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import logo from "../brain.png";
+import logo from "../../brain.png";
 import { AppBar, Toolbar, Typography, Button } from "@material-ui/core";
 
 /*todo here is another way to apply styles without using !important. we could have a document for each type of element to store the styles

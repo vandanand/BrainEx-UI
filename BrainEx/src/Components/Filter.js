@@ -6,12 +6,16 @@ import { Range } from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import { makeStyles, Button, ButtonGroup, FormControl,
     FormGroup, FormControlLabel, Checkbox, Typography,
+<<<<<<< HEAD
     Slider, Input, Grid, InputAdornment, TextField } from "@material-ui/core";
 import axios from 'axios';
+=======
+    Input, Grid, InputAdornment, TextField } from "@material-ui/core";
+>>>>>>> 1d7ac38b9835c58ba75aa4e69613fd404dc0359e
 
-function preventDefault(event) {
+/*function preventDefault(event) {
     event.preventDefault();
-}
+}*/
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -31,9 +35,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-function valuetext(value) {
+/*function valuetext(value) {
     return `${value}milisecond`;
-}
+}*/
 
 function onClickHandler(e) {
   e.preventDefault(); // prevents page refresh on submit
@@ -52,21 +56,18 @@ function onClickHandler(e) {
   });
 }
 
-export default function Filter() {
+export default function Filter(props) {
     const classes = useStyles();
     //range slider
-    const [rangeVal, setRangeVal] = useState([0.00, 100.00]);
-    const [startVal, setStartVal] = useState(0.00);
-    const [endVal, setEndVal] = useState(100.00);
-    //overlap percentage default
-    /*const [values, setValues] = useState({
-        percentage: '40',
-    });*/
-
-    /*const handleChange = prop => event => {
-        // setState({ ...state, [name]: event.target.checked });
-        setValues({...values, [prop]: event.target.value});
-    };*/
+    const [rangeVal, setRangeVal] = useState([props.loi_min, props.loi_max]);
+    const [startVal, setStartVal] = useState(props.loi_min);
+    const [endVal, setEndVal] = useState(props.loi_max);
+    //number of matches
+    const [numMatches, setNumMatches] = useState(5);
+    //overlap of sequences
+    const [overlapVal, setOverlapVal] = useState(40);
+    //exclude same id
+    const [excludeID, setExcludeID] = useState(true);
 
     /*update the range values for loi range*/
     function handleRangeChange(event) {
@@ -81,7 +82,7 @@ export default function Filter() {
     }
 
     /*update the input boxes for the loi range*/
-    const handleInputChangeStart = event => {
+    const handleRangeChangeStart = event => {
         /*get original range value*/
         let newRangeVal = rangeVal;
         /*update only the starting value*/
@@ -92,7 +93,7 @@ export default function Filter() {
         newRangeVal[0] = newStartVal;
         setRangeVal(newRangeVal);
     };
-    const handleInputChangeEnd = event => {
+    const handleRangeChangeEnd = event => {
         /*get original range value*/
         let newRangeVal = rangeVal;
         /*update only the end value*/
@@ -104,13 +105,45 @@ export default function Filter() {
         setRangeVal(newRangeVal);
     };
 
-    const handleBlur = () => {
-        if (rangeVal < 0) {
+    const handleMatchChange = (e) => {
+        console.log(e.target.value);
+        setNumMatches(e.target.value);
+    };
+
+    const handleOverlapChange = (e) => {
+        console.log(e.target.value);
+        setOverlapVal(e.target.value);
+    };
+
+    const handleExcludeIDChange = (e) => {
+        console.log(e.target.checked);
+        setExcludeID(e.target.checked);
+    };
+
+    /*when apply is clicked, submit the form to the backend*/
+    const handleQuery = (e) => {
+        e.preventDefault(); // dont refresh the page on submit
+        let loi = rangeVal.toString();
+        let best_matches = numMatches.toString();
+        let overlap = overlapVal.toString();
+        let excludeS = excludeID.toString();
+        let form_data = {
+            loi: loi,
+            best_matches: best_matches,
+            overlap: overlap,
+            excludeS: excludeS
+        };
+        console.log(form_data);
+        // todo @Kyra send query to backend here
+    };
+
+    /*const handleBlur = () => {
+        if (rangeVal[0] < 0) {
             setRangeVal(0);
-        } else if (rangeVal > 100) {
+        } else if (rangeVal[1] > 100) {
             setRangeVal(100);
         }
-    };
+    };*/
 
     return (
         <React.Fragment>
@@ -129,82 +162,94 @@ export default function Filter() {
                                         className={classes.input}
                                         value={startVal}
                                         margin="dense"
-                                        onChange={handleInputChangeStart}
-                                        onBlur={handleBlur}
+                                        onChange={handleRangeChangeStart}
+                                        // onBlur={handleBlur}
                                         inputProps={{
                                             step: 0.1,
-                                            min: 0,
-                                            max: 100,
+                                            min: props.loi_min,
+                                            max: props.loi_max,
                                             type: 'number',
                                             'aria-labelledby': 'input-slider',
-                                        }}
-                                    />
+                                        }}/>
                                 </Grid>
                                 <Grid item xs>
                                     <Range
                                         value={rangeVal}
                                         step={0.1}
-                                        min={0} /*todo set as min loi from build options*/
-                                        max={100} /*todo set as max loi from build options*/
-                                        onChange={handleRangeChange}
-                                    />
+                                        min={props.loi_min} /*todo set as min loi from build options*/
+                                        max={props.loi_max} /*todo set as max loi from build options*/
+                                        onChange={handleRangeChange}/>
                                 </Grid>
                                 <Grid item>
                                     <Input
                                         className={classes.input}
                                         value={endVal}
                                         margin="dense"
-                                        onChange={handleInputChangeEnd}
-                                        onBlur={handleBlur}
+                                        onChange={handleRangeChangeEnd}
+                                        // onBlur={handleBlur}
                                         valueLabelDisplay="auto"
                                         inputProps={{
                                             step: 0.1,
-                                            min: 0,/*todo set as min loi from build options*/
-                                            max: 100,/*todo set as max loi from build options*/
+                                            min: props.loi_min,
+                                            max: props.loi_max,
                                             type: 'number',
                                             'aria-labelledby': 'input-slider',
-                                        }}
-                                    />
+                                        }}/>
                                 </Grid>
                             </Grid>
 
                             <TextField
                                 required
+                                value={numMatches}
+                                onChange={handleMatchChange}
                                 id="outlined-number"
                                 label="Number of best sequence matches"
                                 placeholder="5"
-                                multiline
-                                type="number"
+                                // multiline
                                 size="small"
                                 variant="filled"
-                                // InputLabelProps={{
-                                //     shrink: true,
-                                // }}
-                            />
+                                inputProps={{
+                                    step: 1,
+                                    min: 1,
+                                    type: 'number'
+                                }}/>
                             <TextField
                                 required
+                                value={overlapVal}
+                                onChange={handleOverlapChange}
                                 variant="filled"
                                 label="Overlap of sequence allowed"
                                 id="overlap-percentage"
                                 size="small"
-                                placeholder="40"
                                 className={clsx(classes.margin, classes.textField)}
                                 InputProps={{
                                     endAdornment: <InputAdornment position="start">%</InputAdornment>,
                                 }}
-                            />
-
+                                inputProps={{
+                                    min: 0,
+                                    max: 100,
+                                    type: 'number'
+                                }}/>
                             <FormControlLabel
                                 value="checkBox"
-                                control={<Checkbox color="primary"/>}
+                                control={<Checkbox color="primary" checked={excludeID} onChange={handleExcludeIDChange}/>}
                                 label="Exclude subsequence matches from current sequence"
                                 labelPlacement="end"
                             />
-
-
                         </FormGroup>
                     </FormControl>
+                    <div className={classes.root}>
+                        <ButtonGroup>
+                            <Button type="submit" size="medium" variant="contained" color="primary" onClick={handleQuery}>
+                                Apply
+                            </Button>
+                            <Button size="medium" variant="contained" color="default">
+                                Clear
+                            </Button>
+                        </ButtonGroup>
+                    </div>
                 </form>
+<<<<<<< HEAD
                 <div className={classes.root}>
                     <ButtonGroup>
                         <Button size="medium" variant="contained" color="primary" onClick={onClickHandler}>
@@ -215,6 +260,8 @@ export default function Filter() {
                         </Button>
                     </ButtonGroup>
                 </div>
+=======
+>>>>>>> 1d7ac38b9835c58ba75aa4e69613fd404dc0359e
             </React.Fragment>
         </React.Fragment>
     );

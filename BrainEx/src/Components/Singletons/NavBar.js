@@ -1,16 +1,16 @@
 import React, {Component} from 'react';
 import {BrowserRouter as Router, Link, Route, withRouter, Switch } from "react-router-dom";
-import '../Stylesheets/NavBar.css';
+import '../../Stylesheets/NavBar.css';
 import Button from "@material-ui/core/Button";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import RawDataExplorer from "./RawDataExplorer";
-import ClusterExplorer from "./ClusterExplorer";
-import QueryFinder from "./QueryFinder";
-import Home from "./Home";
+import RawDataExplorer from "../RawDataExplorer";
+import ClusterExplorer from "../ClusterExplorer";
+import QueryFinder from "../QueryFinder";
+import Home from "../Preprocessing/Home";
 import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
-import {cluster_exp, data_exp, query_page, root} from "../data/default_values";
+import {cluster_exp, data_exp, query_page, root} from "../../data/default_values";
 
 const StyledMenu = withStyles({
   paper: {

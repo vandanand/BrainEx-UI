@@ -9,11 +9,11 @@
 
 /*override @material-ui's css settings*/
 .MuiButton-root, .MuiButtonGroup-root, .MuiInputLabel-root, .MuiSelect-select {
-  font-size: 1em !important;
+  /*font-size: 1em !important;*/
 }
 
 .MuiInputBase-root {
-  font-size: 1.1em !important;
+  /*font-size: 1.1em !important;*/
 }
 
 .header {
@@ -25,7 +25,7 @@
 }
 
 .MuiToolbar-root.info {
-  font-family: Futura, serif !important;
+  /*font-family: Futura, serif !important;*/
   display: flex;
   flex-flow: row nowrap;
   justify-content: flex-start;
@@ -43,7 +43,7 @@
 }
 
 .title {
-  font-size: 265% !important;
+  /*font-size: 265% !important;*/
   padding: 0;
 }
 

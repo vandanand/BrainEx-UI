@@ -2,16 +2,16 @@ import './Stylesheets/App.css';
 import React, {Component} from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 // import 'bootstrap/dist/css/bootstrap.min.css';
-import BuildOptions from "./Components/BuildOptions";
-import BuildProgressMenu from "./Components/BuildProgressMenu";
+import BuildOptions from "./Components/Preprocessing/BuildOptions";
+import BuildProgressMenu from "./Components/Preprocessing/BuildProgressMenu";
 import QueryFinder from "./Components/QueryFinder";
-import Home from "./Components/Home";
+import Home from "./Components/Preprocessing/Home";
 import RawDataExplorer from "./Components/RawDataExplorer"
 import ClusterExplorer from "./Components/ClusterExplorer";
-import BrainExHeader from "./Components/BrainExHeader";
-import SelectNewDataset from "./Components/SelectNewDataset";
+import BrainExHeader from "./Components/Singletons/BrainExHeader";
+import SelectNewDataset from "./Components/Preprocessing/SelectNewDataset";
 import MainApp from "./Components/MainApp";
-import NavBar from "./Components/NavBar";
+import NavBar from "./Components/Singletons/NavBar";
 import {
     select_new_dataset,
     build_options,
@@ -25,20 +25,20 @@ import {
 
 class App extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            form_data: {}
-        };
-        this.submit_form = this.submit_form.bind(this);
-    }
+    // constructor(props) {
+    //     super(props);
+    //     this.state = {
+    //         form_data: {}
+    //     };
+    //     // this.submit_form = this.submit_form.bind(this);
+    // }
 
-    submit_form = (form_data) => {
+    /*submit_form = (form_data) => {
         console.log(form_data);
         Object.assign(this.state.form_data, form_data); // assigns properties/values of form_data to state field
         console.log("parent received info!");
         console.log(this.state.form_data); // print for debugging
-    };
+    };*/
 
     render() {
         return (
@@ -49,8 +49,8 @@ class App extends Component {
                         <Route exact path={root} component={Home} />
                         <Route exact path={select_new_dataset} component={SelectNewDataset} />
                         {/*todo below is how you pass props through React Router*/}
-                        <Route exact path={build_options} component={(props) => <BuildOptions {...props} submit_form={this.submit_form}/>} />
-                        <Route exact path={build_progress} component={(props) => <BuildProgressMenu {...props} form_data={JSON.stringify(this.state.form_data)}/>} />
+                        <Route exact path={build_options} component={BuildOptions} />
+                        <Route exact path={build_progress} component={BuildProgressMenu} />
                         {/*below is single page app version of the main page containing the explorers and query*/}
                         {/*todo if you want to make changes to what/where/how the dashboard stuff is rendered change these to match*/}
                         <MainApp>
