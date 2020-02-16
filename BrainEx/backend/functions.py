@@ -9,6 +9,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 
 import pandas as pd
+import numpy as np
 
 UPLOAD_FOLDER = "./uploads"
 
@@ -90,7 +91,7 @@ def build():
             loiA = lois.split(',')
             loi = [float(loiA[0]), float(loiA[1])]
             similarity_threshold = float(similarity_threshold)
-            brainexDB.build(st=similarity_threshold, dist_type=dist_type, loi=loi)
+            brainexDB.build(st=similarity_threshold, dist_type=dist_type)
             return "Preprocessed!"
         except Exception as e:
             return (str(e), 400)
@@ -135,8 +136,8 @@ def complete_query():
             exclude = True
         else:
             exclude = False
-        # try:
-        query_result = brainexDB.query(query=querySeq, best_k=best_matches, exclude_same_id=exclude, overlap=overlap)
-        return "Hey-o!"
-        # except Exception as e:
-        #     return (str(e), 400)
+        try:
+            query_result = brainexDB.query(query=np.asarray(querySeq), best_k=best_matches, exclude_same_id=exclude, overlap=overlap)
+            return "here"
+        except Exception as e:
+            return (str(e), 400)
