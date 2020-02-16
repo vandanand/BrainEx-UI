@@ -170,7 +170,7 @@ class BuildOptions extends Component {
         .catch(function (error) {
           console.log(error);
         });
-        this.props.history.push(build_progress); // proceed to next page once information has been passed
+        this.props.history.push(build_progress, {loi_min: this.state.loi_val[0], loi_max: this.state.loi_val[1]}); // proceed to next page once information has been passed
     };
 
     render() {

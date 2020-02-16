@@ -11,10 +11,16 @@ class BuildProgressMenu extends Component {
         super(props);
         this.state = {
             form_data: this.props.form_data,
+            loi_min: this.props.location.state.loi_min,
+            loi_max: this.props.location.state.loi_max
         };
     }
 
     componentDidMount() {
+        // for debugging
+        console.log(this.state.loi_min);
+        console.log(this.state.loi_max);
+
         $(".info").click(function(){
             if ($(".in-progress").is(":visible")) {
                 $(".display-this").hide();
@@ -85,7 +91,12 @@ class BuildProgressMenu extends Component {
                             color="default"
                             underline="none"
                             component={RouterLink}
-                            to={query_page}>
+                            to={{
+                                pathname: `${query_page}`,
+                                state: {
+                                    loi_max: this.state.loi_max,
+                                    loi_min: this.state.loi_min
+                                }}}>
                             Find Similar Sequences
                         </Link>
                     </ButtonGroup>

@@ -34,12 +34,12 @@ const useStyles = makeStyles(theme => ({
     return `${value}milisecond`;
 }*/
 
-export default function Filter() {
+export default function Filter(props) {
     const classes = useStyles();
     //range slider
-    const [rangeVal, setRangeVal] = useState([0.00, 100.00]);
-    const [startVal, setStartVal] = useState(0.00);
-    const [endVal, setEndVal] = useState(100.00);
+    const [rangeVal, setRangeVal] = useState([props.loi_min, props.loi_max]);
+    const [startVal, setStartVal] = useState(props.loi_min);
+    const [endVal, setEndVal] = useState(props.loi_max);
     //number of matches
     const [numMatches, setNumMatches] = useState(5);
     //overlap of sequences
@@ -144,8 +144,8 @@ export default function Filter() {
                                         // onBlur={handleBlur}
                                         inputProps={{
                                             step: 0.1,
-                                            min: 0,
-                                            max: 100,
+                                            min: props.loi_min,
+                                            max: props.loi_max,
                                             type: 'number',
                                             'aria-labelledby': 'input-slider',
                                         }}/>
@@ -154,8 +154,8 @@ export default function Filter() {
                                     <Range
                                         value={rangeVal}
                                         step={0.1}
-                                        min={0} /*todo set as min loi from build options*/
-                                        max={100} /*todo set as max loi from build options*/
+                                        min={props.loi_min} /*todo set as min loi from build options*/
+                                        max={props.loi_max} /*todo set as max loi from build options*/
                                         onChange={handleRangeChange}/>
                                 </Grid>
                                 <Grid item>
@@ -168,8 +168,8 @@ export default function Filter() {
                                         valueLabelDisplay="auto"
                                         inputProps={{
                                             step: 0.1,
-                                            min: 0,/*todo set as min loi from build options*/
-                                            max: 100,/*todo set as max loi from build options*/
+                                            min: props.loi_min,
+                                            max: props.loi_max,
                                             type: 'number',
                                             'aria-labelledby': 'input-slider',
                                         }}/>
