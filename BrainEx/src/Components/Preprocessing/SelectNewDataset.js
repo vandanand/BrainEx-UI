@@ -22,6 +22,7 @@ class SelectNewDataset extends Component {
         this.onChangeHandler = this.onChangeHandler.bind(this);
         this.onClickHandler = this.onClickHandler.bind(this);
         this.fileHandler = this.fileHandler.bind(this);
+        this.isFileSelected = this.isFileSelected.bind(this);
     }
 
     /*pull files from database here. this function is called after render() so all elements will be in place*/
@@ -32,9 +33,19 @@ class SelectNewDataset extends Component {
         });
     }
 
+    // if no file is selected, do not go to next page
+    isFileSelected = (e) => {
+        if (Object.keys(this.state.current_file).length === 0) {
+            e.preventDefault();
+        }
+    };
+
     /* file select handler. triggered once user clicks on a file in the file-list */
     // todo use this function to do any handling once a file in the list is selected
     fileHandler = (e) => {
+        if ($(".next").attr("disabled")) {
+            $(".next").removeAttr("disabled");
+        }
         // get the id (index in all_files array) of the currently selected button
         let id = e.currentTarget.id;
         console.log(id);
@@ -139,7 +150,9 @@ class SelectNewDataset extends Component {
                                     <p className="curr-file">There is no file currently selected</p>
                                 )}
                                 <Link
-                                    className="build-btn right-btn btn btn-primary"
+                                    onClick={this.isFileSelected}
+                                    disabled={true}
+                                    className="build-btn next btn btn-primary"
                                     variant="button"
                                     color="default"
                                     underline="none"
