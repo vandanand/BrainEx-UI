@@ -40,7 +40,10 @@ export default function Filter() {
     const [rangeVal, setRangeVal] = useState([0.00, 100.00]);
     const [startVal, setStartVal] = useState(0.00);
     const [endVal, setEndVal] = useState(100.00);
+    //number of matches
     const [numMatches, setNumMatches] = useState(5);
+    //overlap of sequences
+    const [overlapVal, setOverlapVal] = useState(40);
 
     /*update the range values for loi range*/
     function handleRangeChange(event) {
@@ -81,6 +84,11 @@ export default function Filter() {
     const handleMatchChange = (e) => {
         console.log(e.target.value);
         setNumMatches(e.target.value);
+    };
+
+    const handleOverlapChange = (e) => {
+        console.log(e.target.value);
+        setOverlapVal(e.target.value);
     };
 
     /*when apply is clicked, submit the form to the backend*/
@@ -165,20 +173,26 @@ export default function Filter() {
                                 variant="filled"
                                 inputProps={{
                                             step: 1,
-                                            min: 1,/*todo set as min loi from build options*/
+                                            min: 1,
                                             type: 'number'
                                         }}
                             />
                             <TextField
                                 required
+                                value={overlapVal}
+                                onChange={handleOverlapChange}
                                 variant="filled"
                                 label="Overlap of sequence allowed"
                                 id="overlap-percentage"
                                 size="small"
-                                placeholder="40"
                                 className={clsx(classes.margin, classes.textField)}
                                 InputProps={{
                                     endAdornment: <InputAdornment position="start">%</InputAdornment>,
+                                }}
+                                inputProps={{
+                                    min: 0,
+                                    max: 100,
+                                    type: 'number'
                                 }}
                             />
 
