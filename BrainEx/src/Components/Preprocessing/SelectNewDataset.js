@@ -16,7 +16,7 @@ class SelectNewDataset extends Component {
             current_file: {}, /* for storing the currently selected file in the file-list */
             upload_files: null, /* for storing the file(s) chosen to be uploaded */
             all_files: [], /* for storing files displayed in file-list */
-            loi_max: null
+            curr_loi_max: null
         };
         /* binding all handlers to the class */
         this.onChangeHandler = this.onChangeHandler.bind(this);
@@ -47,7 +47,8 @@ class SelectNewDataset extends Component {
 
         /* store the currently selected file in state */
         this.setState({
-            current_file: curr_file
+            current_file: curr_file,
+            curr_loi_max: curr_file.maxValue
         }, () => {
             console.log("State updated.");
         });
@@ -87,14 +88,12 @@ class SelectNewDataset extends Component {
                 // todo if the Files can be returned here I will do that instead, but will probably keep the if 200 just cause that's good practice
                 if (response.status === 200) { // if successful
                     // add uploaded_data to all_files in state
-                    let loi_max = parseFloat(response.data.maxLength);
                     this.setState({
                         all_files: all_files.concat(new_files),
-                        upload_files: null, // reset upload_files to none
-                        loi_max: loi_max
+                        upload_files: null // reset upload_files to none
                     }, () => { // callback function for debugging
                         console.log(response.data.message);
-                        console.log("loi_max: " + this.state.loi_max);
+                        // console.log("loi_max: " + this.state.loi_max);
                     })
                 } else {
                     console.log("file upload unsuccessful. :(");
@@ -148,7 +147,7 @@ class SelectNewDataset extends Component {
                                     to={{
                                         pathname: `${build_options}`,
                                         state: {
-                                            loi_max: this.state.loi_max,
+                                            loi_max: this.state.curr_loi_max,
                                             file: this.state.current_file
                                         }}}>
                                     Next
