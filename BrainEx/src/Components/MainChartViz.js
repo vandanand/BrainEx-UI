@@ -8,14 +8,18 @@ const red = '#eb6a5b';
 const blue = '#52b6ca';
 const black = '#000000';
 
+
+function colRange(start, end) {
+    var colInd = [];
+    for (let i = start; i <= end; i++) {
+        colInd.push(i);
+    }
+    return colInd;
+}
+
 class MainChartViz extends Component {
     state = {
-        // highs: null, // svg path command for all the high channelVals
-        // lows: null, // svg path command for low channelVals,
-        // avg: null,
-        highs: null,
-        lows: null,
-        avg: null,
+        lines: null,
         // d3 helpers
         xScale: d3.scaleLinear().range([margin.left, width - margin.right]),
         yScale: d3.scaleLinear().range([height - margin.bottom, margin.top]),
@@ -24,7 +28,6 @@ class MainChartViz extends Component {
 
     xAxis = d3.axisBottom().scale(this.state.xScale)
         .tickFormat(d => `${d}`);
-    //TODO: change this to regular axis
     yAxis = d3.axisLeft().scale(this.state.yScale)
         .tickFormat(d => `${d}`);
 
@@ -32,29 +35,29 @@ class MainChartViz extends Component {
         if (!nextProps.data) return null; // data hasn't been loaded yet so do nothing
         const {data} = nextProps;
         const {xScale, yScale, lineGenerator} = prevState;
-
-        //try to find all the headers to form a group array for D3 dropdown
-        console.log(data);
-        console.log(Object.keys(data)[1]);
-        console.log(Object.getOwnPropertyNames(data));
+        var allFields = Object.keys(data[0]);
+        var firstCol = allFields[0]; //gives the column name of the first column, which is the string "Timestamp"
+        var numCol = allFields.length; //gives the total number of columns in the data, including the first non-data column
+        // var colInd=colRange(1,numCol-1); //prints out a list of integer index from 1 to the last column of data
+        var sliced = allFields.slice(1, numCol); //gives all the column names of data, excluding the first column
         // data has changed, so recalculate scale domains
-        const timeDomain = d3.extent(data, d => d.Timestamp);
-        const valMax = d3.max(data, d => d["101-SART-June2018-AS_target correct_Channel-1 HbO_126468"]);
-        const valMin = d3.min(data, d => d["101-SART-June2018-AS_target correct_Channel-1 HbO_126468"]);
-        xScale.domain([0, 280]);
-        yScale.domain([-3, 3]);
-
+        // const timeDomain = d3.extent(data, d => d.Timestamp);
+        // const valMax = d3.max(data, d => d[sliced]);
+        // const valMin = d3.min(data, d => d[sliced]);
+        xScale.domain([0, 3]);
+        yScale.domain([-5, 5]);
+        // yScale.domain([valMin, valMax]);
         lineGenerator.x(d => xScale(d.Timestamp));
         // calculate line for lows
-        lineGenerator.y(d => yScale(d["101-SART-June2018-AS_target correct_Channel-1 HbO_126468"]));
-        const lows = lineGenerator(data);
-        // and then highs
-        lineGenerator.y(d => yScale(d["101-SART-June2018-AS_target correct_Channel-1 HbO_600024"]));
-        const highs = lineGenerator(data);
-        //do the average
-        lineGenerator.y(d => yScale(d["101-SART-June2018-AS_target correct_Channel-1 HbO_631505"]));
-        const avg = lineGenerator(data);
-        return {lows, highs, avg};
+        var lines = [];
+        for (let cname of sliced) {
+            // console.log(sliced[0]);
+            lineGenerator
+                .defined(d => !isNaN(d[cname]))
+                .y(d => yScale(d[cname]));
+            lines = lines + lineGenerator(data);
+        }
+        return {lines};
     }
 
     componentDidUpdate() {
@@ -63,12 +66,9 @@ class MainChartViz extends Component {
     }
 
     render() {
-
         return (
             <svg width={width} height={height}>
-                <path d={this.state.highs} fill='none' stroke={red} strokeWidth='2' />
-                <path d={this.state.lows} fill='none' stroke={blue} strokeWidth='2' />
-                <path d={this.state.avg} fill='none' stroke={black} strokeWidth='2' />
+                <path d={this.state.lines} fill='none' stroke={red} strokeWidth='2'/>
                 <g>
                     <g ref='xAxis' transform={`translate(0, ${height - margin.bottom})`}/>
                     <g ref='yAxis' transform={`translate(${margin.left}, 0)`}/>
@@ -81,4 +81,3 @@ class MainChartViz extends Component {
 export default MainChartViz;
 
 
-//TODO: check out this link https://www.d3-graph-gallery.com/graph/connectedscatter_legend.html
