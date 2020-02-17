@@ -64,25 +64,39 @@ export default function DataTable() {
     const classes = useStyles();
     // setData should not be used unless we expect some sort of update while the user is looking at the data
     const [showSequence, setShowSequence] = useState(initializeCheckboxValues(query_results_dd)); // list of ids and isChecked t/f json's
-    const [checkBoxes, setCheckboxVal] = useState(initializeCheckboxes(query_results_dd));
+    const [checkboxes, setCheckboxVal] = useState(initializeCheckboxes(query_results_dd));
     const [data, setData] = useState(createTable(query_results_dd));
 
     function initializeCheckboxes(data) {
-        let checkboxes = [];
-        let numCheckboxes = data.length;
         const handleCheckboxChange = (e, i) => {
+            console.log("e");
             console.log(e);
+            console.log("e.target");
             console.log(e.target);
+            console.log("e.target.checked");
             console.log(e.target.checked);
+            console.log("e.currentTarget");
             console.log(e.currentTarget);
+            console.log("e.currentTarget.checked");
             console.log(e.currentTarget.checked);
             let newValues = showSequence;
+            console.log("showSequence:");
+            console.log(showSequence);
             newValues[i] = e.target.checked;
+            console.log("newValues:");
+            console.log(newValues);
             setShowSequence(newValues);
         };
+        let checkboxes = [];
+        let numCheckboxes = data.length;
         for (let i=0; i<numCheckboxes; i++) {
-
+            console.log("we are in the checkbox loop");
+            let checkbox = <Checkbox id={i} key={i} checked={showSequence[i]} onChange={handleCheckboxChange(i)}/>;
+            let length = checkboxes.push(checkbox);
+            console.log("checkboxes length: " + length);
         }
+        console.log(checkboxes);
+        return checkboxes;
     }
 
     // function to create the data table content using an external source (in this case, a constant from another file)
@@ -94,7 +108,7 @@ export default function DataTable() {
             // todo should id of checkbox be index or row.id?
             // todo for the state value of this checkbox have an array of true/false and reference it by index when updating/displaying
             let length = table.push(createData(row.id, checkboxes[index], colors[index], row.subjectID, row.eventName, row.channelNum, row.startTime, row.endTime));
-            // console.log("length: " + length);
+            console.log("table length: " + length);
         });
         console.log(table);
         return table;
