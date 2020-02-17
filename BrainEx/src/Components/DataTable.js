@@ -42,19 +42,6 @@ function generateColors(numColors, top_color, bottom_color) {
     return r;*/
 }
 
-// initialize list of checkbox values to be all true, same number of items as rows in data
-const initializeCheckboxValues = (data) => {
-    console.log("calling initialize checkboxes");
-    let numCheckboxes = data.length;
-    // create list of checkbox values (initialized to true)
-    let checkbox_values = []; // value to be stored in showSequence (the state values are true/false)
-    for (let i=0; i<numCheckboxes; i++) {
-        checkbox_values.push({id: i, isChecked: true});
-    }
-    console.log(checkbox_values);
-    return checkbox_values;
-};
-
 export default function DataTable() {
 
     useEffect(() => {
@@ -63,38 +50,46 @@ export default function DataTable() {
 
     const classes = useStyles();
     // setData should not be used unless we expect some sort of update while the user is looking at the data
-    const [showSequence, setShowSequence] = useState(initializeCheckboxValues(query_results_dd)); // list of ids and isChecked t/f json's
-    const [checkboxes, setCheckboxVal] = useState(initializeCheckboxes(query_results_dd));
+    const [checkboxValues, setCheckboxValues] = useState(initializeCheckboxValues(query_results_dd));
+    // const [checkboxes, setCheckboxes] = useState([]);
     const [data, setData] = useState(createTable(query_results_dd));
 
+    function handleCheckboxChange(index) {
+        return function (event) {
+            console.log("index: " + index);
+            let newCheckboxVal = event.target.checked; // event value
+            let newCheckboxValues = checkboxValues; // copy of state
+            newCheckboxValues[index] = newCheckboxVal; // update value of checkbox
+            setCheckboxValues(newCheckboxValues); // set new state
+            console.log("State updated.");
+        }
+    }
+
+    // initialize list of checkbox values to be all true, same number of items as rows in data
+    function initializeCheckboxValues(data) {
+        console.log("calling initialize checkboxes");
+        let numCheckboxes = data.length;
+        // create list of checkbox values (initialized to true)
+        let checkbox_values = []; // value to be stored in showSequence (the state values are true/false)
+        for (let i=0; i<numCheckboxes; i++) {
+            checkbox_values.push(true);
+        }
+        console.log("checkbox_values:");
+        console.log(checkbox_values);
+        return checkbox_values;
+    }
+
     function initializeCheckboxes(data) {
-        const handleCheckboxChange = (e, i) => {
-            console.log("e");
-            console.log(e);
-            console.log("e.target");
-            console.log(e.target);
-            console.log("e.target.checked");
-            console.log(e.target.checked);
-            console.log("e.currentTarget");
-            console.log(e.currentTarget);
-            console.log("e.currentTarget.checked");
-            console.log(e.currentTarget.checked);
-            let newValues = showSequence;
-            console.log("showSequence:");
-            console.log(showSequence);
-            newValues[i] = e.target.checked;
-            console.log("newValues:");
-            console.log(newValues);
-            setShowSequence(newValues);
-        };
         let checkboxes = [];
         let numCheckboxes = data.length;
+        // setCheckboxValues(initializeCheckboxValues(data));
         for (let i=0; i<numCheckboxes; i++) {
             console.log("we are in the checkbox loop");
-            let checkbox = <Checkbox id={i} key={i} checked={showSequence[i]} onChange={handleCheckboxChange(i)}/>;
+            let checkbox = <Checkbox id={i} key={i} defaultChecked={true} isChecked={checkboxValues[i]} onChange={handleCheckboxChange(i)}/>;
             let length = checkboxes.push(checkbox);
             console.log("checkboxes length: " + length);
         }
+        console.log("checkboxes:");
         console.log(checkboxes);
         return checkboxes;
     }
@@ -103,6 +98,7 @@ export default function DataTable() {
     function createTable(data) {
         const table = [];
         let colors = generateColors(data.length, top_color, bottom_color);
+        let checkboxes = initializeCheckboxes(data);
         data.map( (row, index) => {
             // todo add checkbox functionality here
             // todo should id of checkbox be index or row.id?
