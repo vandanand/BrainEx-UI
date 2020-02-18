@@ -1,6 +1,5 @@
 import React , { Component } from "react";
 import '../../Stylesheets/BuildOptions.css';
-// import 'bootstrap/dist/css/bootstrap.min.css';
 import Slider, { Range } from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import { TextField, Select, MenuItem, Checkbox, Button, Link, InputLabel } from '@material-ui/core';
@@ -28,7 +27,7 @@ class BuildOptions extends Component {
             // feature_val: 5,
             distance_val: default_dv,
             sim_val: default_st, /*[0:1]*/
-            loi_val: [0, this.props.location.state.loi_max], /*[0:max length]*/
+            loi_val: [0, 10], /*[0:max length]*/
             spark_val: default_sv,
             num_workers: default_nw,
             dm_val: default_dm,
