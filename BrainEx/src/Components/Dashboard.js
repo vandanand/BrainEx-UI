@@ -64,7 +64,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-export default function Dashboard() {
+export default function Dashboard(props) {
     const classes = useStyles();
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
     return (
@@ -97,7 +97,7 @@ export default function Dashboard() {
                             {/* filters */}
                             <Grid item lg={12}>
                                 <Paper className={classes.paper}>
-                                    <Filter/>
+                                    <Filter loi_min={props.loi_min} loi_max={props.loi_max}/>
                                 </Paper>
                             </Grid>
                             {/*stats*/}

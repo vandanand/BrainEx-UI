@@ -8,7 +8,7 @@ class QueryFinder extends Component {
         console.log("we are in QueryFinder");
         return(
             <div >
-                <Dashboard/>
+                <Dashboard loi_min={this.props.location.state.loi_min} loi_max={this.props.location.state.loi_max}/>
             </div>
         );
     }

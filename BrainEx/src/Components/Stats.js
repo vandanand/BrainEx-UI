@@ -15,9 +15,9 @@ const useStyles = makeStyles({
 });
 
 
-// function preventDefault(event) {
-//     event.preventDefault();
-// }
+/*function preventDefault(event) {
+    event.preventDefault();
+}*/
 
 
 export default function Stats() {

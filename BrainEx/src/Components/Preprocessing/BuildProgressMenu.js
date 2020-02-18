@@ -1,20 +1,26 @@
 import React, { Component } from "react";
 import {Link as RouterLink} from "react-router-dom";
 // import 'bootstrap/dist/css/bootstrap.min.css';
-import "../Stylesheets/BuildProgressMenu.css";
+import "../../Stylesheets/BuildProgressMenu.css";
 import {Link, ButtonGroup, Typography, LinearProgress } from '@material-ui/core';
 import $ from "jquery";
-import {query_page, data_exp, build_options, root} from "../data/default_values";
+import {query_page, data_exp, build_options, root} from "../../data/default_values";
 
 class BuildProgressMenu extends Component {
     constructor(props) {
         super(props);
         this.state = {
             form_data: this.props.form_data,
+            loi_min: this.props.location.state.loi_min,
+            loi_max: this.props.location.state.loi_max
         };
     }
 
     componentDidMount() {
+        // for debugging
+        console.log(this.state.loi_min);
+        console.log(this.state.loi_max);
+
         $(".info").click(function(){
             if ($(".in-progress").is(":visible")) {
                 $(".display-this").hide();
@@ -85,7 +91,12 @@ class BuildProgressMenu extends Component {
                             color="default"
                             underline="none"
                             component={RouterLink}
-                            to={query_page}>
+                            to={{
+                                pathname: `${query_page}`,
+                                state: {
+                                    loi_max: this.state.loi_max,
+                                    loi_min: this.state.loi_min
+                                }}}>
                             Find Similar Sequences
                         </Link>
                     </ButtonGroup>
