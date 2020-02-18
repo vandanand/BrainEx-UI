@@ -42,3 +42,11 @@ def test_uploadSequence(client):
     data = {"sequence_file": (input, "test_Seq.csv")}
     sendRequest = client.post("/uploadSequence", data=data, content_type="multipart/form-data")
     assert sendRequest.status_code == 200
+
+# def test_completeQuery(client):
+#     data = {}
+#     data['best_matches_temp'] = 5
+#     data['overlap_temp'] = 0.1
+#     data['exclude_temp'] = 1
+#     sendRequest = client.post("/query", data=data)
+#     assert sendRequest.status_code == 200
