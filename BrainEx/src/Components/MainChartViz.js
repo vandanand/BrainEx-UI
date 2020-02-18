@@ -39,6 +39,12 @@ class MainChartViz extends Component {
         xScale.domain(timeDomain);
         yScale.domain([-5, 5]);
         // yScale.domain([valMin, valMax]); this should be updated to use the global min/max
+        //currently does not populate one line at a time
+        var lineColorList = ["#d8b365", "#f5f5f5", "#5ab4ac"];
+        let lineCol;
+        for (let col of lineColorList) {
+            lineCol = col;
+        }
         lineGenerator.x(d => xScale(d[firstCol]));
         // calculate line for lows
         var lines = [];
@@ -47,14 +53,6 @@ class MainChartViz extends Component {
                 .defined(d => !isNaN(d[cname]))
                 .y(d => yScale(d[cname]));
             lines = lines + lineGenerator(data);
-        }
-
-        //currently does not populate one line at a time
-        var lineColorList = ["#d8b365", "#f5f5f5", "#5ab4ac"];
-        let lineCol;
-        for (let col of lineColorList) {
-            lineCol = col;
-            console.log(lineCol, 'linecol');
         }
 
 
