@@ -6,7 +6,8 @@ import { Range } from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import { makeStyles, Button, ButtonGroup, FormControl,
     FormGroup, FormControlLabel, Checkbox, Typography,
-    Input, Grid, InputAdornment, TextField } from "@material-ui/core";
+    Slider, Input, Grid, InputAdornment, TextField } from "@material-ui/core";
+import axios from 'axios';
 
 /*function preventDefault(event) {
     event.preventDefault();
@@ -33,6 +34,23 @@ const useStyles = makeStyles(theme => ({
 /*function valuetext(value) {
     return `${value}milisecond`;
 }*/
+
+function onClickHandler(e) {
+  e.preventDefault(); // prevents page refresh on submit
+  /* create form data object and append files to be uploaded onto it*/
+  let form = new FormData();
+  form.append("best_matches_temp", 5);
+  form.append("overlap_temp", 0.1);
+  form.append("exclude_temp", 0);
+  // Hook up to Kyra's server
+  axios.post('http://localhost:5000/query', form)
+  .then(function (response) {
+    console.log(response);
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+}
 
 export default function Filter(props) {
     const classes = useStyles();
@@ -227,6 +245,16 @@ export default function Filter(props) {
                         </ButtonGroup>
                     </div>
                 </form>
+                <div className={classes.root}>
+                    <ButtonGroup>
+                        <Button size="medium" variant="contained" color="primary" onClick={onClickHandler}>
+                            Apply
+                        </Button>
+                        <Button size="medium" variant="contained" color="default">
+                            Clear
+                        </Button>
+                    </ButtonGroup>
+                </div>
             </React.Fragment>
         </React.Fragment>
     );

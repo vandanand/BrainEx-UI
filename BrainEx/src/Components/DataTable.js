@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -10,6 +10,10 @@ import Checkbox from '@material-ui/core/Checkbox';
 import { query_results_dd } from "../data/query_results_dd";
 import Rainbow from 'rainbowvis.js/rainbowvis.js';
 import {top_color, bottom_color} from '../data/default_values';
+
+const useStyles = makeStyles(theme => ({
+    // styles go here
+}));
 
 // creates a row of data
 function createData(id, toggle, color, subjectID, eventName, channelNum, startTime, endTime) {
@@ -38,27 +42,73 @@ function generateColors(numColors, top_color, bottom_color) {
     return r;*/
 }
 
-// function to create the data table content using an external source (in this case, a constant from another file)
-function createTable(data) {
-    const table = [];
-    let colors = generateColors(data.length, top_color, bottom_color);
-    console.log(colors);
-    data.map( (row, index) => {
-        let length = table.push(createData(row.id, <Checkbox/>, colors[index], row.subjectID, row.eventName, row.channelNum, row.startTime, row.endTime));
-        // console.log("length: " + length);
-    });
-    console.log(table);
-    return table;
-}
-
-const useStyles = makeStyles(theme => ({
-    // styles go here
-}));
-
 export default function DataTable() {
+
+    useEffect(() => {
+        // todo @Kyra in useEffects, pull in the data from the API for initial pull, updating requires some extra thought I have to look into
+    });
+
     const classes = useStyles();
     // setData should not be used unless we expect some sort of update while the user is looking at the data
+    const [checkboxValues, setCheckboxValues] = useState(initializeCheckboxValues(query_results_dd));
+    // const [checkboxes, setCheckboxes] = useState([]);
     const [data, setData] = useState(createTable(query_results_dd));
+
+    function handleCheckboxChange(index) {
+        return function (event) {
+            console.log("index: " + index);
+            let newCheckboxVal = event.target.checked; // event value
+            let newCheckboxValues = checkboxValues; // copy of state
+            newCheckboxValues[index] = newCheckboxVal; // update value of checkbox
+            setCheckboxValues(newCheckboxValues); // set new state
+            console.log("State updated.");
+        }
+    }
+
+    // initialize list of checkbox values to be all true, same number of items as rows in data
+    function initializeCheckboxValues(data) {
+        console.log("calling initialize checkboxes");
+        let numCheckboxes = data.length;
+        // create list of checkbox values (initialized to true)
+        let checkbox_values = []; // value to be stored in showSequence (the state values are true/false)
+        for (let i=0; i<numCheckboxes; i++) {
+            checkbox_values.push(true);
+        }
+        console.log("checkbox_values:");
+        console.log(checkbox_values);
+        return checkbox_values;
+    }
+
+    function initializeCheckboxes(data) {
+        let checkboxes = [];
+        let numCheckboxes = data.length;
+        // setCheckboxValues(initializeCheckboxValues(data));
+        for (let i=0; i<numCheckboxes; i++) {
+            console.log("we are in the checkbox loop");
+            let checkbox = <Checkbox id={i} key={i} defaultChecked={true} isChecked={checkboxValues[i]} onChange={handleCheckboxChange(i)}/>;
+            let length = checkboxes.push(checkbox);
+            console.log("checkboxes length: " + length);
+        }
+        console.log("checkboxes:");
+        console.log(checkboxes);
+        return checkboxes;
+    }
+
+    // function to create the data table content using an external source (in this case, a constant from another file)
+    function createTable(data) {
+        const table = [];
+        let colors = generateColors(data.length, top_color, bottom_color);
+        let checkboxes = initializeCheckboxes(data);
+        data.map( (row, index) => {
+            // todo add checkbox functionality here
+            // todo should id of checkbox be index or row.id?
+            // todo for the state value of this checkbox have an array of true/false and reference it by index when updating/displaying
+            let length = table.push(createData(row.id, checkboxes[index], colors[index], row.subjectID, row.eventName, row.channelNum, row.startTime, row.endTime));
+            console.log("table length: " + length);
+        });
+        console.log(table);
+        return table;
+    }
 
     return (
         <React.Fragment>
