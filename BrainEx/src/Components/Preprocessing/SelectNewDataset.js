@@ -51,6 +51,17 @@ class SelectNewDataset extends Component {
         console.log(id);
         // grab the file with that id from the list
         let curr_file = this.state.all_files[id];
+        let file_form = new FormData();
+        file_form.append("set_data", curr_file.name);
+        axios.post('http://localhost:5000/setFile', file_form)
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+        console.log("after");
+
 
         console.log("current file:"); // for debugging purposes
         console.log(curr_file);
