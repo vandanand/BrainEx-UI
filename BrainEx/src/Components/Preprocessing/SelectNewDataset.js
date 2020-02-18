@@ -60,7 +60,6 @@ class SelectNewDataset extends Component {
         .catch((error) => {
           console.log(error);
         });
-        console.log("after");
 
 
         console.log("current file:"); // for debugging purposes
