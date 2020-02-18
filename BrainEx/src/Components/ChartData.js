@@ -1,26 +1,27 @@
 import React, { Component } from 'react';
 import MainChartViz from './MainChartViz';
+import {colors} from "@material-ui/core";
 
 class ChartData extends Component {
     state = {
         channelVals: [],
+        // lineColor:[],
         file: 'jsonOutput', // city whose temperatures to show
     };
 
     componentDidMount() {
         Promise.all([
-            fetch(`${process.env.PUBLIC_URL}/jsonOutput.json`)
-
+            fetch(`${process.env.PUBLIC_URL}/jsonOutput.json`),
+            // fetch(`${process.env.PUBLIC_URL}/mainVizColor.json`)
         ]).then(responses => Promise.all(responses.map(resp => resp.json())))
-            // .then(([sf, ny]) => {
-            .then(([jsonOutput]) => {
+            .then(([jsonOutput, mainVizColor]) => {
                 // sf.forEach(day => day.date = new Date(day.date));
-                // ny.forEach(day => day.date = new Date(day.date));
-                // sf.forEach(Start_Time => d['Start Time'] = new Start_Time);
                 // this.setState({channelVals: {sf, ny}});
-                // alert(JSON.Stringify(jsonOutput));
-                this.setState({channelVals: {jsonOutput}});
+                this.setState(
+                    {channelVals: {jsonOutput}}
+                );
             });
+
     }
 
     updateFile = (e) => {
@@ -30,7 +31,6 @@ class ChartData extends Component {
 
     render() {
         const data = this.state.channelVals[this.state.file];
-        console.log(data)
         return (
             <div className="Chart">
                 {/*<h5>*/}

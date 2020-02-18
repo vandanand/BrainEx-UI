@@ -6,7 +6,6 @@ import {curveMonotoneX, line} from 'd3-shape';
 import {extent} from 'd3-array';
 import {transition} from 'd3-transition';
 
-// import LogoButtonCard from '../molecules/Cards/LogoButtonCard';
 
 // const useStyles = makeStyles(theme => ({
 //     root: {
@@ -51,7 +50,6 @@ class CurSeqChartViz extends Component {
                 {timeStamp: 'Oct', value: 55},
                 {timeStamp: 'Nov', value: 60},
                 {timeStamp: 'Dec', value: 80},
-
             ],
         }
     }

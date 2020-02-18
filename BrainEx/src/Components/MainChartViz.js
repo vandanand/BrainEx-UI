@@ -8,22 +8,15 @@ const red = '#eb6a5b';
 const blue = '#52b6ca';
 const black = '#000000';
 
-
-function colRange(start, end) {
-    var colInd = [];
-    for (let i = start; i <= end; i++) {
-        colInd.push(i);
-    }
-    return colInd;
-}
-
 class MainChartViz extends Component {
     state = {
         lines: null,
+        lineColorList: null,
+        lineCol: null,
         // d3 helpers
         xScale: d3.scaleLinear().range([margin.left, width - margin.right]),
         yScale: d3.scaleLinear().range([height - margin.bottom, margin.top]),
-        lineGenerator: d3.line(),
+        lineGenerator: d3.line().curve(d3.curveCardinal),
     };
 
     xAxis = d3.axisBottom().scale(this.state.xScale)
@@ -38,26 +31,34 @@ class MainChartViz extends Component {
         var allFields = Object.keys(data[0]);
         var firstCol = allFields[0]; //gives the column name of the first column, which is the string "Timestamp"
         var numCol = allFields.length; //gives the total number of columns in the data, including the first non-data column
-        // var colInd=colRange(1,numCol-1); //prints out a list of integer index from 1 to the last column of data
         var sliced = allFields.slice(1, numCol); //gives all the column names of data, excluding the first column
         // data has changed, so recalculate scale domains
-        // const timeDomain = d3.extent(data, d => d.Timestamp);
+        const timeDomain = d3.extent(data, d => d[firstCol]);
         // const valMax = d3.max(data, d => d[sliced]);
         // const valMin = d3.min(data, d => d[sliced]);
-        xScale.domain([0, 3]);
+        xScale.domain(timeDomain);
         yScale.domain([-5, 5]);
-        // yScale.domain([valMin, valMax]);
-        lineGenerator.x(d => xScale(d.Timestamp));
+        // yScale.domain([valMin, valMax]); this should be updated to use the global min/max
+        lineGenerator.x(d => xScale(d[firstCol]));
         // calculate line for lows
         var lines = [];
         for (let cname of sliced) {
-            // console.log(sliced[0]);
             lineGenerator
                 .defined(d => !isNaN(d[cname]))
                 .y(d => yScale(d[cname]));
             lines = lines + lineGenerator(data);
         }
-        return {lines};
+
+        //currently does not populate one line at a time
+        var lineColorList = ["#d8b365", "#f5f5f5", "#5ab4ac"];
+        let lineCol;
+        for (let col of lineColorList) {
+            lineCol = col;
+            console.log(lineCol, 'linecol');
+        }
+
+
+        return {lines, lineCol};
     }
 
     componentDidUpdate() {
@@ -68,7 +69,7 @@ class MainChartViz extends Component {
     render() {
         return (
             <svg width={width} height={height}>
-                <path d={this.state.lines} fill='none' stroke={red} strokeWidth='2'/>
+                <path d={this.state.lines} fill='none' stroke={this.state.lineCol} strokeWidth='2'/>
                 <g>
                     <g ref='xAxis' transform={`translate(0, ${height - margin.bottom})`}/>
                     <g ref='yAxis' transform={`translate(${margin.left}, 0)`}/>
