@@ -41,22 +41,7 @@ def getStoreCSV():
         if csv and is_csv(csv.filename):
             toSave = os.path.join(application.config['UPLOAD_FOLDER'], csv.filename)
             csv.save(toSave) # Secure filename?? See tutorial
-            dataframe = pd.read_csv(toSave, delimiter=',')
-            dataframe.columns = map(str.lower, dataframe.columns)
-            if not 'start time' in dataframe.columns and not 'end time' in dataframe.columns:
-                return("Please include a start and end column", 400)
-            else:
-                maxVal = (dataframe['end time'] - dataframe['start time']).max()
-                notFeature = 0
-                for elem in dataframe.columns:
-                    if 'unnamed' in elem:
-                        notFeature = notFeature + 1;
-                numFeatures = len(dataframe.columns) - notFeature
-                returnDict = {
-                    "message": "File has been uploaded.",
-                    "maxLength": str(maxVal)
-                }
-                return jsonify(returnDict)
+            return "File has been uploaded."
         else:
             return("Invalid file.  Please upload a CSV", 400)
 
@@ -66,7 +51,22 @@ def setFile():
 
     if request.method == 'POST':
         uploadPath = os.path.join(application.config['UPLOAD_FOLDER'], request.form['set_data'])
-        return "Set the path."
+        dataframe = pd.read_csv(uploadPath, delimiter=',')
+        dataframe.columns = map(str.lower, dataframe.columns)
+        if not 'start time' in dataframe.columns and not 'end time' in dataframe.columns:
+            return("Please include a start and end column", 400)
+        else:
+            maxVal = (dataframe['end time'] - dataframe['start time']).max()
+            notFeature = 0
+            for elem in dataframe.columns:
+                if 'unnamed' in elem:
+                    notFeature = notFeature + 1;
+            numFeatures = len(dataframe.columns) - notFeature
+            returnDict = {
+                "message": "File has been set.",
+                "maxLength": str(maxVal)
+            }
+            return jsonify(returnDict)
 
 @application.route('/build', methods=['GET', 'POST'])
 def build():
