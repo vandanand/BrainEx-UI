@@ -66,7 +66,7 @@ class CurrSeqSelection extends Component {
 
     updateFile = (e) => {
         // this.setState({file: e.target.value});
-        onChangeHandler();
+        onChangeHandler(e);
         this.setState({file: 'file'});
     }
 
