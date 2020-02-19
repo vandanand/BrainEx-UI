@@ -56,7 +56,7 @@ export default function DataTable() {
 
     function handleCheckboxChange(index) {
         return function (event) {
-            console.log("index: " + index);
+            // console.log("index: " + index);
             let newCheckboxVal = event.target.checked; // event value
             let newCheckboxValues = checkboxValues; // copy of state
             newCheckboxValues[index] = newCheckboxVal; // update value of checkbox
@@ -67,15 +67,15 @@ export default function DataTable() {
 
     // initialize list of checkbox values to be all true, same number of items as rows in data
     function initializeCheckboxValues(data) {
-        console.log("calling initialize checkboxes");
+        // console.log("calling initialize checkboxes");
         let numCheckboxes = data.length;
         // create list of checkbox values (initialized to true)
         let checkbox_values = []; // value to be stored in showSequence (the state values are true/false)
         for (let i=0; i<numCheckboxes; i++) {
             checkbox_values.push(true);
         }
-        console.log("checkbox_values:");
-        console.log(checkbox_values);
+        // console.log("checkbox_values:");
+        // console.log(checkbox_values);
         return checkbox_values;
     }
 
@@ -84,13 +84,13 @@ export default function DataTable() {
         let numCheckboxes = data.length;
         // setCheckboxValues(initializeCheckboxValues(data));
         for (let i=0; i<numCheckboxes; i++) {
-            console.log("we are in the checkbox loop");
+            // console.log("we are in the checkbox loop");
             let checkbox = <Checkbox id={i} key={i} defaultChecked={true} isChecked={checkboxValues[i]} onChange={handleCheckboxChange(i)}/>;
             let length = checkboxes.push(checkbox);
-            console.log("checkboxes length: " + length);
+            // console.log("checkboxes length: " + length);
         }
-        console.log("checkboxes:");
-        console.log(checkboxes);
+        // console.log("checkboxes:");
+        // console.log(checkboxes);
         return checkboxes;
     }
 
@@ -104,9 +104,9 @@ export default function DataTable() {
             // todo should id of checkbox be index or row.id?
             // todo for the state value of this checkbox have an array of true/false and reference it by index when updating/displaying
             let length = table.push(createData(row.id, checkboxes[index], colors[index], row.subjectID, row.eventName, row.channelNum, row.startTime, row.endTime));
-            console.log("table length: " + length);
+            // console.log("table length: " + length);
         });
-        console.log(table);
+        // console.log(table);
         return table;
     }
 
