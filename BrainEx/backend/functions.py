@@ -47,7 +47,7 @@ def getStoreCSV():
 
 @application.route('/setFile', methods=['GET', 'POST'])
 def setFile():
-    global uploadPath
+    global uploadPath, numFeatures
 
     if request.method == 'POST':
         uploadPath = os.path.join(application.config['UPLOAD_FOLDER'], request.form['set_data'])
