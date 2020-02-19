@@ -30,7 +30,7 @@ class CurrSeqSelection extends Component {
         this.state = {
             channelValues: [],
             // lineColor:[],
-            file: 'jsonOutput', // city whose temperatures to show
+            file: 'jsonOutput' // city whose temperatures to show
         };
         this.updateFile = this.updateFile.bind(this);
         this.onClickHandler = this.onClickHandler.bind(this);
@@ -55,7 +55,9 @@ class CurrSeqSelection extends Component {
         e.preventDefault(); // prevents page refresh on submit
         /* create form data object and append files to be uploaded onto it*/
         let file_form = new FormData();
-        file_form.append("sequence_file", this.state.file);
+        this.state.file.map((file) => {
+            file_form.append("sequence_file", file); // add upload_files to FormData object
+        });
         // Hook up to Kyra's server
         axios.post('http://localhost:5000/uploadSequence', file_form)
             .then(function (response) {
@@ -68,7 +70,7 @@ class CurrSeqSelection extends Component {
 
     updateFile = (e) => {
         // this.setState({file: e.target.value});
-        this.setState({file: 'file'});
+        this.setState({file: [...e.target.files]});
     };
 
     render() {
