@@ -21,7 +21,7 @@ class BuildProgressMenu extends Component {
         console.log(this.state.loi_min);
         console.log(this.state.loi_max);
 
-        $(".progress").click(function(){
+        $(".info").click(function(){
             if ($(".in-progress").is(":visible")) {
                 $(".display-this").hide();
                 $(".hide-this").show();
