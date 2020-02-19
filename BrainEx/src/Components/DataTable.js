@@ -51,8 +51,8 @@ export default function DataTable() {
     const classes = useStyles();
     // setData should not be used unless we expect some sort of update while the user is looking at the data
     const [checkboxValues, setCheckboxValues] = useState(initializeCheckboxValues(query_results_dd));
-    // const [checkboxes, setCheckboxes] = useState([]);
-    const [data, setData] = useState(createTable(query_results_dd));
+    const [allData, setData] = useState(createTable(query_results_dd));
+    const [displayedData, setDData] = useState(createTable(query_results_dd));
 
     function handleCheckboxChange(index) {
         return function (event) {
@@ -116,17 +116,19 @@ export default function DataTable() {
             <Table size="small">
                 <TableHead>
                     <TableRow>
-                        <TableCell>Show</TableCell>
+                        <TableCell>Show Sequence</TableCell>
                         {/*<TableCell>Color</TableCell>*/}
                         <TableCell>Subject ID</TableCell>
                         <TableCell>Event Name</TableCell>
                         <TableCell>Channel Number</TableCell>
                         <TableCell>Start Time</TableCell>
                         <TableCell>End Time</TableCell>
+                        <TableCell>Distance</TableCell>
+                        <TableCell>Thumbnail</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {data.map(row => (
+                    {displayedData.map(row => (
                         <TableRow key={row.id}>
                             <TableCell style={{backgroundColor: "#" + row.color}}>{row.toggle}</TableCell>
                             <TableCell>{row.subjectID}</TableCell>
@@ -134,6 +136,8 @@ export default function DataTable() {
                             <TableCell>{row.channelNum}</TableCell>
                             <TableCell>{row.startTime}</TableCell>
                             <TableCell>{row.endTime}</TableCell>
+                            <TableCell>0%</TableCell>
+                            <TableCell>thumbnail goes here</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
