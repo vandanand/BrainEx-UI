@@ -112,7 +112,7 @@ export default function DataTable() {
 
     return (
         <React.Fragment>
-            <Title>Data Table</Title>
+            <Title>Ranked Matching Sequences</Title>
             <Table size="small">
                 <TableHead>
                     <TableRow>
