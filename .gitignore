@@ -4,4 +4,5 @@ genex/setup.py
 package-lock.json
 preprocessed_datasets
 venv
+python.exe
 node_modules
