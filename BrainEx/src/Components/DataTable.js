@@ -103,7 +103,7 @@ export default function DataTable() {
             // todo add checkbox functionality here
             // todo should id of checkbox be index or row.id?
             // todo for the state value of this checkbox have an array of true/false and reference it by index when updating/displaying
-            let length = table.push(createData(row.id, checkboxes[index], colors[index], row.subjectID, row.eventName, row.channelNum, row.startTime, row.endTime));
+            let length = table.push(createData(row.id, checkboxes[index], "#" + colors[index], row.subjectID, row.eventName, row.channelNum, row.startTime, row.endTime));
             // console.log("table length: " + length);
         });
         // console.log(table);
@@ -130,7 +130,7 @@ export default function DataTable() {
                 <TableBody>
                     {displayedData.map(row => (
                         <TableRow key={row.id}>
-                            <TableCell style={{backgroundColor: "#" + row.color}}>{row.toggle}</TableCell>
+                            <TableCell style={{backgroundColor: row.color}}>{row.toggle}</TableCell>
                             <TableCell>{row.subjectID}</TableCell>
                             <TableCell>{row.eventName}</TableCell>
                             <TableCell>{row.channelNum}</TableCell>
