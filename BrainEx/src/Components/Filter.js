@@ -249,16 +249,6 @@ export default function Filter(props) {
                         </ButtonGroup>
                     </div>
                 </form>
-                <div className={classes.root}>
-                    <ButtonGroup>
-                        <Button size="medium" variant="contained" color="primary" onClick={onClickHandler}>
-                            Apply
-                        </Button>
-                        <Button size="medium" variant="contained" color="default">
-                            Clear
-                        </Button>
-                    </ButtonGroup>
-                </div>
             </React.Fragment>
         </React.Fragment>
     );
