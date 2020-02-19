@@ -24,7 +24,7 @@ function preventDefault(event) {
 }
 
 function onChangeHandler(e) {
-    file = e.target.files[0]
+    file = e.currentTarget.files[0]
 }
 
 function onClickHandler(e) {
@@ -79,7 +79,7 @@ class CurrSeqSelection extends Component {
                     <Title>Query Sequence</Title>
                     <CurSeqChartViz/>
                     <input
-                        accept="text/csv/*"
+                        //accept="text/csv/*"
                         // className={classes.input}
                         id="outlined-button-file"
                         multiple
