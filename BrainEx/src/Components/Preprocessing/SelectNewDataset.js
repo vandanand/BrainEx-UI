@@ -62,7 +62,7 @@ class SelectNewDataset extends Component {
         file_form.append("set_data", curr_file.name);
         axios.post('http://localhost:5000/setFile', file_form)
             .then((response) => {
-                // console.log(response);
+                console.log(response);
                 if (response.status === 200) {
                     this.setState({
                         curr_loi_max: response.data.maxLength
