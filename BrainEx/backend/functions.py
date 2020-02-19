@@ -136,13 +136,13 @@ def complete_query():
         # loi_temp = request.form['loi_temp']
         # loiA = loi_temp.split('')
         # loi = [float(loiA[0]), float(loiA[1])]
-        best_matches = int(request.form['best_matches_temp'])
-        overlap = float(request.form['overlap_temp'])
-        excludeS = request.form['exclude_temp']
-        if excludeS == "1":
-            exclude = True
-        else:
+        best_matches = int(request.form['best_matches'])
+        overlap = float(request.form['overlap'])
+        excludeS = request.form['excludeS']
+        if excludeS == "false":
             exclude = False
+        else:
+            exclude = True
         try:
             query_result = brainexDB.query(query=np.asarray(querySeq), best_k=best_matches, exclude_same_id=exclude, overlap=overlap)
             return "here"
