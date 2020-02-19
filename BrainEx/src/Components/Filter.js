@@ -54,10 +54,14 @@ function onClickHandler(e) {
 
 export default function Filter(props) {
     const classes = useStyles();
-    //range slider
+    // range slider
+    //// set initial values using min and max
     const [rangeVal, setRangeVal] = useState([props.loi_min, props.loi_max]);
     const [startVal, setStartVal] = useState(props.loi_min);
     const [endVal, setEndVal] = useState(props.loi_max);
+    // establish constants for min and max
+    const MIN = props.loi_min;
+    const MAX = props.loi_max;
     //number of matches
     const [numMatches, setNumMatches] = useState(5);
     //overlap of sequences
@@ -162,8 +166,8 @@ export default function Filter(props) {
                                         // onBlur={handleBlur}
                                         inputProps={{
                                             step: 0.1,
-                                            min: props.loi_min,
-                                            max: props.loi_max,
+                                            min: MIN,
+                                            max: MAX,
                                             type: 'number',
                                             'aria-labelledby': 'input-slider',
                                         }}/>
@@ -172,8 +176,8 @@ export default function Filter(props) {
                                     <Range
                                         value={rangeVal}
                                         step={0.1}
-                                        min={props.loi_min} /*todo set as min loi from build options*/
-                                        max={props.loi_max} /*todo set as max loi from build options*/
+                                        min={MIN} /*todo set as min loi from build options*/
+                                        max={MAX} /*todo set as max loi from build options*/
                                         onChange={handleRangeChange}/>
                                 </Grid>
                                 <Grid item>
@@ -186,8 +190,8 @@ export default function Filter(props) {
                                         valueLabelDisplay="auto"
                                         inputProps={{
                                             step: 0.1,
-                                            min: props.loi_min,
-                                            max: props.loi_max,
+                                            min: MIN,
+                                            max: MAX,
                                             type: 'number',
                                             'aria-labelledby': 'input-slider',
                                         }}/>

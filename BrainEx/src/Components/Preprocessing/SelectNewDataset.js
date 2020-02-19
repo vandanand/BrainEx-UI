@@ -51,16 +51,20 @@ class SelectNewDataset extends Component {
         console.log(id);
         // grab the file with that id from the list
         let curr_file = this.state.all_files[id];
+        this.setState({
+            current_file: curr_file
+        }, ()  => {
+            console.log("File selected on front end.");
+        });
         // console.log("current file:"); // for debugging purposes
         // console.log(curr_file);
         let file_form = new FormData();
         file_form.append("set_data", curr_file.name);
         axios.post('http://localhost:5000/setFile', file_form)
             .then((response) => {
-                // console.log(response);
+                console.log(response);
                 if (response.status === 200) {
                     this.setState({
-                        current_file: curr_file,
                         curr_loi_max: response.data.maxLength
                     }, () => {
                         // console.log(this.state.current_file);

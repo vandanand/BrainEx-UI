@@ -28,12 +28,13 @@ class BuildOptions extends Component {
             // feature_val: 5,
             distance_val: default_dv,
             sim_val: default_st, /*[0:1]*/
-            loi_val: [0,100], /*[0:max length]*/
+            loi_val: (this.props.location.state !== null) ? [0, this.props.location.state.loi_max] : [0,100], /*[0:max length]*/
+            loi_max: (this.props.location.state !== null) ? this.props.location.state.loi_max : 100,
             spark_val: default_sv,
             num_workers: default_nw,
             dm_val: default_dm,
             mrm_val: default_mrm,
-            file: {"name":"Bqrzgwyjeumizp.csv","lastModified":"7112684915113","lastModifiedDate":"7/9/2019","webkitRelativePath":null,"size":597813,"maxValue":215}
+            file: (this.props.location.state !== null) ? this.props.location.state.file : {"name":"Bqrzgwyjeumizp.csv","lastModified":"7112684915113","lastModifiedDate":"7/9/2019","webkitRelativePath":null,"size":597813,"maxValue":215}
         };
         this.update_feature = this.update_feature.bind(this);
         this.update_distance = this.update_distance.bind(this);
@@ -50,13 +51,6 @@ class BuildOptions extends Component {
     }
 
     componentDidMount() {
-        if (this.props.location.state) {
-            this.setState({
-                file: this.props.location.state.file,
-                loi_val: [0, this.props.location.state.loi_max]
-            });
-        }
-
         // spark options listener -- toggles display of additional options using a button/link
         $("#spark_toggle").click(function(){
             $(".advanced_spark").toggle();
