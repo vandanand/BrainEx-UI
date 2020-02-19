@@ -1,0 +1,24 @@
+﻿[{
+		"Timestamp": "0",
+		"101-SART-June2018-AS_target correct_Channel-1 HbO_126468": 0.1,
+		"101-SART-June2018-AS_target correct_Channel-1 HbO_274131": 0.85,
+		"101-SART-June2018-AS_target correct_Channel-1 HbO_403678": 3.2
+	},
+	{
+		"Timestamp": "1",
+		"101-SART-June2018-AS_target correct_Channel-1 HbO_126468": 0.5,
+		"101-SART-June2018-AS_target correct_Channel-1 HbO_274131": 0.75,
+		"101-SART-June2018-AS_target correct_Channel-1 HbO_403678": 1.6
+	},
+	{
+		"Timestamp": "2",
+		"101-SART-June2018-AS_target correct_Channel-1 HbO_126468": 2.3,
+		"101-SART-June2018-AS_target correct_Channel-1 HbO_274131": 4.9,
+		"101-SART-June2018-AS_target correct_Channel-1 HbO_403678": 0.2
+	},
+	{
+		"Timestamp": "3",
+		"101-SART-June2018-AS_target correct_Channel-1 HbO_126468": 3.8,
+		"101-SART-June2018-AS_target correct_Channel-1 HbO_403678": 1.9
+	}
+]

@@ -17,6 +17,7 @@ import Chart from './Chart';
 import DataTable from './DataTable';
 import CurrSeqSelection from './CurrSeqSelection'
 import Filter from './Filter'
+import ChartData from './ChartData'
 import Stats from './Stats'
 
 function Copyright() {
@@ -59,7 +60,7 @@ const useStyles = makeStyles(theme => ({
         flexDirection: 'column',
     },
     fixedHeight: {
-        height: 240,
+        height: 580,
     }
 }));
 
@@ -110,6 +111,7 @@ export default function Dashboard(props) {
                             {/* Chart */}
                             <Grid item lg={12}>
                                 <Paper className={fixedHeightPaper}>
+                                    {/*<Chart/>*/}
                                     <Chart/>
                                 </Paper>
                             </Grid>
