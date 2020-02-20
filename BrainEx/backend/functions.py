@@ -122,8 +122,21 @@ def uploadSequence():
             if numLines == 1:
                 with open(csv.filename) as f:
                     queryLine = f.readline()
-                    querySeq = queryLine.split(',')
-                return "File has been uploaded."
+                    querySeq = np.asarray(queryLine.split(','))
+                length = querySeq.size
+                pandasQ = pd.DataFrame({"query_seq": querySeq})
+                timeStamps = []
+                x = range(length)
+                for n in x:
+                    timeStamps.append(n)
+                pandasQ["sequence_length"] = timeStamps
+                print(pandasQ)
+                json = pandasQ.to_json()
+                returnDict = {
+                    "message": "File has been uploaded.",
+                    "sequenceJSON": json
+                }
+                return jsonify(returnDict)
             else:
                 return("Please only submit one sequence at a time", 400)
         else:
@@ -144,7 +157,7 @@ def complete_query():
         else:
             exclude = True
         try:
-            query_result = brainexDB.query(query=np.asarray(querySeq), best_k=best_matches, exclude_same_id=exclude, overlap=overlap)
+            query_result = brainexDB.query(query=querySeq, best_k=best_matches, exclude_same_id=exclude, overlap=overlap)
             return "here"
         except Exception as e:
             return (str(e), 400)
