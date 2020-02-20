@@ -44,35 +44,21 @@ function onClickHandler(e) {
 
 class CurrSeqSelection extends Component {
     state = {
-        channelVals: [],
+        // channelVals: [],
         // lineColor:[],
-        file: 'jsonOutput', // city whose temperatures to show
+        file: 'sequence_file',
     };
 
-    componentDidMount() {
-        Promise.all([
-            fetch(`${process.env.PUBLIC_URL}/jsonOutput.json`),
-            // fetch(`${process.env.PUBLIC_URL}/mainVizColor.json`)
-        ]).then(responses => Promise.all(responses.map(resp => resp.json())))
-            .then(([jsonOutput, mainVizColor]) => {
-                // sf.forEach(day => day.date = new Date(day.date));
-                // this.setState({channelVals: {sf, ny}});
-                this.setState(
-                    {channelVals: {jsonOutput}}
-                );
-            });
-
-    }
 
     updateFile = (e) => {
         // this.setState({file: e.target.value});
         onChangeHandler();
-        this.setState({file: 'file'});
+        this.setState({file: 'sequence_file'});
     }
 
     render() {
         const {classes} = this.props;
-        const data = this.state.channelVals[this.state.file];
+        const data = this.state.file;
         return (
             <React.Fragment>
                 <div className={classes.root}>
@@ -92,7 +78,7 @@ class CurrSeqSelection extends Component {
                             Upload
                         </Button>
                     </label>
-                    <CurSeqChartViz data={data}/>
+                    {/*<CurSeqChartViz data={data}/>*/}
                 </div>
             </React.Fragment>
         );

@@ -12,7 +12,6 @@ class ChartData extends Component {
     componentDidMount() {
         Promise.all([
             fetch(`${process.env.PUBLIC_URL}/jsonOutput.json`),
-            // fetch(`${process.env.PUBLIC_URL}/mainVizColor.json`)
         ]).then(responses => Promise.all(responses.map(resp => resp.json())))
             .then(([jsonOutput, mainVizColor]) => {
                 // sf.forEach(day => day.date = new Date(day.date));

@@ -25,20 +25,6 @@ class Line extends React.Component {
             .attr('stroke-width', 2)
             .attr('fill', 'none')
             .attr('d', lineGenerator);
-
-        // select(node)
-        //   .selectAll('circle')
-        //   .data(data)
-        //   .enter()
-        //   .append('circle')
-        //   .attr('class', 'circle')
-        //   .attr('stroke', '#ECC417')
-        //   .attr('stroke-width', '2')
-        //   .attr('fill', '#333')
-        //   .attr('r', 3)
-        //   .attr('cx', (d, key) => xScale(key))
-        //   .attr('cy', d => yScale(d.count));
-
         this.updateChart()
     }
 
@@ -60,12 +46,6 @@ class Line extends React.Component {
             .datum(data)
             .transition(t)
             .attr('d', lineGenerator);
-
-        // dot
-        //   .data(data)
-        //   .transition(t)
-        //   .attr('cx', (d, key) => xScale(key))
-        //   .attr('cy', d => yScale(d.count));
     }
 
     render() {
