@@ -12,7 +12,7 @@ class MainChartViz extends Component {
     state = {
         lines: null,
         lineColorList: null,
-        lineCol: null,
+        // lineCol: null,
         // d3 helpers
         xScale: d3.scaleLinear().range([margin.left, width - margin.right]),
         yScale: d3.scaleLinear().range([height - margin.bottom, margin.top]),
@@ -40,23 +40,29 @@ class MainChartViz extends Component {
         yScale.domain([-5, 5]);
         // yScale.domain([valMin, valMax]); this should be updated to use the global min/max
         //currently does not populate one line at a time
-        var lineColorList = ["#d8b365", "#f5f5f5", "#5ab4ac"];
-        let lineCol;
-        for (let col of lineColorList) {
-            lineCol = col;
-        }
-        lineGenerator.x(d => xScale(d[firstCol]));
+        let lineColorList = ["#d8b365", "#f5f5f5", "#5ab4ac"];
+        // let lineCol;
+        // for (let col of lineColorList) {
+        //     lineCol = col;
+        // }
+        // lineGenerator.x(d => xScale(d[firstCol]));
         // calculate line for lows
-        var lines = [];
-        for (let cname of sliced) {
-            lineGenerator
-                .defined(d => !isNaN(d[cname]))
-                .y(d => yScale(d[cname]));
-            lines = lines + lineGenerator(data);
-        }
-
-
-        return {lines, lineCol};
+        // let lines = [];
+        // for (let cname of sliced) {
+        //     lineGenerator
+        //         .defined(d => !isNaN(d[cname]))
+        //         .y(d => yScale(d[cname]));
+        //     lines = lines + lineGenerator(data);
+        // }
+        // return {lines, lineCol};
+        let lines = data.map(d => {
+            return {
+                y: yScale(d => !isNaN(d[cname])),
+                x: xScale(d[firstCol]),
+                lineCol: lineColorList[sliced.findIndex(d[cname])]
+            }
+        })
+        return {lines};
     }
 
     componentDidUpdate() {
@@ -67,7 +73,9 @@ class MainChartViz extends Component {
     render() {
         return (
             <svg width={width} height={height}>
-                <path d={this.state.lines} fill='none' stroke={this.state.lineCol} strokeWidth='2'/>
+                {this.state.lines.map((d, i) =>
+                    (<path key={i} d={d.y} fill='none' stroke={d.lineCol} strokeWidth='2'/>))}
+                {/*<path d={this.state.lines} fill='none' stroke={this.state.lineCol} strokeWidth='2'/>*/}
                 <g>
                     <g ref='xAxis' transform={`translate(0, ${height - margin.bottom})`}/>
                     <g ref='yAxis' transform={`translate(${margin.left}, 0)`}/>

@@ -5,18 +5,18 @@ import Button from '@material-ui/core/Button';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import CurSeqChartViz from "./CurSeqChartViz";
 import axios from 'axios';
+import {withStyles} from "@material-ui/core/styles";
 
+let file = null;
 
-var file = null;
-
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
     depositContext: {
         flex: 1,
     },
     input: {
         display: 'none',
     }
-});
+}));
 
 
 function preventDefault(event) {
@@ -71,11 +71,11 @@ class CurrSeqSelection extends Component {
     }
 
     render() {
+        const {classes} = this.props;
         const data = this.state.channelVals[this.state.file];
         return (
             <React.Fragment>
-                {/*<div className={classes.root}>*/}
-                <div>
+                <div className={classes.root}>
                     <Title>Query Sequence</Title>
                     <CurSeqChartViz/>
                     <input
@@ -99,31 +99,4 @@ class CurrSeqSelection extends Component {
     }
 }
 
-export default CurrSeqSelection;
-
-
-//
-// export default function CurrSeqSelection() {
-//     const classes = useStyles();
-//     return (
-//         <React.Fragment>
-//             <div className={classes.root}>
-//                 <Title>Query Sequence</Title>
-//                 <CurSeqChartViz/>
-//                 <input
-//                     accept="text/csv/*"
-//                     className={classes.input}
-//                     id="outlined-button-file"
-//                     multiple
-//                     type="file"
-//                     onChange={onChangeHandler}
-//                 />
-//                 <label htmlFor="outlined-button-file">
-//                     <Button variant="outlined" component="span" size="small" startIcon={<CloudUploadIcon/>} onClick={onClickHandler} >
-//                         Upload
-//                     </Button>
-//                 </label>
-//             </div>
-//         </React.Fragment>
-//     );
-// }
+export default withStyles(useStyles)(CurrSeqSelection);
