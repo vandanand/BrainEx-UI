@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Component } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -16,8 +16,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 // creates a row of data
-function createData(id, toggle, color, subjectID, eventName, channelNum, startTime, endTime) {
-    return {id, toggle, color, subjectID, eventName, channelNum, startTime, endTime};
+function createData(id, color, subjectID, eventName, channelNum, startTime, endTime) {
+    return {id, color, subjectID, eventName, channelNum, startTime, endTime};
 }
 
 // generates x number of unique hex values
@@ -43,32 +43,29 @@ function generateColors(numColors, top_color, bottom_color) {
 }
 
 export default function DataTable() {
+    const [checkboxValues, setCheckboxValues] = useState(() => initializeCheckboxValues(query_results_dd));
+    const [allData, setAllData] = useState(() => createTable(query_results_dd));
+    const [displayData, setDisplayData] = useState(() => allData);
 
     useEffect(() => {
-        // todo @Kyra in useEffects, pull in the data from the API for initial pull, updating requires some extra thought I have to look into
-    });
+        // action on update of checkboxValues
+        // todo PUT ANY THING TO DO WITH TRIGGERING ANYTHING AFTER CHECKBOXES CHANGE HERE
+        console.log(checkboxValues);
+        console.log("State updated.");
+    }, [checkboxValues]);
 
-    const classes = useStyles();
-    // setData should not be used unless we expect some sort of update while the user is looking at the data
-    const [checkboxValues, setCheckboxValues] = useState(initializeCheckboxValues(query_results_dd));
-    // const [checkboxes, setCheckboxes] = useState([]);
-    const [allData, setAllData] = useState(createTable(query_results_dd));
-    const [displayData, setDisplayData] = useState(allData);
-
-    function handleCheckboxChange(index) {
-        return function (event) {
-            // console.log("index: " + index);
-            let newCheckboxVal = event.currentTarget.checked; // event value
-            let newCheckboxValues = checkboxValues; // copy of state
-            newCheckboxValues[index] = newCheckboxVal; // update value of checkbox
-            setCheckboxValues(newCheckboxValues); // set new state
-            console.log("State updated.");
-        }
-    }
+    let handleCheckboxChange = (index, event) => {
+        let newCheckboxVal = event.currentTarget.checked; // event value
+        let newCheckboxValues = [...checkboxValues]; // shallow copy of state
+        console.log("shallow copy of state:");
+        console.log(newCheckboxValues);
+        newCheckboxValues[index] = newCheckboxVal; // update value of checkbox
+        setCheckboxValues(checkboxValues => newCheckboxValues); // set new state
+    };
 
     // initialize list of checkbox values to be all true, same number of items as rows in data
     function initializeCheckboxValues(data) {
-        // console.log("calling initialize checkboxes");
+        // console.log("calling initialize checkbox values");
         let numCheckboxes = data.length;
         // create list of checkbox values (initialized to true)
         let checkbox_values = []; // value to be stored in showSequence (the state values are true/false)
@@ -80,31 +77,16 @@ export default function DataTable() {
         return checkbox_values;
     }
 
-    function initializeCheckboxes(data) {
-        let checkboxes = [];
-        let numCheckboxes = data.length;
-        // setCheckboxValues(initializeCheckboxValues(data));
-        for (let i=0; i<numCheckboxes; i++) {
-            // console.log("we are in the checkbox loop");
-            let checkbox = <Checkbox id={i} key={i} defaultChecked={true} isChecked={checkboxValues[i]} onChange={handleCheckboxChange(i)}/>;
-            let length = checkboxes.push(checkbox);
-            // console.log("checkboxes length: " + length);
-        }
-        // console.log("checkboxes:");
-        // console.log(checkboxes);
-        return checkboxes;
-    }
-
     // function to create the data table content using an external source (in this case, a constant from another file)
     function createTable(data) {
         const table = [];
         let colors = generateColors(data.length, top_color, bottom_color);
-        let checkboxes = initializeCheckboxes(data);
+        // let checkboxes = initializeCheckboxes(data);
         data.map( (row, index) => {
             // todo add checkbox functionality here
             // todo should id of checkbox be index or row.id?
             // todo for the state value of this checkbox have an array of true/false and reference it by index when updating/displaying
-            let length = table.push(createData(row.id, checkboxes[index], colors[index], row.subjectID, row.eventName, row.channelNum, row.startTime, row.endTime));
+            let length = table.push(createData(row.id, colors[index], row.subjectID, row.eventName, row.channelNum, row.startTime, row.endTime));
             // console.log("table length: " + length);
         });
         // console.log(table);
@@ -129,9 +111,11 @@ export default function DataTable() {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {displayData.map(row => (
+                    {displayData.map((row, i) => (
                         <TableRow key={row.id}>
-                            <TableCell style={{backgroundColor: "#" + row.color}}>{row.toggle}</TableCell>
+                            <TableCell style={{backgroundColor: "#" + row.color}}>
+                                <Checkbox id={i} key={i} checked={checkboxValues[i]} onChange={(e) => handleCheckboxChange(i,e)}/>
+                            </TableCell>
                             <TableCell>{row.subjectID}</TableCell>
                             <TableCell>{row.eventName}</TableCell>
                             <TableCell>{row.channelNum}</TableCell>
