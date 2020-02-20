@@ -7,12 +7,13 @@ import $ from "jquery";
 import {query_page, data_exp, build_options, root} from "../../data/default_values";
 import Button from "@material-ui/core/Button";
 import {homepage} from "d3/dist/package";
+import axios from "axios";
 
 class BuildProgressMenu extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            form_data: this.props.form_data,
+            form_data: this.props.location.state.form_data,
             loi_min: this.props.location.state.loi_min,
             loi_max: this.props.location.state.loi_max,
             open: false,
@@ -25,33 +26,18 @@ class BuildProgressMenu extends Component {
         this.cancelPreprocessing = this.cancelPreprocessing.bind(this);
     }
 
-    // todo @Kyra: https://medium.com/@pkellner/fetch-data-in-react-with-spinner-only-when-necessary-1ef2e451f541
     componentDidMount() {
-        // todo axios get call here to listen for build complete?
-        /* todo something like this:
-        *  axios.get("https://api.github.com/users/pkellner/repos")
-            .then((result) => {
+        axios.post('http://localhost:5000/build', this.state.form_data)
+            .then((response) => {
                 this.setState({
-                    appData: result.data,
-                    isLoading: false
-                });
+                    isPreprocessing: false
+                }, () => {
+                    console.log(response.data);
+                })
             })
-            .catch(error => {
-                if (error.response) {
-                    console.log(error.responderEnd);
-                }
+            .catch(function (error) {
+                console.log(error);
             });
-        * */
-        // todo remove this listener when progress bar backend functionality is complete
-        $(".info").click(function(){
-            if ($(".in-progress").is(":visible")) {
-                $(".display-this").hide();
-                $(".hide-this").show();
-            } else {
-                $(".display-this").show();
-                $(".hide-this").hide();
-            }
-        });
     }
 
     // open model by setting all modal state values and displaying appropriate message
@@ -122,7 +108,7 @@ class BuildProgressMenu extends Component {
                 </Dialog>
                 {(this.state.isPreprocessing) ? (
                     /*display when build is in progress*/
-                    <div className="prog-content in-progress display-this">
+                    <div className="prog-content in-progress">
                         <LinearProgress className="progress" />
                         <Typography className="prog-item" variant="h4">Preprocessing is currently in progress</Typography>
                         <ButtonGroup className="prog-item">
@@ -136,7 +122,7 @@ class BuildProgressMenu extends Component {
                     </div>
                 ) : (
                     /*display below is for when build is finished*/
-                    <div className="prog-content finished hide-this">
+                    <div className="prog-content finished">
                         <LinearProgress variant="determinate" value={100} className="progress"/>
                         <Typography className="prog-item" variant="h4">Preprocessing stage is complete!</Typography>
                         {/*todo by Sequences does she mean lines of data?*/}
