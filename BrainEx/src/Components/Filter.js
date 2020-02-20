@@ -31,27 +31,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-/*function valuetext(value) {
-    return `${value}milisecond`;
-}*/
-
-function onClickHandler(e) {
-  e.preventDefault(); // prevents page refresh on submit
-  /* create form data object and append files to be uploaded onto it*/
-  let form = new FormData();
-  form.append("best_matches_temp", 5);
-  form.append("overlap_temp", 0.1);
-  form.append("exclude_temp", 0);
-  // Hook up to Kyra's server
-  axios.post('http://localhost:5000/query', form)
-  .then(function (response) {
-    console.log(response);
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
-}
-
 export default function Filter(props) {
     const classes = useStyles();
     // range slider
@@ -125,16 +104,21 @@ export default function Filter(props) {
         e.preventDefault(); // dont refresh the page on submit
         let loi = rangeVal.toString();
         let best_matches = numMatches.toString();
-        let overlap = overlapVal.toString();
+        let overlap = (overlapVal/100).toString();
         let excludeS = excludeID.toString();
-        let form_data = {
-            loi: loi,
-            best_matches: best_matches,
-            overlap: overlap,
-            excludeS: excludeS
-        };
-        console.log(form_data);
-        // todo @Kyra send query to backend here
+        let form = new FormData();
+        form.append("loi", loi);
+        form.append("best_matches", best_matches);
+        form.append("overlap", overlap);
+        form.append("excludeS", excludeS);
+        console.log(form);
+        axios.post('http://localhost:5000/query', form)
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     };
 
     /*const handleBlur = () => {
@@ -249,16 +233,6 @@ export default function Filter(props) {
                         </ButtonGroup>
                     </div>
                 </form>
-                <div className={classes.root}>
-                    <ButtonGroup>
-                        <Button size="medium" variant="contained" color="primary" onClick={onClickHandler}>
-                            Apply
-                        </Button>
-                        <Button size="medium" variant="contained" color="default">
-                            Clear
-                        </Button>
-                    </ButtonGroup>
-                </div>
             </React.Fragment>
         </React.Fragment>
     );

@@ -65,7 +65,7 @@ class BuildProgressMenu extends Component {
                     <LinearProgress variant="determinate" value={100} className="progress"/>
                     <Typography className="prog-item" variant="h4">Preprocessing stage is complete!</Typography>
                     {/*todo by Sequences does she mean lines of data?*/}
-                    <Typography className="prog-item" variant="h4">Sequences Processed: N/A</Typography>
+                    {/*<Typography className="prog-item" variant="h4">Sequences Processed: N/A</Typography>*/}
                     <ButtonGroup className="prog-item">
                         <Link
                             className="btn btn-secondary"
