@@ -46,6 +46,7 @@ export default function DataTable() {
     const [checkboxValues, setCheckboxValues] = useState(() => initializeCheckboxValues(query_results_dd));
     const [allData, setAllData] = useState(() => createTable(query_results_dd));
     const [displayData, setDisplayData] = useState(() => allData);
+    const [allChecked, setAllChecked] = useState(() => true);
 
     useEffect(() => {
         // action on update of checkboxValues
@@ -54,14 +55,22 @@ export default function DataTable() {
         console.log("State updated.");
     }, [checkboxValues]);
 
-    let handleCheckboxChange = (index, event) => {
+    function handleCheckboxChange(index, event) {
         let newCheckboxVal = event.currentTarget.checked; // event value
         let newCheckboxValues = [...checkboxValues]; // shallow copy of state
         console.log("shallow copy of state:");
         console.log(newCheckboxValues);
         newCheckboxValues[index] = newCheckboxVal; // update value of checkbox
         setCheckboxValues(checkboxValues => newCheckboxValues); // set new state
-    };
+    }
+
+    function selectAll(event) {
+        let newAllChecked = event.currentTarget.checked;
+        let newCheckboxValues = Array(checkboxValues.length).fill(newAllChecked);
+        console.log(newCheckboxValues);
+        setAllChecked(newAllChecked);
+        setCheckboxValues(newCheckboxValues);
+    }
 
     // initialize list of checkbox values to be all true, same number of items as rows in data
     function initializeCheckboxValues(data) {
@@ -99,7 +108,10 @@ export default function DataTable() {
             <Table size="small">
                 <TableHead>
                     <TableRow>
-                        <TableCell>Show</TableCell>
+                        <TableCell>
+                            Show
+                            <Checkbox checked={allChecked} onChange={selectAll}/>
+                        </TableCell>
                         {/*<TableCell>Color</TableCell>*/}
                         <TableCell>Subject ID</TableCell>
                         <TableCell>Event Name</TableCell>
