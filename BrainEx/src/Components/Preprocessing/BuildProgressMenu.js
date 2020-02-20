@@ -26,7 +26,7 @@ class BuildProgressMenu extends Component {
     }
 
     // todo @Kyra: https://medium.com/@pkellner/fetch-data-in-react-with-spinner-only-when-necessary-1ef2e451f541
-    componentWillMount() {
+    componentDidMount() {
         // todo axios get call here to listen for build complete?
         /* todo something like this:
         *  axios.get("https://api.github.com/users/pkellner/repos")
@@ -42,9 +42,6 @@ class BuildProgressMenu extends Component {
                 }
             });
         * */
-    }
-
-    componentDidMount() {
         // todo remove this listener when progress bar backend functionality is complete
         $(".info").click(function(){
             if ($(".in-progress").is(":visible")) {
