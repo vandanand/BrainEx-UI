@@ -19,6 +19,7 @@ import {
     build_progress,
     select_new_dataset
 } from "../../data/default_values";
+import BuildProgressMenu from "./BuildProgressMenu.js";
 
 class BuildOptions extends Component {
 
@@ -167,6 +168,7 @@ class BuildOptions extends Component {
         axios.post('http://localhost:5000/build', form_data)
             .then(function (response) {
                 console.log(response);
+                BuildProgressMenu.isPreprocessing = false;
             })
             .catch(function (error) {
                 console.log(error);
