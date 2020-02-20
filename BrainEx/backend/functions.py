@@ -53,20 +53,16 @@ def setFile():
         uploadPath = os.path.join(application.config['UPLOAD_FOLDER'], request.form['set_data'])
         dataframe = pd.read_csv(uploadPath, delimiter=',')
         dataframe.columns = map(str.lower, dataframe.columns)
-        if not 'start time' in dataframe.columns and not 'end time' in dataframe.columns:
-            return("Please include a start and end column", 400)
-        else:
-            maxVal = (dataframe['end time'] - dataframe['start time']).max()
-            notFeature = 0
-            for elem in dataframe.columns:
-                if 'unnamed' in elem:
-                    notFeature = notFeature + 1;
-            numFeatures = len(dataframe.columns) - notFeature
-            returnDict = {
-                "message": "File has been set.",
-                "maxLength": str(maxVal)
-            }
-            return jsonify(returnDict)
+        notFeature = 0
+        for elem in dataframe.columns:
+            if 'unnamed' in elem:
+                notFeature = notFeature + 1;
+        numFeatures = len(dataframe.columns) - notFeature
+        returnDict = {
+            "message": "File has been set.",
+            "maxLength": str(notFeature)
+        }
+        return jsonify(returnDict)
 
 @application.route('/build', methods=['GET', 'POST'])
 def build():
@@ -130,8 +126,7 @@ def uploadSequence():
                 for n in x:
                     timeStamps.append(n)
                 pandasQ["sequence_length"] = timeStamps
-                print(pandasQ)
-                json = pandasQ.to_json("test.json", orient="index")
+                json = pandasQ.to_json(orient="index")
                 returnDict = {
                     "message": "File has been uploaded.",
                     "sequenceJSON": json
@@ -156,8 +151,10 @@ def complete_query():
             exclude = False
         else:
             exclude = True
-        try:
+        # try:
             query_result = brainexDB.query(query=querySeq, best_k=best_matches, exclude_same_id=exclude, overlap=overlap)
-            return "here"
-        except Exception as e:
-            return (str(e), 400)
+            pandaResult = pd.DataFrame(query_result)
+            print(pandaResult[1])
+            return("here")
+        # except Exception as e:
+        #     return (str(e), 400)
