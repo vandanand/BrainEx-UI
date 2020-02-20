@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Component } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -10,10 +10,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import { query_results_dd } from "../data/query_results_dd";
 import Rainbow from 'rainbowvis.js/rainbowvis.js';
 import {top_color, bottom_color} from '../data/default_values';
-
-const useStyles = makeStyles(theme => ({
-    // styles go here
-}));
+import {create} from "d3-selection";
 
 // creates a row of data
 function createData(id, toggle, color, subjectID, eventName, channelNum, startTime, endTime) {
@@ -42,31 +39,32 @@ function generateColors(numColors, top_color, bottom_color) {
     return r;*/
 }
 
-export default function DataTable() {
+export default class DataTable extends Component {
 
-    useEffect(() => {
-        // todo @Kyra in useEffects, pull in the data from the API for initial pull, updating requires some extra thought I have to look into
-    });
+    constructor(props) {
+        super(props);
+        this.state = {
+            checkboxValues: this.initializeCheckboxValues(query_results_dd),
+            allChecked: true,
+            allData: [],
+            displayedData: []
+        };
+        this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
+        this.selectAll = this.selectAll.bind(this);
+        this.createTable = this.createTable.bind(this);
+        this.initializeCheckboxes = this.initializeCheckboxes.bind(this);
+        this.initializeCheckboxValues = this.initializeCheckboxValues.bind(this);
+    }
 
-    const classes = useStyles();
-    // setData should not be used unless we expect some sort of update while the user is looking at the data
-    const [checkboxValues, setCheckboxValues] = useState(initializeCheckboxValues(query_results_dd));
-    const [allData, setData] = useState(createTable(query_results_dd));
-    const [displayedData, setDData] = useState(createTable(query_results_dd));
-
-    function handleCheckboxChange(index) {
-        return function (event) {
-            // console.log("index: " + index);
-            let newCheckboxVal = event.target.checked; // event value
-            let newCheckboxValues = checkboxValues; // copy of state
-            newCheckboxValues[index] = newCheckboxVal; // update value of checkbox
-            setCheckboxValues(newCheckboxValues); // set new state
-            console.log("State updated.");
-        }
+    componentDidMount() {
+        this.setState({
+            allData: this.createTable(query_results_dd),
+            displayedData: this.createTable(query_results_dd)
+        });
     }
 
     // initialize list of checkbox values to be all true, same number of items as rows in data
-    function initializeCheckboxValues(data) {
+    initializeCheckboxValues = (data) => {
         // console.log("calling initialize checkboxes");
         let numCheckboxes = data.length;
         // create list of checkbox values (initialized to true)
@@ -77,76 +75,116 @@ export default function DataTable() {
         // console.log("checkbox_values:");
         // console.log(checkbox_values);
         return checkbox_values;
-    }
+    };
 
-    function initializeCheckboxes(data) {
+    initializeCheckboxes = (data) => {
         let checkboxes = [];
         let numCheckboxes = data.length;
         // setCheckboxValues(initializeCheckboxValues(data));
         for (let i=0; i<numCheckboxes; i++) {
             // console.log("we are in the checkbox loop");
-            let checkbox = <Checkbox id={i} key={i} defaultChecked={true} isChecked={checkboxValues[i]} onChange={handleCheckboxChange(i)}/>;
+            let checkbox = <Checkbox id={i} key={i} defaultChecked={true} ischecked={this.state.checkboxValues[i]} onChange={this.handleCheckboxChange(i)}/>;
             let length = checkboxes.push(checkbox);
             // console.log("checkboxes length: " + length);
         }
         // console.log("checkboxes:");
         // console.log(checkboxes);
         return checkboxes;
-    }
+    };
 
     // function to create the data table content using an external source (in this case, a constant from another file)
-    function createTable(data) {
+    createTable = (data) => {
         const table = [];
         let colors = generateColors(data.length, top_color, bottom_color);
-        let checkboxes = initializeCheckboxes(data);
+        // let checkboxes = this.initializeCheckboxes(data);
         data.map( (row, index) => {
             // todo add checkbox functionality here
             // todo should id of checkbox be index or row.id?
             // todo for the state value of this checkbox have an array of true/false and reference it by index when updating/displaying
-            let length = table.push(createData(row.id, checkboxes[index], "#" + colors[index], row.subjectID, row.eventName, row.channelNum, row.startTime, row.endTime));
+            let length = table.push(createData(row.id, <Checkbox id={index} key={index} defaultChecked={true} ischecked={this.state.checkboxValues[index]} onChange={this.handleCheckboxChange(index)}/>, "#" + colors[index], row.subjectID, row.eventName, row.channelNum, row.startTime, row.endTime));
             // console.log("table length: " + length);
         });
         // console.log(table);
         return table;
+    };
+
+    handleCheckboxChange = (index) => {
+        return function (event) {
+            console.log(event.currentTarget);
+            console.log("index: " + index);
+            let newCheckboxVal = event.currentTarget.checked; // event value
+            console.log(newCheckboxVal);
+            // let newCheckboxValues = this.state.checkboxValues; // copy of state
+            // newCheckboxValues[index] = newCheckboxVal; // update value of checkbox
+            this.setState(prevState => ({
+                checkboxValues: {
+                    ...prevState.checkboxValues,
+                    [prevState.checkboxValues[index]]: newCheckboxVal
+                }
+            }));
+            console.log("updated in handleCheckbox:");
+            console.log(this.state.checkboxValues);
+        }
+    };
+
+    selectAll = (event) => {
+        const newValue = event.currentTarget.checked;
+        console.log(newValue);
+        let newCheckboxes = this.state.checkboxValues;
+        for (let i=0; i<this.state.allData.length; i++) {
+            newCheckboxes[i] = newValue;
+        }
+        this.setState({
+            checkboxValues: newCheckboxes,
+            allChecked: newValue
+        });
+        console.log("updated in selectAll:");
+        console.log(this.state.checkboxValues);
+    };
+
+    render() {
+        return (
+            <React.Fragment>
+                <Title>Ranked Matching Sequences</Title>
+                <Table size="small">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>
+                                Show Sequence
+                                <Checkbox checked={this.state.allChecked} onChange={this.selectAll}/>
+                            </TableCell>
+                            {/*<TableCell>Color</TableCell>*/}
+                            <TableCell>Subject ID</TableCell>
+                            <TableCell>Event Name</TableCell>
+                            <TableCell>Channel Number</TableCell>
+                            <TableCell>Start Time</TableCell>
+                            <TableCell>End Time</TableCell>
+                            <TableCell>Distance</TableCell>
+                            <TableCell>Thumbnail</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {this.state.displayedData.map(row => (
+                            <TableRow key={row.id}>
+                                <TableCell style={{backgroundColor: row.color}}>{row.toggle}</TableCell>
+                                <TableCell>{row.subjectID}</TableCell>
+                                <TableCell>{row.eventName}</TableCell>
+                                <TableCell>{row.channelNum}</TableCell>
+                                <TableCell>{row.startTime}</TableCell>
+                                <TableCell>{row.endTime}</TableCell>
+                                <TableCell>0%</TableCell>
+                                <TableCell>thumbnail goes here</TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+                {/*<div className={classes.seeMore}>*/}
+                {/*  <Link color="primary" href="#" onClick={preventDefault}>*/}
+                {/*    Show more sequences*/}
+                {/*  </Link>*/}
+                {/*</div>*/}
+            </React.Fragment>
+        );
     }
 
-    return (
-        <React.Fragment>
-            <Title>Ranked Matching Sequences</Title>
-            <Table size="small">
-                <TableHead>
-                    <TableRow>
-                        <TableCell>Show Sequence</TableCell>
-                        {/*<TableCell>Color</TableCell>*/}
-                        <TableCell>Subject ID</TableCell>
-                        <TableCell>Event Name</TableCell>
-                        <TableCell>Channel Number</TableCell>
-                        <TableCell>Start Time</TableCell>
-                        <TableCell>End Time</TableCell>
-                        <TableCell>Distance</TableCell>
-                        <TableCell>Thumbnail</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {displayedData.map(row => (
-                        <TableRow key={row.id}>
-                            <TableCell style={{backgroundColor: row.color}}>{row.toggle}</TableCell>
-                            <TableCell>{row.subjectID}</TableCell>
-                            <TableCell>{row.eventName}</TableCell>
-                            <TableCell>{row.channelNum}</TableCell>
-                            <TableCell>{row.startTime}</TableCell>
-                            <TableCell>{row.endTime}</TableCell>
-                            <TableCell>0%</TableCell>
-                            <TableCell>thumbnail goes here</TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-            {/*<div className={classes.seeMore}>*/}
-            {/*  <Link color="primary" href="#" onClick={preventDefault}>*/}
-            {/*    Show more sequences*/}
-            {/*  </Link>*/}
-            {/*</div>*/}
-        </React.Fragment>
-    );
 }
