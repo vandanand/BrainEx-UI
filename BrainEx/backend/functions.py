@@ -131,7 +131,7 @@ def uploadSequence():
                     timeStamps.append(n)
                 pandasQ["sequence_length"] = timeStamps
                 print(pandasQ)
-                json = pandasQ.to_json()
+                json = pandasQ.to_json("test.json", orient="index")
                 returnDict = {
                     "message": "File has been uploaded.",
                     "sequenceJSON": json
