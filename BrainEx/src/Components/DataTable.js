@@ -52,12 +52,13 @@ export default function DataTable() {
     // setData should not be used unless we expect some sort of update while the user is looking at the data
     const [checkboxValues, setCheckboxValues] = useState(initializeCheckboxValues(query_results_dd));
     // const [checkboxes, setCheckboxes] = useState([]);
-    const [data, setData] = useState(createTable(query_results_dd));
+    const [allData, setAllData] = useState(createTable(query_results_dd));
+    const [displayData, setDisplayData] = useState(allData);
 
     function handleCheckboxChange(index) {
         return function (event) {
             // console.log("index: " + index);
-            let newCheckboxVal = event.target.checked; // event value
+            let newCheckboxVal = event.currentTarget.checked; // event value
             let newCheckboxValues = checkboxValues; // copy of state
             newCheckboxValues[index] = newCheckboxVal; // update value of checkbox
             setCheckboxValues(newCheckboxValues); // set new state
@@ -72,7 +73,7 @@ export default function DataTable() {
         // create list of checkbox values (initialized to true)
         let checkbox_values = []; // value to be stored in showSequence (the state values are true/false)
         for (let i=0; i<numCheckboxes; i++) {
-            checkbox_values.push(true);
+            let length = checkbox_values.push(true);
         }
         // console.log("checkbox_values:");
         // console.log(checkbox_values);
@@ -123,10 +124,12 @@ export default function DataTable() {
                         <TableCell>Channel Number</TableCell>
                         <TableCell>Start Time</TableCell>
                         <TableCell>End Time</TableCell>
+                        <TableCell>Distance</TableCell>
+                        <TableCell>Thumbnail</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {data.map(row => (
+                    {displayData.map(row => (
                         <TableRow key={row.id}>
                             <TableCell style={{backgroundColor: "#" + row.color}}>{row.toggle}</TableCell>
                             <TableCell>{row.subjectID}</TableCell>
@@ -134,6 +137,8 @@ export default function DataTable() {
                             <TableCell>{row.channelNum}</TableCell>
                             <TableCell>{row.startTime}</TableCell>
                             <TableCell>{row.endTime}</TableCell>
+                            <TableCell>0%</TableCell>
+                            <TableCell>insert thumbnail here</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
