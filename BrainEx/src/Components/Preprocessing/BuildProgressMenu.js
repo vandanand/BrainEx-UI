@@ -129,28 +129,10 @@ class BuildProgressMenu extends Component {
                         <LinearProgress className="progress" />
                         <Typography className="prog-item" variant="h4">Preprocessing is currently in progress</Typography>
                         <ButtonGroup className="prog-item">
-                            <Link
-                                className="btn btn-secondary"
-                                variant="button"
-                                color="default"
-                                underline="none"
-                                component={RouterLink}
-                                to={root}>
-                                Return to Home Page
-                            </Link>
-                            <Button className="btn btn-secondary" color="default" onClick={this.openModal("home")}>
+                            <Link className="btn btn-secondary" variant="button" underline="none" color="default" onClick={this.openModal("home")}>
                                 Cancel and return to home
-                            </Button>
-                            <Button className="btn btn-secondary" color="default" onClick={this.openModal("cancel")}>
-                                Cancel
-                            </Button>
-                            <Link
-                                className="btn btn-secondary"
-                                variant="button"
-                                color="default"
-                                underline="none"
-                                component={RouterLink}
-                                to={build_options}>
+                            </Link>
+                            <Link className="btn btn-secondary" variant="button" underline="none" color="default" onClick={this.openModal("cancel")}>
                                 Cancel
                             </Link>
                         </ButtonGroup>
@@ -160,7 +142,7 @@ class BuildProgressMenu extends Component {
                     <div className="prog-content finished hide-this">
                         <LinearProgress variant="determinate" value={100} className="progress"/>
                         <Typography className="prog-item" variant="h4">Preprocessing stage is complete!</Typography>
-                        todo by Sequences does she mean lines of data?
+                        {/*todo by Sequences does she mean lines of data?*/}
                         <Typography className="prog-item" variant="h4">Sequences Processed: N/A</Typography>
                         <ButtonGroup className="prog-item">
                             <Link
