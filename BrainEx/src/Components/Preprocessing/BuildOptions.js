@@ -164,16 +164,7 @@ class BuildOptions extends Component {
         // todo form_data.current_file = form_data.current_file.toString();
         // console.log(form_data);
         // send form info where it needs to go here (use state values)
-        // Hook up to Kyra's server
-        axios.post('http://localhost:5000/build', form_data)
-            .then(function (response) {
-                console.log(response);
-                BuildProgressMenu.isPreprocessing = false;
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-        this.props.history.push(build_progress, {loi_min: this.state.loi_val[0], loi_max: this.state.loi_val[1]}); // proceed to next page once information has been passed
+        this.props.history.push(build_progress, {form_data: form_data, loi_min: this.state.loi_val[0], loi_max: this.state.loi_val[1]}); // proceed to next page once information has been passed
     };
 
     render() {
