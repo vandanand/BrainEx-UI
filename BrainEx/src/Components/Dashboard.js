@@ -12,8 +12,6 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Link from '@material-ui/core/Link';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import Chart from './Chart';
 import DataTable from './DataTable';
 import CurrSeqSelection from './CurrSeqSelection'
 import Filter from './Filter'
@@ -60,7 +58,7 @@ const useStyles = makeStyles(theme => ({
         flexDirection: 'column',
     },
     fixedHeight: {
-        height: 580,
+        height: 525,
     }
 }));
 
@@ -112,7 +110,7 @@ export default function Dashboard(props) {
                             <Grid item lg={12}>
                                 <Paper className={fixedHeightPaper}>
                                     {/*<Chart/>*/}
-                                    <Chart/>
+                                    <ChartData/>
                                 </Paper>
                             </Grid>
                             <Grid item lg={12}>

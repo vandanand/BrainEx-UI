@@ -4,9 +4,6 @@ import * as d3 from 'd3';
 const width = 750;
 const height = 460;
 const margin = {top: 25, right: 25, bottom: 25, left: 25};
-const red = '#eb6a5b';
-const blue = '#52b6ca';
-const black = '#000000';
 
 class MainChartViz extends Component {
     state = {
@@ -79,7 +76,6 @@ class MainChartViz extends Component {
         // return {lines};
     }
 
-//TODO: check this https://codesandbox.io/s/jnox512nyv
     componentDidUpdate() {
         d3.select(this.refs.xAxis).call(this.xAxis);
         d3.select(this.refs.yAxis).call(this.yAxis);
