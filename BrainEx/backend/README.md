@@ -36,7 +36,7 @@ Now change directories to `/BrainEx/backend`<br/>
 copy and paste the "genex" folder of your Genex clone into the root directory of BrainEx-UI<br/>
 
 
-`py -m pip install -r requirments`
+`py -m pip install -r requirements.txt`
 
 ### to run app
 
