@@ -66,12 +66,12 @@ class BuildOptions extends Component {
     }
 
     // dynamically update feature number value in state
-    update_feature = (e) => {
+    /*update_feature = (e) => {
         const feature_val = e.target.value;
         this.setState({
             feature_val: feature_val
         });
-    };
+    };*/
 
     // dynamically update distance type value in state
     update_distance = (e) => {

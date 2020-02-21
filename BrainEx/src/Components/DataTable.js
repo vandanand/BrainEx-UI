@@ -44,15 +44,27 @@ function generateColors(numColors, top_color, bottom_color) {
 
 export default function DataTable() {
     const [checkboxValues, setCheckboxValues] = useState(() => initializeCheckboxValues(query_results_dd));
-    const [allData, setAllData] = useState(() => createTable(query_results_dd));
-    const [displayData, setDisplayData] = useState(() => allData);
+    const [tableData, setData] = useState(() => createTable(query_results_dd));
+    // const [displayData, setDisplayData] = useState(() => allData);
     const [allChecked, setAllChecked] = useState(() => true);
 
     useEffect(() => {
-        // action on update of checkboxValues
+        // actions on update of checkboxValues
         // todo PUT ANY THING TO DO WITH TRIGGERING ANYTHING AFTER CHECKBOXES CHANGE HERE
-        console.log(checkboxValues);
-        console.log("State updated.");
+        /*uncheck show all if not all values are selected*/
+        let all_checked = checkboxValues.every((value) => value);
+        if (!all_checked) {
+            setAllChecked(all_checked);
+        }
+        /*filtering data to send to server*/
+        let filteredData = [];
+        tableData.map((row, index) => {
+            if (checkboxValues[index]) { // if the given row is checked
+                let length = filteredData.push(row);
+            }
+        });
+        console.log(filteredData);
+        // send display data?
     }, [checkboxValues]);
 
     function handleCheckboxChange(index, event) {
@@ -123,10 +135,10 @@ export default function DataTable() {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {displayData.map((row, i) => (
+                    {tableData.map((row, i) => (
                         <TableRow key={row.id}>
                             <TableCell style={{backgroundColor: "#" + row.color}}>
-                                <Checkbox id={i} key={i} checked={checkboxValues[i]} onChange={(e) => handleCheckboxChange(i,e)}/>
+                                <Checkbox id={row.id} key={i} checked={checkboxValues[i]} onChange={(e) => handleCheckboxChange(i,e)}/>
                             </TableCell>
                             <TableCell>{row.subjectID}</TableCell>
                             <TableCell>{row.eventName}</TableCell>
