@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component, useState, useEffect} from 'react';
 import clsx from 'clsx';
 import {makeStyles} from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -66,21 +66,20 @@ const useStyles = makeStyles(theme => ({
 export default function Dashboard(props) {
     const classes = useStyles();
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+    const [receivedData, setData] = useState(() => []);
+
+    useEffect(() => {
+        console.log("parent received info!");
+        console.log(receivedData);
+    });
+
+    function receiveData(tableData) {
+        console.log("calling receiveData");
+        setData(tableData);
+    }
+
     return (
         <div className={classes.root}>
-            {/*<CssBaseline/>*/}
-            {/*<AppBar position="absolute">
-                <Toolbar className={classes.toolbar}>
-                    <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-                        BrainEx
-                    </Typography>
-                    <IconButton color="inherit">
-                        <Badge badgeContent={4} color="secondary">
-                            <NotificationsIcon/>
-                        </Badge>
-                    </IconButton>
-                </Toolbar>
-            </AppBar>*/}
             <main className={classes.content}>
                 {/*<div className={classes.appBarSpacer}/>*/}
                 <Container maxWidth='lg' className={classes.container}>
@@ -116,7 +115,7 @@ export default function Dashboard(props) {
                             <Grid item lg={12}>
                                 {/* Table */}
                                 <Paper className={fixedHeightPaper}>
-                                    <DataTable/>
+                                    <DataTable sendData={receiveData}/>
                                 </Paper>
                             </Grid>
                             {/*for testing purposes*/}

@@ -7,74 +7,92 @@ import CurSeqChartViz from "./CurSeqChartViz";
 import axios from 'axios';
 import {withStyles} from "@material-ui/core/styles";
 
-let file = null;
 
-const useStyles = makeStyles(theme => ({
+// var file = null;
+
+const useStyles = makeStyles({
     depositContext: {
         flex: 1,
     },
     input: {
         display: 'none',
     }
-}));
+});
 
 
 function preventDefault(event) {
     event.preventDefault();
 }
 
-function onChangeHandler(e) {
-    file = e.target.files[0]
-}
-
-function onClickHandler(e) {
-    e.preventDefault(); // prevents page refresh on submit
-    /* create form data object and append files to be uploaded onto it*/
-    let file_form = new FormData();
-    file_form.append("sequence_file", file);
-    // Hook up to Kyra's server
-    axios.post('http://localhost:5000/uploadSequence', file_form)
-        .then(function (response) {
-            console.log(response);
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
-}
-
 class CurrSeqSelection extends Component {
-    state = {
-        // channelVals: [],
-        // lineColor:[],
-        file: 'sequence_file',
-    };
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            channelValues: [],
+            // lineColor:[],
+            file: 'jsonOutput' // city whose temperatures to show
+        };
+        this.updateFile = this.updateFile.bind(this);
+        this.onClickHandler = this.onClickHandler.bind(this);
+    }
+
+    componentDidMount() {
+        Promise.all([
+            fetch(`${process.env.PUBLIC_URL}/jsonOutput.json`),
+            // fetch(`${process.env.PUBLIC_URL}/mainVizColor.json`)
+        ]).then(responses => Promise.all(responses.map(resp => resp.json())))
+            .then(([jsonOutput, mainVizColor]) => {
+                // sf.forEach(day => day.date = new Date(day.date));
+                // this.setState({channelVals: {sf, ny}});
+                this.setState(
+                    {channelValues: {jsonOutput}}
+                );
+            });
+
+    }
+
+    onClickHandler = (e) => {
+        e.preventDefault(); // prevents page refresh on submit
+        /* create form data object and append files to be uploaded onto it*/
+        let file_form = new FormData();
+        this.state.file.map((file) => {
+            file_form.append("sequence_file", file); // add upload_files to FormData object
+        });
+        // Hook up to Kyra's server
+        axios.post('http://localhost:5000/uploadSequence', file_form)
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    };
 
     updateFile = (e) => {
         // this.setState({file: e.target.value});
-        onChangeHandler();
-        this.setState({file: 'sequence_file'});
-    }
+        this.setState({file: [...e.target.files]});
+    };
 
     render() {
-        const {classes} = this.props;
-        const data = this.state.file;
+        const data = this.state.channelValues[this.state.file];
         return (
             <React.Fragment>
-                <div className={classes.root}>
+                {/*<div className={classes.root}>*/}
+                <div>
                     <Title>Query Sequence</Title>
                     <CurSeqChartViz/>
                     <input
-                        accept="text/csv/*"
+                        //accept="text/csv/*"
                         // className={classes.input}
                         id="outlined-button-file"
-                        multiple
+                        // multiple
                         type="file"
                         onChange={this.updateFile}
                     />
                     <label htmlFor="outlined-button-file">
                         <Button variant="outlined" component="span" size="small" startIcon={<CloudUploadIcon/>}
-                                onClick={onClickHandler}>
+                                onClick={this.onClickHandler}>
                             Upload
                         </Button>
                     </label>
@@ -85,4 +103,31 @@ class CurrSeqSelection extends Component {
     }
 }
 
-export default withStyles(useStyles)(CurrSeqSelection);
+export default CurrSeqSelection;
+
+
+//
+// export default function CurrSeqSelection() {
+//     const classes = useStyles();
+//     return (
+//         <React.Fragment>
+//             <div className={classes.root}>
+//                 <Title>Query Sequence</Title>
+//                 <CurSeqChartViz/>
+//                 <input
+//                     accept="text/csv/*"
+//                     className={classes.input}
+//                     id="outlined-button-file"
+//                     multiple
+//                     type="file"
+//                     onChange={onChangeHandler}
+//                 />
+//                 <label htmlFor="outlined-button-file">
+//                     <Button variant="outlined" component="span" size="small" startIcon={<CloudUploadIcon/>} onClick={onClickHandler} >
+//                         Upload
+//                     </Button>
+//                 </label>
+//             </div>
+//         </React.Fragment>
+//     );
+// }

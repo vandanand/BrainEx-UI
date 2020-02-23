@@ -2,6 +2,7 @@ import os
 
 import genex.database.genexengine as gxdb
 from genex.utils.gxe_utils import from_csv
+from genex.classes.Sequence import Sequence
 
 from pyspark import SparkContext, SparkConf
 
@@ -9,6 +10,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 
 import pandas as pd
+import numpy as np
 
 UPLOAD_FOLDER = "./uploads"
 
@@ -29,7 +31,7 @@ def is_csv(filename):
 
 @application.route('/getCSV', methods=['GET', 'POST'])
 def getStoreCSV():
-    global uploadPath, numFeatures
+    global numFeatures
 
     if request.method == 'POST':
         if 'uploaded_data' not in request.files:
@@ -40,25 +42,28 @@ def getStoreCSV():
         if csv and is_csv(csv.filename):
             toSave = os.path.join(application.config['UPLOAD_FOLDER'], csv.filename)
             csv.save(toSave) # Secure filename?? See tutorial
-            uploadPath = toSave
-            dataframe = pd.read_csv(uploadPath, delimiter=',')
-            dataframe.columns = map(str.lower, dataframe.columns)
-            if not 'start time' in dataframe.columns and not 'end time' in dataframe.columns:
-                return("Please include a start and end column", 400)
-            else:
-                maxVal = (dataframe['end time'] - dataframe['start time']).max()
-                notFeature = 0
-                for elem in dataframe.columns:
-                    if 'unnamed' in elem:
-                        notFeature = notFeature + 1;
-                numFeatures = len(dataframe.columns) - notFeature
-                returnDict = {
-                    "message": "File has been uploaded.",
-                    "maxLength": str(maxVal)
-                }
-                return jsonify(returnDict)
+            return "File has been uploaded."
         else:
             return("Invalid file.  Please upload a CSV", 400)
+
+@application.route('/setFile', methods=['GET', 'POST'])
+def setFile():
+    global uploadPath, numFeatures
+
+    if request.method == 'POST':
+        uploadPath = os.path.join(application.config['UPLOAD_FOLDER'], request.form['set_data'])
+        dataframe = pd.read_csv(uploadPath, delimiter=',')
+        dataframe.columns = map(str.lower, dataframe.columns)
+        notFeature = 0
+        for elem in dataframe.columns:
+            if 'unnamed' in elem:
+                notFeature = notFeature + 1;
+        numFeatures = len(dataframe.columns) - notFeature
+        returnDict = {
+            "message": "File has been set.",
+            "maxLength": str(notFeature)
+        }
+        return jsonify(returnDict)
 
 @application.route('/build', methods=['GET', 'POST'])
 def build():
@@ -114,8 +119,24 @@ def uploadSequence():
             if numLines == 1:
                 with open(csv.filename) as f:
                     queryLine = f.readline()
-                    querySeq = queryLine.split(',')
-                return "File has been uploaded."
+                    queryLine = queryLine.rstrip().split(',')
+                    queryArr = queryLine[numFeatures:]
+                    queryArr = [float(i) for i in queryArr]
+                    queryArr = np.asarray(queryArr)
+                    querySeq = Sequence(seq_id=queryLine[:numFeatures], start=1, end=24, data=queryArr)
+                length = queryArr.size
+                pandasQ = pd.DataFrame({"query_seq": queryArr})
+                timeStamps = []
+                x = range(length)
+                for n in x:
+                    timeStamps.append(n)
+                pandasQ["sequence_length"] = timeStamps
+                json = pandasQ.to_json(orient="index")
+                returnDict = {
+                    "message": "File has been uploaded.",
+                    "sequenceJSON": json
+                }
+                return jsonify(returnDict)
             else:
                 return("Please only submit one sequence at a time", 400)
         else:
@@ -124,4 +145,21 @@ def uploadSequence():
 @application.route('/query', methods=['GET', 'POST'])
 def complete_query():
     if request.method == "POST":
-        quit()
+        #TODO: Ask Leo where loi is
+        # loi_temp = request.form['loi_temp']
+        # loiA = loi_temp.split('')
+        # loi = [float(loiA[0]), float(loiA[1])]
+        best_matches = int(request.form['best_matches'])
+        overlap = float(request.form['overlap'])
+        excludeS = request.form['excludeS']
+        if excludeS == "false":
+            exclude = False
+        else:
+            exclude = True
+        try:
+            query_result = brainexDB.query(query=querySeq, best_k=best_matches, exclude_same_id=exclude, overlap=overlap)
+            pandaResult = pd.DataFrame(query_result)
+            print(pandaResult[1])
+            return("here")
+        except Exception as e:
+            return (str(e), 400)

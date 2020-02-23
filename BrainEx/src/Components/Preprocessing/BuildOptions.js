@@ -18,6 +18,7 @@ import {
     build_progress,
     select_new_dataset
 } from "../../data/default_values";
+import BuildProgressMenu from "./BuildProgressMenu.js";
 
 class BuildOptions extends Component {
 
@@ -27,12 +28,20 @@ class BuildOptions extends Component {
             // feature_val: 5,
             distance_val: default_dv,
             sim_val: default_st, /*[0:1]*/
-            loi_val: [0, 10], /*[0:max length]*/
+            loi_val: (this.props.location.state !== undefined) ? [1, this.props.location.state.loi_max] : [1, 100], /*[0:max length]*/
+            loi_max: (this.props.location.state !== undefined) ? this.props.location.state.loi_max : 100,
             spark_val: default_sv,
             num_workers: default_nw,
             dm_val: default_dm,
             mrm_val: default_mrm,
-            file: this.props.location.state.file
+            file: (this.props.location.state !== undefined) ? this.props.location.state.file : {
+                "name": "Bqrzgwyjeumizp.csv",
+                "lastModified": "7112684915113",
+                "lastModifiedDate": "7/9/2019",
+                "webkitRelativePath": null,
+                "size": 597813,
+                "maxValue": 215
+            }
         };
         this.update_feature = this.update_feature.bind(this);
         this.update_distance = this.update_distance.bind(this);
@@ -63,12 +72,12 @@ class BuildOptions extends Component {
     }
 
     // dynamically update feature number value in state
-    update_feature = (e) => {
+    /*update_feature = (e) => {
         const feature_val = e.target.value;
         this.setState({
             feature_val: feature_val
         });
-    };
+    };*/
 
     // dynamically update distance type value in state
     update_distance = (e) => {
@@ -161,15 +170,11 @@ class BuildOptions extends Component {
         // todo form_data.current_file = form_data.current_file.toString();
         // console.log(form_data);
         // send form info where it needs to go here (use state values)
-        // Hook up to Kyra's server
-        axios.post('http://localhost:5000/build', form_data)
-        .then(function (response) {
-          console.log(response);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-        this.props.history.push(build_progress, {loi_min: this.state.loi_val[0], loi_max: this.state.loi_val[1]}); // proceed to next page once information has been passed
+        this.props.history.push(build_progress, {
+            form_data: form_data,
+            loi_min: this.state.loi_val[0],
+            loi_max: this.state.loi_val[1]
+        }); // proceed to next page once information has been passed
     };
 
     render() {
@@ -228,8 +233,6 @@ class BuildOptions extends Component {
                         </tr>
                         {/*form input 4*/}
                         <tr className="form-group">
-                            {/*todo range "max" will have to be dynamically set by passing props from
-                                    SelectADataset into BuildOptions state */}
                             <td className="form_label">
                                 <InputLabel htmlFor="loi">Length of Interest:</InputLabel>
                             </td>
@@ -238,12 +241,12 @@ class BuildOptions extends Component {
                                     label="start"
                                     id="loi"
                                     inputProps={{
-                                            step: 0.1,
-                                            min: 0,
-                                            max: this.props.location.state.loi_max,
-                                            type: 'number',
-                                            'aria-labelledby': 'input-slider',
-                                        }}
+                                        step: 0.1,
+                                        min: 1,
+                                        max: this.state.loi_max,
+                                        type: 'number',
+                                        'aria-labelledby': 'input-slider',
+                                    }}
                                     value={this.state.loi_val[0]}
                                     onChange={this.update_loi_start}
                                 />
@@ -251,26 +254,40 @@ class BuildOptions extends Component {
                                     id="loi"
                                     value={this.state.loi_val}
                                     step={0.1}
-                                    min={0}
-                                    max={this.props.location.state.loi_max}
+                                    min={1}
+                                    max={this.state.loi_max}
                                     onChange={this.update_loi}
                                 />
                                 <Input
                                     label="end"
                                     id="loi"
                                     inputProps={{
-                                            step: 0.1,
-                                            min: 0,
-                                            max: this.props.location.state.loi_max,
-                                            type: 'number',
-                                            'aria-labelledby': 'input-slider',
-                                        }}
+                                        step: 0.1,
+                                        min: 1,
+                                        max: this.state.loi_max,
+                                        type: 'number',
+                                        'aria-labelledby': 'input-slider',
+                                    }}
                                     value={this.state.loi_val[1]}
                                     onChange={this.update_loi_end}
                                 />
                             </td>
                         </tr>
-                        {/*form input 5*/}
+                        {/*form input 7*/}
+                        <tr className="form-group">
+                            <td className="form_label">
+                                <InputLabel htmlFor="num_workers">Number of Workers</InputLabel>
+                            </td>
+                            <td className="form_input">
+                                <TextField
+                                    id="num_workers"
+                                    type="number"
+                                    InputProps={{inputProps: {min: 0}}}
+                                    value={this.state.num_workers}
+                                    onChange={this.update_nw}/>
+                            </td>
+                        </tr>
+                        {/*form input 6*/}
                         <tr className="form-group">
                             <td className="form_label">
                                 <InputLabel htmlFor="use_spark">Use Spark:</InputLabel>
@@ -292,16 +309,6 @@ class BuildOptions extends Component {
                         <tr className="advanced_spark">
                             <td className="spark-options" colSpan={2}>
                                 <div className="left-element">
-                                    <InputLabel>Number of Workers</InputLabel>
-                                    <TextField
-                                        id="driver_mem"
-                                        type="number"
-                                        InputProps={{ inputProps: { min: 0 } }}
-                                        value={this.state.num_workers}
-                                        onChange={this.update_nw}
-                                    />
-                                </div>
-                                <div className="middle-element">
                                     <InputLabel>Driver Memory</InputLabel>
                                     <TextField
                                         id="driver_mem"
