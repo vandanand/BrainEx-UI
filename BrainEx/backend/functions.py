@@ -165,7 +165,7 @@ def complete_query():
             seqs = [i[1] for i in query_result]
             for i in seqs:
                 i = i.fetch_data(brainexDB.data_original)
-            ids = [i.seq_id for i in seqs]
+            ids = [str(i.seq_id) for i in seqs]
             start = [i.start for i in seqs]
             end = [i.end for i in seqs]
             data = [i.data.tolist() for i in seqs]
