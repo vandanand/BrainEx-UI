@@ -2,11 +2,10 @@ import React, {Component} from 'react';
 import MainChartViz from './MainChartViz';
 import {colors} from "@material-ui/core";
 import {useTheme} from '@material-ui/core/styles';
-import {Label, Line, LineChart, ResponsiveContainer, XAxis, YAxis} from 'recharts';
+import {ResponsiveContainer} from 'recharts';
 import Title from './Title';
-import ChartData from "./ChartData";
 
-export default function ReCharts() {
+export default function Chart() {
     const theme = useTheme();
 
 class ChartData extends Component {

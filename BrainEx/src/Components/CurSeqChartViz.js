@@ -6,21 +6,6 @@ import {curveMonotoneX, line} from 'd3-shape';
 import {extent} from 'd3-array';
 import {transition} from 'd3-transition';
 
-
-// const useStyles = makeStyles(theme => ({
-//     root: {
-//         display: 'flex',
-//         alignItems: 'center',
-//         justifyContent: 'center',
-//         margin: theme.spacing(1)
-//     },
-//     highlight: {
-//         backgroundColor: 'red',
-//     }
-// }));
-//
-// const classes = useStyles();
-
 class CurSeqChartViz extends Component {
     constructor() {
         super();
@@ -106,4 +91,3 @@ class CurSeqChartViz extends Component {
 }
 
 export default CurSeqChartViz;
-// render(<curSeqLineChart />, document.getElementById('root'));
