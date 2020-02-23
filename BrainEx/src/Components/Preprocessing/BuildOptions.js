@@ -37,7 +37,6 @@ class BuildOptions extends Component {
             mrm_val: default_mrm,
             file: (this.props.location.state !== undefined) ? this.props.location.state.file : {"name":"Bqrzgwyjeumizp.csv","lastModified":"7112684915113","lastModifiedDate":"7/9/2019","webkitRelativePath":null,"size":597813,"maxValue":215}
         };
-        this.update_feature = this.update_feature.bind(this);
         this.update_distance = this.update_distance.bind(this);
         this.update_sim_range = this.update_sim_range.bind(this);
         this.update_sim_text = this.update_sim_text.bind(this);
