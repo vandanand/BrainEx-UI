@@ -1,6 +1,5 @@
 import React , { Component } from "react";
 import '../../Stylesheets/BuildOptions.css';
-// import 'bootstrap/dist/css/bootstrap.min.css';
 import Slider, { Range } from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import { TextField, Select, MenuItem, Checkbox, Button, Link, InputLabel } from '@material-ui/core';
@@ -29,13 +28,20 @@ class BuildOptions extends Component {
             // feature_val: 5,
             distance_val: default_dv,
             sim_val: default_st, /*[0:1]*/
-            loi_val: (this.props.location.state !== undefined) ? [1, this.props.location.state.loi_max] : [1,100], /*[0:max length]*/
+            loi_val: (this.props.location.state !== undefined) ? [1, this.props.location.state.loi_max] : [1, 100], /*[0:max length]*/
             loi_max: (this.props.location.state !== undefined) ? this.props.location.state.loi_max : 100,
             spark_val: default_sv,
             num_workers: default_nw,
             dm_val: default_dm,
             mrm_val: default_mrm,
-            file: (this.props.location.state !== undefined) ? this.props.location.state.file : {"name":"Bqrzgwyjeumizp.csv","lastModified":"7112684915113","lastModifiedDate":"7/9/2019","webkitRelativePath":null,"size":597813,"maxValue":215}
+            file: (this.props.location.state !== undefined) ? this.props.location.state.file : {
+                "name": "Bqrzgwyjeumizp.csv",
+                "lastModified": "7112684915113",
+                "lastModifiedDate": "7/9/2019",
+                "webkitRelativePath": null,
+                "size": 597813,
+                "maxValue": 215
+            }
         };
         this.update_distance = this.update_distance.bind(this);
         this.update_sim_range = this.update_sim_range.bind(this);
@@ -163,7 +169,11 @@ class BuildOptions extends Component {
         // todo form_data.current_file = form_data.current_file.toString();
         // console.log(form_data);
         // send form info where it needs to go here (use state values)
-        this.props.history.push(build_progress, {form_data: form_data, loi_min: this.state.loi_val[0], loi_max: this.state.loi_val[1]}); // proceed to next page once information has been passed
+        this.props.history.push(build_progress, {
+            form_data: form_data,
+            loi_min: this.state.loi_val[0],
+            loi_max: this.state.loi_val[1]
+        }); // proceed to next page once information has been passed
     };
 
     render() {
@@ -271,7 +281,7 @@ class BuildOptions extends Component {
                                 <TextField
                                     id="num_workers"
                                     type="number"
-                                    InputProps={{ inputProps: { min: 0 } }}
+                                    InputProps={{inputProps: {min: 0}}}
                                     value={this.state.num_workers}
                                     onChange={this.update_nw}/>
                             </td>

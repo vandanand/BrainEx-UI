@@ -1,8 +1,10 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import {Link as RouterLink} from "react-router-dom";
 import "../../Stylesheets/BuildProgressMenu.css";
-import {Link, ButtonGroup, Typography, LinearProgress,
-    Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from '@material-ui/core';
+import {
+    Link, ButtonGroup, Typography, LinearProgress,
+    Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle
+} from '@material-ui/core';
 import $ from "jquery";
 import {query_page, data_exp, build_options, root} from "../../data/default_values";
 import Button from "@material-ui/core/Button";
@@ -109,13 +111,16 @@ class BuildProgressMenu extends Component {
                 {(this.state.isPreprocessing) ? (
                     /*display when build is in progress*/
                     <div className="prog-content in-progress">
-                        <LinearProgress className="progress" />
-                        <Typography className="prog-item" variant="h4">Preprocessing is currently in progress</Typography>
+                        <LinearProgress className="progress"/>
+                        <Typography className="prog-item" variant="h4">Preprocessing is currently in
+                            progress</Typography>
                         <ButtonGroup className="prog-item">
-                            <Link className="btn btn-secondary" variant="button" underline="none" color="default" onClick={this.openModal("home")}>
+                            <Link className="btn btn-secondary" variant="button" underline="none" color="default"
+                                  onClick={this.openModal("home")}>
                                 Cancel and return to home
                             </Link>
-                            <Link className="btn btn-secondary" variant="button" underline="none" color="default" onClick={this.openModal("cancel")}>
+                            <Link className="btn btn-secondary" variant="button" underline="none" color="default"
+                                  onClick={this.openModal("cancel")}>
                                 Cancel
                             </Link>
                         </ButtonGroup>
@@ -157,7 +162,8 @@ class BuildProgressMenu extends Component {
                                     state: {
                                         loi_max: this.state.loi_max,
                                         loi_min: this.state.loi_min
-                                    }}}>
+                                    }
+                                }}>
                                 Find Similar Sequences
                             </Link>
                         </ButtonGroup>

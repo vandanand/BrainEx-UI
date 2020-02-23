@@ -1,5 +1,5 @@
-import React, { Component, useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import React, {Component, useState, useEffect} from 'react';
+import {makeStyles} from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -7,7 +7,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Title from './Title';
 import Checkbox from '@material-ui/core/Checkbox';
-import { query_results_dd } from "../data/query_results_dd";
+import {query_results_dd} from "../data/query_results_dd";
 import Rainbow from 'rainbowvis.js/rainbowvis.js';
 import {top_color, bottom_color} from '../data/default_values';
 
@@ -107,7 +107,7 @@ export default class DataTable extends Component {
         let numCheckboxes = data.length;
         // create list of checkbox values (initialized to true)
         let checkbox_values = []; // value to be stored in showSequence (the state values are true/false)
-        for (let i=0; i<numCheckboxes; i++) {
+        for (let i = 0; i < numCheckboxes; i++) {
             let length = checkbox_values.push(true);
         }
         return checkbox_values;
@@ -117,7 +117,7 @@ export default class DataTable extends Component {
     createTable(data) {
         const table = [];
         let colors = generateColors(data.length, top_color, bottom_color);
-        data.map( (row, index) => {
+        data.map((row, index) => {
             // todo add checkbox functionality here
             // todo should id of checkbox be index or row.id?
             // todo for the state value of this checkbox have an array of true/false and reference it by index when updating/displaying
@@ -152,7 +152,8 @@ export default class DataTable extends Component {
                         {this.state.tableData.map((row, i) => (
                             <TableRow key={row.id}>
                                 <TableCell style={{backgroundColor: "#" + row.color}}>
-                                    <Checkbox id={row.id} key={i} checked={this.state.checkboxValues[i]} onChange={(e) => this.handleCheckboxChange(i,e)}/>
+                                    <Checkbox id={row.id} key={i} checked={this.state.checkboxValues[i]}
+                                              onChange={(e) => this.handleCheckboxChange(i, e)}/>
                                 </TableCell>
                                 <TableCell>{row.subjectID}</TableCell>
                                 <TableCell>{row.eventName}</TableCell>

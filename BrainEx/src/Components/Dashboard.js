@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from 'react';
+import React, {Component, useState, useEffect} from 'react';
 import clsx from 'clsx';
 import {makeStyles} from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,19 +12,18 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Link from '@material-ui/core/Link';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import Chart from './Chart';
 import DataTable from './DataTable';
-import CurrSeqSelection from './CurrSeqSelection'
-import Filter from './Filter'
-import ChartData from './ChartData'
-import Stats from './Stats'
+import CurrSeqSelection from './CurrSeqSelection.js'
+import Filter from './Filter.js'
+import ChartData from './ChartData.js'
+import Stats from './Stats.js'
+import ReCharts from './ReCharts.js'
 
 function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
             {'Copyright © '}
-            <Link color="inherit" href="https://material-ui.com/">
+            <Link color="inherit" href="http://interaction.mystrikingly.com/#people/">
                 Worcester Polytechnic Institute Interaction Lab
             </Link>{' '}
             {new Date().getFullYear()}
@@ -60,7 +59,7 @@ const useStyles = makeStyles(theme => ({
         flexDirection: 'column',
     },
     fixedHeight: {
-        height: 580,
+        height: 525,
     }
 }));
 
@@ -107,18 +106,25 @@ export default function Dashboard(props) {
                             </Grid>
                         </Grid>
                         <Grid item container spacing={2} direction="row" lg={8}>
-                            {/* Chart */}
                             <Grid item lg={12}>
+                                {/* MainChart */}
                                 <Paper className={fixedHeightPaper}>
-                                    {/*<Chart/>*/}
-                                    <ChartData data={receivedData}/>
+                                    <ChartData/>
                                 </Paper>
                             </Grid>
                             <Grid item lg={12}>
+                                {/* Table */}
                                 <Paper className={fixedHeightPaper}>
                                     <DataTable sendData={receiveData}/>
                                 </Paper>
                             </Grid>
+                            {/*for testing purposes*/}
+                            <Grid item lg={12}>
+                                <Paper className={fixedHeightPaper}>
+                                    <ReCharts/>
+                                </Paper>
+                            </Grid>
+                            {/*for testing purposes ends here*/}
                         </Grid>
                     </Grid>
                     <Box pt={4}>
