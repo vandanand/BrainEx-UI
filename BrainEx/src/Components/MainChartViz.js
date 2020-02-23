@@ -4,14 +4,11 @@ import * as d3 from 'd3';
 const width = 750;
 const height = 460;
 const margin = {top: 25, right: 25, bottom: 25, left: 25};
-const red = '#eb6a5b';
-const blue = '#52b6ca';
-const black = '#000000';
 
 class MainChartViz extends Component {
     state = {
         lines: null,
-        lineColorList: null,
+        lineColorList: ["#d8b365", "#f5f5f5", "#5ab4ac"],
         lineCol: null,
         // d3 helpers
         xScale: d3.scaleLinear().range([margin.left, width - margin.right]),
@@ -40,23 +37,40 @@ class MainChartViz extends Component {
         yScale.domain([-5, 5]);
         // yScale.domain([valMin, valMax]); this should be updated to use the global min/max
         //currently does not populate one line at a time
-        var lineColorList = ["#d8b365", "#f5f5f5", "#5ab4ac"];
+        let lineColorList = ["#d8b365", "#f5f5f5", "#5ab4ac"];
         let lineCol;
         for (let col of lineColorList) {
             lineCol = col;
         }
         lineGenerator.x(d => xScale(d[firstCol]));
-        // calculate line for lows
-        var lines = [];
+        // calculate line for drawing paths
+        let lines = [];
         for (let cname of sliced) {
             lineGenerator
                 .defined(d => !isNaN(d[cname]))
                 .y(d => yScale(d[cname]));
-            lines = lines + lineGenerator(data);
+            lines.push(lineGenerator(data));
         }
 
-
+        lines.forEach(function (d, i) {
+            d3.selectAll("#svg")
+                .append("path")
+                .attr("fill", "none")
+                .attr("d", lines[i])
+                .attr("stroke", lineColorList[i])
+        })
         return {lines, lineCol};
+        // console.log(data);
+        // let lines = data.map((d,i)=> {
+        //
+        //     // let cname of sliced
+        //     return {
+        //         y: yScale(d => !isNaN(d[i])),
+        //         // x: xScale(d[firstCol]),
+        //         lineCol: lineColorList[sliced.findIndex(d[i])]
+        //     }
+        // })
+        // return {lines};
     }
 
     componentDidUpdate() {
@@ -66,8 +80,9 @@ class MainChartViz extends Component {
 
     render() {
         return (
-            <svg width={width} height={height}>
-                <path d={this.state.lines} fill='none' stroke={this.state.lineCol} strokeWidth='2'/>
+            <svg id="svg" width={width} height={height}>
+                {/*{this.state.lines.map((d, i) => (<path key={i} d={d.y} fill='none' stroke={d.lineCol} strokeWidth='2'/>))}*/}
+                {/*<path d={this.state.lines} fill='none' stroke={black} strokeWidth='2'/>*/}
                 <g>
                     <g ref='xAxis' transform={`translate(0, ${height - margin.bottom})`}/>
                     <g ref='yAxis' transform={`translate(${margin.left}, 0)`}/>

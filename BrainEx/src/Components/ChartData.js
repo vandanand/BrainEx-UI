@@ -1,6 +1,13 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import MainChartViz from './MainChartViz';
 import {colors} from "@material-ui/core";
+import {useTheme} from '@material-ui/core/styles';
+import {Label, Line, LineChart, ResponsiveContainer, XAxis, YAxis} from 'recharts';
+import Title from './Title';
+import ChartData from "./ChartData";
+
+export default function ReCharts() {
+    const theme = useTheme();
 
 class ChartData extends Component {
     constructor(props) {
@@ -26,10 +33,8 @@ class ChartData extends Component {
     }
 
     componentDidMount() {
-        //todo @Kyra - mg (replace this with api call)
         Promise.all([
             fetch(`${process.env.PUBLIC_URL}/jsonOutput.json`),
-            // fetch(`${process.env.PUBLIC_URL}/mainVizColor.json`)
         ]).then(responses => Promise.all(responses.map(resp => resp.json())))
             .then(([jsonOutput, mainVizColor]) => {
                 // sf.forEach(day => day.date = new Date(day.date));
@@ -38,12 +43,13 @@ class ChartData extends Component {
                     {channelVals: {jsonOutput}}
                 );
             });
+
     }
 
     updateFile = (e) => {
         // this.setState({file: e.target.value});
         this.setState({file: 'jsonOutput'});
-    };
+    }
 
     render() {
         const data = this.state.channelVals[this.state.file];
@@ -67,4 +73,18 @@ class ChartData extends Component {
     }
 }
 
-export default ChartData;
+    return (
+        <React.Fragment>
+            <Title>Query Result</Title>
+            <ResponsiveContainer>
+                <ChartData/>
+            </ResponsiveContainer>
+        </React.Fragment>
+    );
+}
+
+
+
+
+
+

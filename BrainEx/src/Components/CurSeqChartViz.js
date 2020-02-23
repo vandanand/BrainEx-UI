@@ -26,39 +26,27 @@ class CurSeqChartViz extends Component {
         super();
         this.state = {
             data: [
-                {timeStamp: 'Jan', value: 30},
-                {timeStamp: 'Feb', value: 10},
-                {timeStamp: 'Mar', value: 50},
-                {timeStamp: 'Apr', value: 20},
-                {timeStamp: 'May', value: 80},
-                {timeStamp: 'Jun', value: 30},
-                {timeStamp: 'July', value: 0},
-                {timeStamp: 'Aug', value: 20},
-                {timeStamp: 'Sep', value: 100},
-                {timeStamp: 'Oct', value: 55},
-                {timeStamp: 'Nov', value: 60},
-                {timeStamp: 'Dec', value: 80},
-                {timeStamp: 'Jan', value: 30},
-                {timeStamp: 'Feb', value: 10},
-                {timeStamp: 'Mar', value: 50},
-                {timeStamp: 'Apr', value: 20},
-                {timeStamp: 'May', value: 80},
-                {timeStamp: 'Jun', value: 30},
-                {timeStamp: 'July', value: 0},
-                {timeStamp: 'Aug', value: 20},
-                {timeStamp: 'Sep', value: 100},
-                {timeStamp: 'Oct', value: 55},
-                {timeStamp: 'Nov', value: 60},
-                {timeStamp: 'Dec', value: 80},
+                {seqLength: 0, value: -0.5},
+                {seqLength: 1, value: 1.3},
+                {seqLength: 2, value: -2.6},
+                {seqLength: 3, value: 1.11},
+                {seqLength: 4, value: 0.36},
+                {seqLength: 5, value: -3.2},
+                {seqLength: 6, value: 0.008},
+                {seqLength: 7, value: -0.179},
+                {seqLength: 8, value: 2.36},
+                {seqLength: 9, value: -0.0017},
+                {seqLength: 10, value: -3.02},
+                {seqLength: 11, value: 1.594},
             ],
         }
     }
 
-    randomData = (e) => {
+    UpdateData = (e) => {
         e.preventDefault();
         this.setState((prevState) => {
             const data = prevState.data.map(d => ({
-                timeStamp: d.timeStamp,
+                seqLength: d.seqLength,
                 value: Math.floor((Math.random() * 100) + 1)
             }))
             return {
@@ -69,7 +57,7 @@ class CurSeqChartViz extends Component {
 
     render() {
         const {data} = this.state;
-        const parentWidth = 500;
+        const parentWidth = 350;
 
         const margins = {
             top: 20,
@@ -85,7 +73,7 @@ class CurSeqChartViz extends Component {
         const t = transition().duration(1000);
 
         const xScale = scaleBand()
-            .domain(data.map(d => d.timeStamp))
+            .domain(data.map(d => d.seqLength))
             .rangeRound([0, width]).padding(0.1);
 
         const yScale = scaleLinear()
@@ -94,13 +82,13 @@ class CurSeqChartViz extends Component {
             .nice();
 
         const lineGenerator = line()
-            .x(d => xScale(d.timeStamp))
+            .x(d => xScale(d.seqLength))
             .y(d => yScale(d.value))
             .curve(curveMonotoneX);
 
         return (
             <div>
-                <button onClick={this.randomData}>Randomize data</button>
+                <button onClick={this.UpdateData}>Update data</button>
                 <svg
                     className="lineChartSvg"
                     width={width + margins.left + margins.right}

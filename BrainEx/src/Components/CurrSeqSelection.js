@@ -5,6 +5,7 @@ import Button from '@material-ui/core/Button';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import CurSeqChartViz from "./CurSeqChartViz";
 import axios from 'axios';
+import {withStyles} from "@material-ui/core/styles";
 
 
 // var file = null;
@@ -95,7 +96,7 @@ class CurrSeqSelection extends Component {
                             Upload
                         </Button>
                     </label>
-                    <CurSeqChartViz data={data}/>
+                    {/*<CurSeqChartViz data={data}/>*/}
                 </div>
             </React.Fragment>
         );
