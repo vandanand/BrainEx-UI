@@ -13,16 +13,17 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Link from '@material-ui/core/Link';
 import DataTable from './DataTable';
-import CurrSeqSelection from './CurrSeqSelection'
-import Filter from './Filter'
-import ChartData from './ChartData'
-import Stats from './Stats'
+import CurrSeqSelection from './CurrSeqSelection.js'
+import Filter from './Filter.js'
+import ChartData from './ChartData.js'
+import Stats from './Stats.js'
+import ReCharts from './ReCharts.js'
 
 function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
             {'Copyright © '}
-            <Link color="inherit" href="https://material-ui.com/">
+            <Link color="inherit" href="http://interaction.mystrikingly.com/#people/">
                 Worcester Polytechnic Institute Interaction Lab
             </Link>{' '}
             {new Date().getFullYear()}
@@ -106,18 +107,25 @@ export default function Dashboard(props) {
                             </Grid>
                         </Grid>
                         <Grid item container spacing={2} direction="row" lg={8}>
-                            {/* Chart */}
                             <Grid item lg={12}>
+                                {/* MainChart */}
                                 <Paper className={fixedHeightPaper}>
-                                    {/*<Chart/>*/}
                                     <ChartData/>
                                 </Paper>
                             </Grid>
                             <Grid item lg={12}>
+                                {/* Table */}
                                 <Paper className={fixedHeightPaper}>
                                     <DataTable/>
                                 </Paper>
                             </Grid>
+                            {/*for testing purposes*/}
+                            <Grid item lg={12}>
+                                <Paper className={fixedHeightPaper}>
+                                    <ReCharts/>
+                                </Paper>
+                            </Grid>
+                            {/*for testing purposes ends here*/}
                         </Grid>
                     </Grid>
                     <Box pt={4}>

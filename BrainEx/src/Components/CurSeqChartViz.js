@@ -42,7 +42,7 @@ class CurSeqChartViz extends Component {
         }
     }
 
-    randomData = (e) => {
+    UpdateData = (e) => {
         e.preventDefault();
         this.setState((prevState) => {
             const data = prevState.data.map(d => ({
@@ -88,7 +88,7 @@ class CurSeqChartViz extends Component {
 
         return (
             <div>
-                <button onClick={this.randomData}>Randomize data</button>
+                <button onClick={this.UpdateData}>Update data</button>
                 <svg
                     className="lineChartSvg"
                     width={width + margins.left + margins.right}

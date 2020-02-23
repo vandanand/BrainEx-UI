@@ -51,7 +51,6 @@ class MainChartViz extends Component {
                 .y(d => yScale(d[cname]));
             lines.push(lineGenerator(data));
         }
-        console.log(lines)
 
         lines.forEach(function (d, i) {
             d3.selectAll("#svg")
@@ -60,8 +59,6 @@ class MainChartViz extends Component {
                 .attr("d", lines[i])
                 .attr("stroke", lineColorList[i])
         })
-
-
         return {lines, lineCol};
         // console.log(data);
         // let lines = data.map((d,i)=> {

@@ -6,7 +6,7 @@ import {Label, Line, LineChart, ResponsiveContainer, XAxis, YAxis} from 'rechart
 import Title from './Title';
 import ChartData from "./ChartData";
 
-export default function Chart() {
+export default function ReCharts() {
     const theme = useTheme();
 
     class ChartData extends Component {
