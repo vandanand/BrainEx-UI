@@ -66,7 +66,7 @@ class CurrSeqSelection extends Component {
             .catch(function (error) {
                 console.log(error);
             });
-    }
+    };
 
     updateFile = (e) => {
         // this.setState({file: e.target.value});

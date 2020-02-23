@@ -3,13 +3,30 @@ import MainChartViz from './MainChartViz';
 import {colors} from "@material-ui/core";
 
 class ChartData extends Component {
-    state = {
-        channelVals: [],
-        // lineColor:[],
-        file: 'jsonOutput', // city whose temperatures to show
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            channelVals: [],
+            // lineColor:[],
+            file: 'jsonOutput', // city whose temperatures to show,
+            data: [] // initial value
+        }
+    }
+
+    componentDidUpdate(nextProps, nextState, snapshot) {
+        // only update props if props have changed
+        if (nextProps.data !== this.props.data) { // keep this because it prevents it from entering an infinite rerender loop
+            this.setState({
+                data: this.props.data
+            }, () => {
+                console.log("data received by Chart");
+                console.log(this.state.data);
+            });
+        }
+    }
 
     componentDidMount() {
+        //todo @Kyra - mg (replace this with api call)
         Promise.all([
             fetch(`${process.env.PUBLIC_URL}/jsonOutput.json`),
             // fetch(`${process.env.PUBLIC_URL}/mainVizColor.json`)
@@ -21,18 +38,17 @@ class ChartData extends Component {
                     {channelVals: {jsonOutput}}
                 );
             });
-
     }
 
     updateFile = (e) => {
         // this.setState({file: e.target.value});
         this.setState({file: 'jsonOutput'});
-    }
+    };
 
     render() {
         const data = this.state.channelVals[this.state.file];
         return (
-            <div className="Chart">
+            <div key={this.state.data} className="Chart">
                 {/*<h5>*/}
                 {/*    <select name='updateFile' onChange={this.updateFile}>*/}
                 {/*// this can be changed to the table click for changing files*/}
