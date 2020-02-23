@@ -29,10 +29,10 @@ export default function TabledSeqThnl() {
                 <LineChart
                     data={data}
                     margin={{
-                        top: 16,
-                        right: 16,
+                        top: 0,
+                        right: 0,
                         bottom: 0,
-                        left: 24,
+                        left: 0,
                     }}
                 >
                     {/*<XAxis dataKey="seqLength" tick={false} stroke={theme.palette.text.secondary}/>*/}

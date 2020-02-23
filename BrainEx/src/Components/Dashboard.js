@@ -3,11 +3,7 @@ import clsx from 'clsx';
 import {makeStyles} from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Box from '@material-ui/core/Box';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import Badge from '@material-ui/core/Badge';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -15,9 +11,9 @@ import Link from '@material-ui/core/Link';
 import DataTable from './DataTable';
 import CurrSeqSelection from './CurrSeqSelection.js'
 import Filter from './Filter.js'
-import ChartData from './ChartData.js'
+import Chart from './ChartData.js'
 import Stats from './Stats.js'
-import ReCharts from './ReCharts.js'
+import ReCharts from "./ReChart";
 
 function Copyright() {
     return (
@@ -109,7 +105,7 @@ export default function Dashboard(props) {
                             <Grid item lg={12}>
                                 {/* MainChart */}
                                 <Paper className={fixedHeightPaper}>
-                                    <ChartData/>
+                                    <Chart/>
                                 </Paper>
                             </Grid>
                             <Grid item lg={12}>
@@ -118,13 +114,6 @@ export default function Dashboard(props) {
                                     <DataTable sendData={receiveData}/>
                                 </Paper>
                             </Grid>
-                            {/*for testing purposes*/}
-                            <Grid item lg={12}>
-                                <Paper className={fixedHeightPaper}>
-                                    <ReCharts/>
-                                </Paper>
-                            </Grid>
-                            {/*for testing purposes ends here*/}
                         </Grid>
                     </Grid>
                     <Box pt={4}>

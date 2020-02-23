@@ -6,6 +6,7 @@ import ListItem from '@material-ui/core/ListItem';
 import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import ListItemText from '@material-ui/core/ListItemText';
+import ReCharts from "./ReChart";
 
 
 const useStyles = makeStyles({
@@ -24,7 +25,6 @@ export default function Stats() {
     const classes = useStyles();
     return (
         <React.Fragment>
-            <React.Fragment>
                 <Title>Statistics</Title>
                 <Divider/>
                 <List aria-label="primary">
@@ -37,7 +37,6 @@ export default function Stats() {
                         <Typography color="textSecondary">4.67</Typography>
                     </ListItem>
                 </List>
-            </React.Fragment>
         </React.Fragment>
     );
 }

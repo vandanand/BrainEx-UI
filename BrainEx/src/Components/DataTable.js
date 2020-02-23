@@ -10,6 +10,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import {query_results_dd} from "../data/query_results_dd";
 import Rainbow from 'rainbowvis.js/rainbowvis.js';
 import {top_color, bottom_color} from '../data/default_values';
+import TabledSeqThnl from "./TabledSeqThnl";
 
 const useStyles = makeStyles(theme => ({
     // styles go here
@@ -161,7 +162,7 @@ export default class DataTable extends Component {
                                 <TableCell>{row.startTime}</TableCell>
                                 <TableCell>{row.endTime}</TableCell>
                                 <TableCell>0%</TableCell>
-                                <TableCell>insert thumbnail here</TableCell>
+                                <TableCell><TabledSeqThnl/></TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
