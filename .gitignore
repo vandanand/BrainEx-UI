@@ -1,6 +1,6 @@
 .gitignore
 genex
-genex/setup.py
+setup.py
 package-lock.json
 preprocessed_datasets
 venv

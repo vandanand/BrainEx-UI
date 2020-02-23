@@ -2,6 +2,7 @@ import os
 
 import genex.database.genexengine as gxdb
 from genex.utils.gxe_utils import from_csv
+from genex.classes.Sequence import Sequence
 
 from pyspark import SparkContext, SparkConf
 
@@ -118,9 +119,13 @@ def uploadSequence():
             if numLines == 1:
                 with open(csv.filename) as f:
                     queryLine = f.readline()
-                    querySeq = np.asarray(queryLine.split(','))
-                length = querySeq.size
-                pandasQ = pd.DataFrame({"query_seq": querySeq})
+                    queryLine = queryLine.rstrip().split(',')
+                    queryArr = queryLine[numFeatures:]
+                    queryArr = [float(i) for i in queryArr]
+                    queryArr = np.asarray(queryArr)
+                    querySeq = Sequence(seq_id=queryLine[:numFeatures], start=1, end=24, data=queryArr)
+                length = queryArr.size
+                pandasQ = pd.DataFrame({"query_seq": queryArr})
                 timeStamps = []
                 x = range(length)
                 for n in x:
@@ -139,6 +144,8 @@ def uploadSequence():
 
 @application.route('/query', methods=['GET', 'POST'])
 def complete_query():
+    global querySeq, brainexDB
+
     if request.method == "POST":
         #TODO: Ask Leo where loi is
         # loi_temp = request.form['loi_temp']
@@ -151,10 +158,23 @@ def complete_query():
             exclude = False
         else:
             exclude = True
-        # try:
+        try:
             query_result = brainexDB.query(query=querySeq, best_k=best_matches, exclude_same_id=exclude, overlap=overlap)
-            pandaResult = pd.DataFrame(query_result)
-            print(pandaResult[1])
-            return("here")
-        # except Exception as e:
-        #     return (str(e), 400)
+            query_result.reverse()
+            sims = [i[0] for i in query_result]
+            seqs = [i[1] for i in query_result]
+            for i in seqs:
+                i = i.fetch_data(brainexDB.data_original)
+            ids = [str(i.seq_id) for i in seqs]
+            start = [i.start for i in seqs]
+            end = [i.end for i in seqs]
+            data = [i.data.tolist() for i in seqs]
+            pandasQ = pd.DataFrame({"similarity":sims, "ID":ids, "start":start, "end":end, "data":data})
+            json = pandasQ.to_json(orient="index")
+            returnDict = {
+                "message": "Query results.",
+                "resultJSON": json
+            }
+            return jsonify(returnDict)
+        except Exception as e:
+            return (str(e), 400)

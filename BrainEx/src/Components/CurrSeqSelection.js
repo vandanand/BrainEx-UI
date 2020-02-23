@@ -3,11 +3,12 @@ import {makeStyles} from "@material-ui/core/styles";
 import Title from "./Title";
 import Button from '@material-ui/core/Button';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-import CurSeqChartViz from "./CurSeqChartViz";
+import CurSeqChartViz from "./CurSeqChartViz.js";
 import axios from 'axios';
+import {withStyles} from "@material-ui/core/styles";
+import ReChart from "./ReChart";
+import {ResponsiveContainer} from 'recharts';
 
-
-// var file = null;
 
 const useStyles = makeStyles({
     depositContext: {
@@ -24,7 +25,6 @@ function preventDefault(event) {
 }
 
 class CurrSeqSelection extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -32,7 +32,7 @@ class CurrSeqSelection extends Component {
             // lineColor:[],
             file: 'jsonOutput' // city whose temperatures to show
         };
-        this.updateFile = this.updateFile.bind(this);
+        // this.updateFile = this.updateFile.bind(this);
         this.onClickHandler = this.onClickHandler.bind(this);
     }
 
@@ -68,16 +68,19 @@ class CurrSeqSelection extends Component {
             });
     };
 
-    updateFile = (e) => {
-        // this.setState({file: e.target.value});
-        this.setState({file: [...e.target.files]});
-    };
+    // updateFile = (e) => {
+    //     // this.setState({file: e.target.value});
+    //     this.setState({file: [...e.target.files]});
+    // };
 
     render() {
         const data = this.state.channelValues[this.state.file];
         return (
             <React.Fragment>
                 {/*<div className={classes.root}>*/}
+                {/*<div>*/}
+                {/*    <ReCharts/>*/}
+                {/*</div>*/}
                 <div>
                     <Title>Query Sequence</Title>
                     <CurSeqChartViz/>
@@ -85,8 +88,8 @@ class CurrSeqSelection extends Component {
                         //accept="text/csv/*"
                         // className={classes.input}
                         id="outlined-button-file"
-                        // multiple
                         type="file"
+                        //TODO: We need to restrict file type
                         onChange={this.updateFile}
                     />
                     <label htmlFor="outlined-button-file">
@@ -95,38 +98,12 @@ class CurrSeqSelection extends Component {
                             Upload
                         </Button>
                     </label>
-                    <CurSeqChartViz data={data}/>
+                    {/*<CurSeqChartViz data={data}/>*/}
                 </div>
+                <ReChart/>
             </React.Fragment>
         );
     }
 }
 
 export default CurrSeqSelection;
-
-
-//
-// export default function CurrSeqSelection() {
-//     const classes = useStyles();
-//     return (
-//         <React.Fragment>
-//             <div className={classes.root}>
-//                 <Title>Query Sequence</Title>
-//                 <CurSeqChartViz/>
-//                 <input
-//                     accept="text/csv/*"
-//                     className={classes.input}
-//                     id="outlined-button-file"
-//                     multiple
-//                     type="file"
-//                     onChange={onChangeHandler}
-//                 />
-//                 <label htmlFor="outlined-button-file">
-//                     <Button variant="outlined" component="span" size="small" startIcon={<CloudUploadIcon/>} onClick={onClickHandler} >
-//                         Upload
-//                     </Button>
-//                 </label>
-//             </div>
-//         </React.Fragment>
-//     );
-// }
