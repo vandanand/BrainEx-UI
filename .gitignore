@@ -4,4 +4,6 @@ setup.py
 package-lock.json
 preprocessed_datasets
 venv
+.idea
+python.exe
 node_modules
