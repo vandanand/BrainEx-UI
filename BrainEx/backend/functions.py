@@ -2,6 +2,7 @@ import os
 
 import genex.database.genexengine as gxdb
 from genex.utils.gxe_utils import from_csv
+from genex.classes.Sequence import Sequence
 
 from pyspark import SparkContext, SparkConf
 
@@ -118,9 +119,13 @@ def uploadSequence():
             if numLines == 1:
                 with open(csv.filename) as f:
                     queryLine = f.readline()
-                    querySeq = np.asarray(queryLine.split(','))
-                length = querySeq.size
-                pandasQ = pd.DataFrame({"query_seq": querySeq})
+                    queryLine = queryLine.rstrip().split(',')
+                    queryArr = queryLine[numFeatures:]
+                    queryArr = [float(i) for i in queryArr]
+                    queryArr = np.asarray(queryArr)
+                    querySeq = Sequence(seq_id=queryLine[:numFeatures], start=1, end=24, data=queryArr)
+                length = queryArr.size
+                pandasQ = pd.DataFrame({"query_seq": queryArr})
                 timeStamps = []
                 x = range(length)
                 for n in x:
@@ -151,10 +156,10 @@ def complete_query():
             exclude = False
         else:
             exclude = True
-        # try:
+        try:
             query_result = brainexDB.query(query=querySeq, best_k=best_matches, exclude_same_id=exclude, overlap=overlap)
             pandaResult = pd.DataFrame(query_result)
             print(pandaResult[1])
             return("here")
-        # except Exception as e:
-        #     return (str(e), 400)
+        except Exception as e:
+            return (str(e), 400)
