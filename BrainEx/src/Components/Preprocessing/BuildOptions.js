@@ -43,7 +43,6 @@ class BuildOptions extends Component {
                 "maxValue": 215
             }
         };
-        this.update_feature = this.update_feature.bind(this);
         this.update_distance = this.update_distance.bind(this);
         this.update_sim_range = this.update_sim_range.bind(this);
         this.update_sim_text = this.update_sim_text.bind(this);

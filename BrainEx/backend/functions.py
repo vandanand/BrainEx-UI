@@ -144,6 +144,8 @@ def uploadSequence():
 
 @application.route('/query', methods=['GET', 'POST'])
 def complete_query():
+    global querySeq, brainexDB
+
     if request.method == "POST":
         #TODO: Ask Leo where loi is
         # loi_temp = request.form['loi_temp']
@@ -158,8 +160,29 @@ def complete_query():
             exclude = True
         try:
             query_result = brainexDB.query(query=querySeq, best_k=best_matches, exclude_same_id=exclude, overlap=overlap)
+<<<<<<< HEAD
             pandaResult = pd.DataFrame(query_result)
             print(pandaResult[1])
             return("here")
         except Exception as e:
             return (str(e), 400)
+=======
+            query_result.reverse()
+            sims = [i[0] for i in query_result]
+            seqs = [i[1] for i in query_result]
+            for i in seqs:
+                i = i.fetch_data(brainexDB.data_original)
+            ids = [i.seq_id for i in seqs]
+            start = [i.start for i in seqs]
+            end = [i.end for i in seqs]
+            data = [i.data.tolist() for i in seqs]
+            pandasQ = pd.DataFrame({"similarity":sims, "ID":ids, "start":start, "end":end, "data":data})
+            json = pandasQ.to_json(orient="index")
+            returnDict = {
+                "message": "Query results.",
+                "resultJSON": json
+            }
+            return jsonify(returnDict)
+        # except Exception as e:
+        #     return (str(e), 400)
+>>>>>>> kyra_dev
