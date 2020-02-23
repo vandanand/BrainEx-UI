@@ -160,13 +160,6 @@ def complete_query():
             exclude = True
         try:
             query_result = brainexDB.query(query=querySeq, best_k=best_matches, exclude_same_id=exclude, overlap=overlap)
-<<<<<<< HEAD
-            pandaResult = pd.DataFrame(query_result)
-            print(pandaResult[1])
-            return("here")
-        except Exception as e:
-            return (str(e), 400)
-=======
             query_result.reverse()
             sims = [i[0] for i in query_result]
             seqs = [i[1] for i in query_result]
@@ -183,6 +176,5 @@ def complete_query():
                 "resultJSON": json
             }
             return jsonify(returnDict)
-        # except Exception as e:
-        #     return (str(e), 400)
->>>>>>> kyra_dev
+        except Exception as e:
+            return (str(e), 400)
