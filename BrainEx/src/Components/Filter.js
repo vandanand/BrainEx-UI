@@ -6,7 +6,8 @@ import { Range } from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import { makeStyles, Button, ButtonGroup, FormControl,
     FormGroup, FormControlLabel, Checkbox, Typography,
-    Input, Grid, InputAdornment, TextField } from "@material-ui/core";
+    Slider, Input, Grid, InputAdornment, TextField } from "@material-ui/core";
+import axios from 'axios';
 
 /*function preventDefault(event) {
     event.preventDefault();
@@ -30,16 +31,16 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-/*function valuetext(value) {
-    return `${value}milisecond`;
-}*/
-
 export default function Filter(props) {
     const classes = useStyles();
-    //range slider
+    // range slider
+    //// set initial values using min and max
     const [rangeVal, setRangeVal] = useState([props.loi_min, props.loi_max]);
     const [startVal, setStartVal] = useState(props.loi_min);
     const [endVal, setEndVal] = useState(props.loi_max);
+    // establish constants for min and max
+    const MIN = props.loi_min;
+    const MAX = props.loi_max;
     //number of matches
     const [numMatches, setNumMatches] = useState(5);
     //overlap of sequences
@@ -103,16 +104,21 @@ export default function Filter(props) {
         e.preventDefault(); // dont refresh the page on submit
         let loi = rangeVal.toString();
         let best_matches = numMatches.toString();
-        let overlap = overlapVal.toString();
+        let overlap = (overlapVal/100).toString();
         let excludeS = excludeID.toString();
-        let form_data = {
-            loi: loi,
-            best_matches: best_matches,
-            overlap: overlap,
-            excludeS: excludeS
-        };
-        console.log(form_data);
-        // todo @Kyra send query to backend here
+        let form = new FormData();
+        form.append("loi", loi);
+        form.append("best_matches", best_matches);
+        form.append("overlap", overlap);
+        form.append("excludeS", excludeS);
+        console.log(form);
+        axios.post('http://localhost:5000/query', form)
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     };
 
     /*const handleBlur = () => {
@@ -144,8 +150,8 @@ export default function Filter(props) {
                                         // onBlur={handleBlur}
                                         inputProps={{
                                             step: 0.1,
-                                            min: props.loi_min,
-                                            max: props.loi_max,
+                                            min: MIN,
+                                            max: MAX,
                                             type: 'number',
                                             'aria-labelledby': 'input-slider',
                                         }}/>
@@ -154,8 +160,8 @@ export default function Filter(props) {
                                     <Range
                                         value={rangeVal}
                                         step={0.1}
-                                        min={props.loi_min} /*todo set as min loi from build options*/
-                                        max={props.loi_max} /*todo set as max loi from build options*/
+                                        min={MIN} /*todo set as min loi from build options*/
+                                        max={MAX} /*todo set as max loi from build options*/
                                         onChange={handleRangeChange}/>
                                 </Grid>
                                 <Grid item>
@@ -168,8 +174,8 @@ export default function Filter(props) {
                                         valueLabelDisplay="auto"
                                         inputProps={{
                                             step: 0.1,
-                                            min: props.loi_min,
-                                            max: props.loi_max,
+                                            min: MIN,
+                                            max: MAX,
                                             type: 'number',
                                             'aria-labelledby': 'input-slider',
                                         }}/>

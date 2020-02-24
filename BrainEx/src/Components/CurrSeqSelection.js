@@ -32,7 +32,7 @@ class CurrSeqSelection extends Component {
             // lineColor:[],
             file: 'jsonOutput' // city whose temperatures to show
         };
-        // this.updateFile = this.updateFile.bind(this);
+        this.updateFile = this.updateFile.bind(this);
         this.onClickHandler = this.onClickHandler.bind(this);
     }
 
@@ -54,7 +54,10 @@ class CurrSeqSelection extends Component {
             });
     };
 
-
+    updateFile = (e) => {
+        // this.setState({file: e.target.value});
+        this.setState({file: [...e.target.files]});
+    };
 
     render() {
         const data = this.state.channelValues[this.state.file];
