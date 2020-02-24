@@ -123,6 +123,7 @@ export default class DataTable extends Component {
             // todo should id of checkbox be index or row.id?
             // todo for the state value of this checkbox have an array of true/false and reference it by index when updating/displaying
             let length = table.push(createData(row.id, colors[index], row.subjectID, row.eventName, row.channelNum, row.startTime, row.endTime));
+
         });
         this.props.sendData(table);
         return table;

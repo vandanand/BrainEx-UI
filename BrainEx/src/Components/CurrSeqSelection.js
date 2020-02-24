@@ -14,9 +14,9 @@ const useStyles = makeStyles({
     depositContext: {
         flex: 1,
     },
-    input: {
-        display: 'none',
-    }
+    // input: {
+    //     display: 'none',
+    // }
 });
 
 
@@ -30,12 +30,11 @@ class CurrSeqSelection extends Component {
         this.state = {
             channelValues: [],
             // lineColor:[],
-            file: 'jsonOutput' // city whose temperatures to show
+            file: 'jsonOutput'
         };
         this.updateFile = this.updateFile.bind(this);
         this.onClickHandler = this.onClickHandler.bind(this);
     }
-
 
     onClickHandler = (e) => {
         e.preventDefault(); // prevents page refresh on submit
@@ -46,14 +45,31 @@ class CurrSeqSelection extends Component {
         });
         // Hook up to Kyra's server
         axios.post('http://localhost:5000/uploadSequence', file_form)
-            .then(function (response) {
+            .then((response) => {
                 console.log(response);
+                if (response.status === 200) {
+                    let data = [];
+                    const jsonObj = JSON.parse(response.data.sequenceJSON)
+                    for (let key in Object.keys(jsonObj)) {
+                        // console.log(key,'valKey');
+                        // console.(response.data.sequenceJSON[key],'val');
+                        data.push(jsonObj[key])
+                    }
+                    this.setState({
+                            channelValues: data,
+                        }, () => {
+                            console.log(response.data.sequenceJSON, 'sequenceJSON');
+                        }
+                    );
+                    console.log(data, "data")
+                } else {
+                    console.log("Upload failure");
+                }
             })
-            .catch(function (error) {
+            .catch((error) => {
                 console.log(error);
             });
     };
-
     updateFile = (e) => {
         // this.setState({file: e.target.value});
         this.setState({file: [...e.target.files]});
@@ -67,14 +83,12 @@ class CurrSeqSelection extends Component {
                     // className={classes.root}
                 >
                     <Title>Query Sequence</Title>
-                    <CurSeqChartViz/>
-                    {/*<ReChart/>*/}
+                    <CurSeqChartViz data={this.state.channelValues}/>
                     <input
                         //accept="text/csv/*"
                         // className={classes.input}
                         id="outlined-button-file"
                         type="file"
-                        //TODO: We need to restrict file type
                         onChange={this.updateFile}
                     />
                     <label htmlFor="outlined-button-file">
