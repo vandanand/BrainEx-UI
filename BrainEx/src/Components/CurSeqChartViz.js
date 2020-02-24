@@ -4,7 +4,7 @@ import {LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer, Brush, Toolti
 
 export default function CurSeqChartViz() {
     const [plotData, setPlotData] = useState({
-        data: [
+        channelValues: [
             {
                 "sequence_length": "0",
                 "query_seq": 0.1,
@@ -34,7 +34,7 @@ export default function CurSeqChartViz() {
             {/*     <ResponsiveContainer  height="80%">*/}
             <LineChart
                 width={350} height={250}
-                data={plotData.data} syncId="anyId"
+                data={plotData.channelValues} syncId="anyId"
                 margin={{top: 10, right: 10, left: 0, bottom: 10}}>
                 <XAxis tick={false}
                     // dataKey="sequence_length"
