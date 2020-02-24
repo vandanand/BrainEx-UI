@@ -13,7 +13,6 @@ import CurrSeqSelection from './CurrSeqSelection.js'
 import Filter from './Filter.js'
 import Chart from './ChartData.js'
 import Stats from './Stats.js'
-import ReCharts from "./ReChart";
 
 function Copyright() {
     return (
