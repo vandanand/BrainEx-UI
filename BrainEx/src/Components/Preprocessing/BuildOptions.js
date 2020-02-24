@@ -2,7 +2,17 @@ import React , { Component } from "react";
 import '../../Stylesheets/BuildOptions.css';
 import Slider, { Range } from 'rc-slider';
 import 'rc-slider/assets/index.css';
-import { TextField, Select, MenuItem, Checkbox, Button, Link, InputLabel } from '@material-ui/core';
+import {
+    TextField,
+    Select,
+    MenuItem,
+    Checkbox,
+    Button,
+    Link,
+    InputLabel,
+    DialogTitle,
+    DialogContent, Typography, DialogActions, Dialog
+} from '@material-ui/core';
 import { Link as RouterLink } from "react-router-dom";
 import $ from 'jquery';
 import axios from 'axios';
@@ -47,6 +57,8 @@ class BuildOptions extends Component {
         this.update_mrm = this.update_mrm.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.toggleOptions = this.toggleOptions.bind(this);
+        this.openModal = this.openModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);
     }
 
     toggleOptions = (e) => {
@@ -117,15 +129,23 @@ class BuildOptions extends Component {
                     console.log(response);
                     if (response.status === 200) {
                         // todo if it is properly installed, set spark_installed to true and set the spark_val state
+                        this.setState({
+                            spark_installed: true,
+                            spark_val: spark_val
+                        }, () => {
+                            console.log(response.message);
+                        });
                     } else {
                         // todo if it isn't installed correctly, show alert dialog to user that tells them spark is not properly installed, and
                         //  leave this.state.spark_val as false
+                        this.openModal(response.message);
                     }
                 })
                 .catch((error) => {
                     console.log(error);
                 });
         }
+        // todo delete this once post request is done
         this.setState({
             spark_val: spark_val
         });
@@ -175,9 +195,37 @@ class BuildOptions extends Component {
         }); // proceed to next page once information has been passed
     };
 
+    // functions for opening and closing spark modal
+    openModal = (message) => {
+        this.setState({
+            open: true,
+            message: message
+        });
+    };
+    closeModal = () => {
+        this.setState({
+           open: false,
+           message: null
+        });
+    };
+
     render() {
         return(
             <div className="full-height">
+                <Dialog className="dialog" open={this.state.open} onClose={this.closeModal}>
+                    <DialogTitle id="alert-dialog-title">{this.state.message}</DialogTitle>
+                    <DialogContent>
+                        <Typography id="alert-dialog-description">
+                            Spark must be properly installed on this computer to be able to access this feature.
+                            (note: include directions towards resources on how to do this)
+                        </Typography>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={this.closeModal} color="primary">
+                            OK
+                        </Button>
+                    </DialogActions>
+                </Dialog>
                 <form className="build_form" onSubmit={this.handleSubmit}>
                     <table>
                         <tbody>
