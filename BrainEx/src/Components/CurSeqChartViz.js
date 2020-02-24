@@ -6,23 +6,23 @@ export default function CurSeqChartViz() {
     const [plotData, setPlotData] = useState({
         data: [
             {
-                "seqLength": "0",
-                "chanVal": 0.1,
+                "sequence_length": "0",
+                "query_seq": 0.1,
 
             },
             {
-                "seqLength": "1",
-                "chanVal": 0.5,
+                "sequence_length": "1",
+                "query_seq": 0.5,
 
             },
             {
-                "seqLength": "2",
-                "chanVal": 2.3,
+                "sequence_length": "2",
+                "query_seq": 2.3,
 
             },
             {
-                "seqLength": "3",
-                "chanVal": 3.8,
+                "sequence_length": "3",
+                "query_seq": 3.8,
             }
         ]
     });
@@ -37,11 +37,11 @@ export default function CurSeqChartViz() {
                 data={plotData.data} syncId="anyId"
                 margin={{top: 10, right: 10, left: 0, bottom: 10}}>
                 <XAxis tick={false}
-                    // dataKey="seqLength"
+                    // dataKey="sequence_length"
                 />
                 <YAxis/>
                 {/*<Tooltip/>*/}
-                <Line type='monotone' dataKey='chanVal'
+                <Line type='monotone' dataKey='query_seq'
                       stroke={theme.palette.primary.main} fill={theme.palette.primary.main}/>
                 <Brush/>
             </LineChart>
@@ -64,18 +64,18 @@ export default function CurSeqChartViz() {
 //         super();
 //         this.state = {
 //             data: [
-//                 {seqLength: 0, value: -0.5},
-//                 {seqLength: 1, value: 1.3},
-//                 {seqLength: 2, value: -2.6},
-//                 {seqLength: 3, value: 1.11},
-//                 {seqLength: 4, value: 0.36},
-//                 {seqLength: 5, value: -3.2},
-//                 {seqLength: 6, value: 0.008},
-//                 {seqLength: 7, value: -0.179},
-//                 {seqLength: 8, value: 2.36},
-//                 {seqLength: 9, value: -0.0017},
-//                 {seqLength: 10, value: -3.02},
-//                 {seqLength: 11, value: 1.594},
+//                 {sequence_length: 0, value: -0.5},
+//                 {sequence_length: 1, value: 1.3},
+//                 {sequence_length: 2, value: -2.6},
+//                 {sequence_length: 3, value: 1.11},
+//                 {sequence_length: 4, value: 0.36},
+//                 {sequence_length: 5, value: -3.2},
+//                 {sequence_length: 6, value: 0.008},
+//                 {sequence_length: 7, value: -0.179},
+//                 {sequence_length: 8, value: 2.36},
+//                 {sequence_length: 9, value: -0.0017},
+//                 {sequence_length: 10, value: -3.02},
+//                 {sequence_length: 11, value: 1.594},
 //             ],
 //         }
 //     }
@@ -84,7 +84,7 @@ export default function CurSeqChartViz() {
 //         e.preventDefault();
 //         this.setState((prevState) => {
 //             const data = prevState.data.map(d => ({
-//                 seqLength: d.seqLength,
+//                 sequence_length: d.sequence_length,
 //                 value: Math.floor((Math.random() * 100) + 1)
 //             }))
 //             return {
@@ -111,7 +111,7 @@ export default function CurSeqChartViz() {
 //         const t = transition().duration(1000);
 //
 //         const xScale = scaleBand()
-//             .domain(data.map(d => d.seqLength))
+//             .domain(data.map(d => d.sequence_length))
 //             .rangeRound([0, width]).padding(0.1);
 //
 //         const yScale = scaleLinear()
@@ -120,7 +120,7 @@ export default function CurSeqChartViz() {
 //             .nice();
 //
 //         const lineGenerator = line()
-//             .x(d => xScale(d.seqLength))
+//             .x(d => xScale(d.sequence_length))
 //             .y(d => yScale(d.value))
 //             .curve(curveMonotoneX);
 //

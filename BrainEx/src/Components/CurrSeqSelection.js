@@ -36,7 +36,6 @@ class CurrSeqSelection extends Component {
         this.onClickHandler = this.onClickHandler.bind(this);
     }
 
-
     onClickHandler = (e) => {
         e.preventDefault(); // prevents page refresh on submit
         /* create form data object and append files to be uploaded onto it*/
