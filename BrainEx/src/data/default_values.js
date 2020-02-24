@@ -1,7 +1,7 @@
 /* build option defaults */
 export const default_dv = "eu"; // default distance value (Euclidean)
 export const default_st = 0.1; // default similarity threshold (0:1)
-export const default_nw = 5; // default number of workers
+export const default_nw = 4; // default number of workers
 export const default_sv = false; // default spark value (use spark v use python multi-threading
 export const default_spark = false; // default "is spark installed correctly?"
 export const default_dm = 16; // default driver memory (GB)

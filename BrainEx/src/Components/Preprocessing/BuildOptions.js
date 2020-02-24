@@ -123,32 +123,23 @@ class BuildOptions extends Component {
     update_spark = (e) => {
         const spark_val = e.target.checked;
         if (spark_val && !this.state.spark_installed) { // if the user wants spark and we have not checked if it is installed
-            // todo @Kyra make API call that tests if spark is properly installed on the user's computer
             axios.post('http://localhost:5000/checkSpark')
                 .then((response) => {
                     console.log(response);
                     if (response.status === 200) {
-                        // todo if it is properly installed, set spark_installed to true and set the spark_val state
                         this.setState({
                             spark_installed: true,
                             spark_val: spark_val
                         }, () => {
-                            console.log(response.message);
+                            console.log(response.data);
                         });
-                    } else {
-                        // todo if it isn't installed correctly, show alert dialog to user that tells them spark is not properly installed, and
-                        //  leave this.state.spark_val as false
-                        this.openModal(response.message);
                     }
                 })
                 .catch((error) => {
                     console.log(error);
+                    this.openModal(error);
                 });
         }
-        // todo delete this once post request is done
-        this.setState({
-            spark_val: spark_val
-        });
     };
     // dynamically update number of workers/cores value in state
     update_nw = (e) => {

@@ -72,7 +72,7 @@ def checkSpark():
     if request.method == 'POST':
         try:
             findspark.find()
-            return "Spark is \"properly installed\""
+            return "Spark is properly installed"
         except Exception as e:
             return (str(e), 400)
 
