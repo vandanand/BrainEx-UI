@@ -12,6 +12,8 @@ from flask_cors import CORS
 import pandas as pd
 import numpy as np
 
+import findspark
+
 UPLOAD_FOLDER = "./uploads"
 
 application = Flask(__name__)
@@ -68,8 +70,11 @@ def setFile():
 @application.route('/checkSpark', methods=['GET', 'POST'])
 def checkSpark():
     if request.method == 'POST':
-        print("Do something to test spark")
-        return "Spark is \"properly installed\""
+        try:
+            findspark.find()
+            return "Spark is \"properly installed\""
+        except Exception as e:
+            return (str(e), 400)
 
 @application.route('/build', methods=['GET', 'POST'])
 def build():
