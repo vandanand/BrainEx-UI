@@ -8,7 +8,7 @@ import axios from 'axios';
 import {withStyles} from "@material-ui/core/styles";
 import ReChart from "./ReChart";
 import {ResponsiveContainer} from 'recharts';
-
+import {ThemeProvider, withTheme} from '@material-ui/styles';
 
 const useStyles = makeStyles({
     depositContext: {
@@ -36,20 +36,6 @@ class CurrSeqSelection extends Component {
         this.onClickHandler = this.onClickHandler.bind(this);
     }
 
-    componentDidMount() {
-        Promise.all([
-            fetch(`${process.env.PUBLIC_URL}/jsonOutput.json`),
-            // fetch(`${process.env.PUBLIC_URL}/mainVizColor.json`)
-        ]).then(responses => Promise.all(responses.map(resp => resp.json())))
-            .then(([jsonOutput, mainVizColor]) => {
-                // sf.forEach(day => day.date = new Date(day.date));
-                // this.setState({channelVals: {sf, ny}});
-                this.setState(
-                    {channelValues: {jsonOutput}}
-                );
-            });
-
-    }
 
     onClickHandler = (e) => {
         e.preventDefault(); // prevents page refresh on submit
@@ -68,22 +54,18 @@ class CurrSeqSelection extends Component {
             });
     };
 
-    // updateFile = (e) => {
-    //     // this.setState({file: e.target.value});
-    //     this.setState({file: [...e.target.files]});
-    // };
+
 
     render() {
         const data = this.state.channelValues[this.state.file];
         return (
             <React.Fragment>
-                {/*<div className={classes.root}>*/}
-                {/*<div>*/}
-                {/*    <ReCharts/>*/}
-                {/*</div>*/}
-                <div>
+                <div
+                    // className={classes.root}
+                >
                     <Title>Query Sequence</Title>
                     <CurSeqChartViz/>
+                    {/*<ReChart/>*/}
                     <input
                         //accept="text/csv/*"
                         // className={classes.input}
@@ -100,7 +82,7 @@ class CurrSeqSelection extends Component {
                     </label>
                     {/*<CurSeqChartViz data={data}/>*/}
                 </div>
-                <ReChart/>
+
             </React.Fragment>
         );
     }
