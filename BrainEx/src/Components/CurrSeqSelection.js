@@ -45,22 +45,23 @@ class CurrSeqSelection extends Component {
         });
         // Hook up to Kyra's server
         axios.post('http://localhost:5000/uploadSequence', file_form)
-            //         .then(function (response) {
-            //             console.log(response);
-            //         })
-            //         .catch(function (error) {
-            //             console.log(error);
-            //         });
-            // };
-
             .then((response) => {
                 console.log(response);
                 if (response.status === 200) {
+                    let data = [];
+                    const jsonObj = JSON.parse(response.data.sequenceJSON)
+                    for (let key in Object.keys(jsonObj)) {
+                        // console.log(key,'valKey');
+                        // console.(response.data.sequenceJSON[key],'val');
+                        data.push(jsonObj[key])
+                    }
                     this.setState({
-                        channelValues: response.data.sequenceJSON,
-                    }, () => {
-                        console.log(response.data.sequenceJSON, 'sequenceJSON');
-                    });
+                            channelValues: data,
+                        }, () => {
+                            console.log(response.data.sequenceJSON, 'sequenceJSON');
+                        }
+                    );
+                    console.log(data, "data")
                 } else {
                     console.log("Upload failure");
                 }

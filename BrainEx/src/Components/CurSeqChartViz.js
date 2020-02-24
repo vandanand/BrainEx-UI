@@ -1,30 +1,16 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useTheme} from '@material-ui/core/styles';
 import {LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer, Brush, Tooltip} from 'recharts';
 
-export default function CurSeqChartViz() {
-    const [plotData, setPlotData] = useState({
-        channelValues: [
-            {
-                "sequence_length": "0",
-                "query_seq": 0.1,
+export default function CurSeqChartViz(props) {
+    const [plotData, setPlotData] = useState([
+        {}
+    ]);
 
-            },
-            {
-                "sequence_length": "1",
-                "query_seq": 0.5,
-
-            },
-            {
-                "sequence_length": "2",
-                "query_seq": 2.3,
-
-            },
-            {
-                "sequence_length": "3",
-                "query_seq": 3.8,
-            }
-        ]
+    useEffect(() => {
+        if (props.data.length !== 0) {
+            setPlotData(props.data);
+        }
     });
     const theme = useTheme();
     return (
@@ -34,7 +20,7 @@ export default function CurSeqChartViz() {
             {/*     <ResponsiveContainer  height="80%">*/}
             <LineChart
                 width={350} height={250}
-                data={plotData.channelValues} syncId="anyId"
+                data={plotData} syncId="anyId"
                 margin={{top: 10, right: 10, left: 0, bottom: 10}}>
                 <XAxis tick={false}
                     // dataKey="sequence_length"
