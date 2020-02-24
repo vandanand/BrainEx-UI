@@ -34,13 +34,12 @@ const useStyles = makeStyles(theme => ({
 export default function Filter(props) {
     const classes = useStyles();
     // range slider
-    //// set initial values using min and max
     const [rangeVal, setRangeVal] = useState([props.loi_min, props.loi_max]);
     const [startVal, setStartVal] = useState(props.loi_min);
     const [endVal, setEndVal] = useState(props.loi_max);
     // establish constants for min and max
-    const MIN = props.loi_min;
-    const MAX = props.loi_max;
+    // const MIN = props.loi_min;
+    // const MAX = props.loi_max;
     //number of matches
     const [numMatches, setNumMatches] = useState(5);
     //overlap of sequences
