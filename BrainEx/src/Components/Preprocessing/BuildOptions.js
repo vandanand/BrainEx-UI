@@ -7,18 +7,9 @@ import { Link as RouterLink } from "react-router-dom";
 import $ from 'jquery';
 import axios from 'axios';
 import Input from "@material-ui/core/Input";
-import {
-    default_dv,
-    default_st,
-    default_loi,
-    default_sv,
-    default_nw,
-    default_dm,
-    default_mrm,
-    build_progress,
-    select_new_dataset
-} from "../../data/default_values";
+import { default_dv, default_st, default_spark, default_sv, default_nw, default_dm, default_mrm, build_progress, select_new_dataset } from "../../data/default_values";
 import BuildProgressMenu from "./BuildProgressMenu.js";
+import FormData from "form-data";
 
 class BuildOptions extends Component {
 
@@ -31,6 +22,7 @@ class BuildOptions extends Component {
             loi_val: (this.props.location.state !== undefined) ? [1, this.props.location.state.loi_max] : [1, 100], /*[0:max length]*/
             loi_max: (this.props.location.state !== undefined) ? this.props.location.state.loi_max : 100,
             spark_val: default_sv,
+            spark_installed: default_spark,
             num_workers: default_nw,
             dm_val: default_dm,
             mrm_val: default_mrm,
@@ -54,29 +46,19 @@ class BuildOptions extends Component {
         this.update_dm = this.update_dm.bind(this);
         this.update_mrm = this.update_mrm.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.toggleOptions = this.toggleOptions.bind(this);
     }
 
-    componentDidMount() {
-        // spark options listener -- toggles display of additional options using a button/link
-        $("#spark_toggle").click(function(){
-            $(".advanced_spark").toggle();
-            if ($(".advanced_spark").is(":visible")) {
-                $(".display-this").hide();
-                $(".hide-this").show();
-            } else {
-                $(".display-this").show();
-                $(".hide-this").hide();
-            }
-        });
-    }
-
-    // dynamically update feature number value in state
-    /*update_feature = (e) => {
-        const feature_val = e.target.value;
-        this.setState({
-            feature_val: feature_val
-        });
-    };*/
+    toggleOptions = (e) => {
+        $(".advanced_spark").toggle();
+        if ($(".advanced_spark").is(":visible")) {
+            $(".display-this").hide();
+            $(".hide-this").show();
+        } else {
+            $(".display-this").show();
+            $(".hide-this").hide();
+        }
+    };
 
     // dynamically update distance type value in state
     update_distance = (e) => {
@@ -125,8 +107,25 @@ class BuildOptions extends Component {
     };
 
     // dynamically update state of "use spark?" checkbox (checked/unchecked)
+    // todo @Kyra -> make api call to test spark -- return "spark is properly installed" or the error
     update_spark = (e) => {
         const spark_val = e.target.checked;
+        if (spark_val && !this.state.spark_installed) { // if the user wants spark and we have not checked if it is installed
+            // todo @Kyra make API call that tests if spark is properly installed on the user's computer
+            axios.post('http://localhost:5000/checkSpark')
+                .then((response) => {
+                    console.log(response);
+                    if (response.status === 200) {
+                        // todo if it is properly installed, set spark_installed to true and set the spark_val state
+                    } else {
+                        // todo if it isn't installed correctly, show alert dialog to user that tells them spark is not properly installed, and
+                        //  leave this.state.spark_val as false
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        }
         this.setState({
             spark_val: spark_val
         });
@@ -298,7 +297,7 @@ class BuildOptions extends Component {
                                     checked={this.state.spark_val}
                                     onChange={this.update_spark}
                                 />
-                                <Button id="spark_toggle" color="primary">
+                                <Button id="spark_toggle" color="primary" onClick={this.toggleOptions}>
                                     <p className="display-this">Display advanced Spark options</p>
                                     <p className="hide-this">Hide advanced Spark options</p>
                                 </Button>

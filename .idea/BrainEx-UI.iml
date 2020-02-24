@@ -7,6 +7,9 @@
     <orderEntry type="jdk" jdkName="Python 3.7 (BrainEx-UI)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
+  <component name="PackageRequirementsSettings">
+    <option name="requirementsPath" value="C:\Users\mags1\PycharmProjects\BrainEx-UI\requirements.txt" />
+  </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_FOLDERS">
       <list>

@@ -65,6 +65,12 @@ def setFile():
         }
         return jsonify(returnDict)
 
+@application.route('/checkSpark', methods=['GET', 'POST'])
+def checkSpark():
+    if request.method == 'POST':
+        print("Do something to test spark")
+        return "Spark is \"properly installed\""
+
 @application.route('/build', methods=['GET', 'POST'])
 def build():
     global brainexDB, uploadPath, numFeatures
