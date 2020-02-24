@@ -74,7 +74,6 @@ class CurrSeqSelection extends Component {
                         // className={classes.input}
                         id="outlined-button-file"
                         type="file"
-                        //TODO: We need to restrict file type
                         onChange={this.updateFile}
                     />
                     <label htmlFor="outlined-button-file">

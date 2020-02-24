@@ -14,8 +14,9 @@ export default function Chart() {
             this.state = {
                 channelVals: [],
                 // lineColor:[],
-                file: 'jsonOutput', // city whose temperatures to show,
-                data: [] // initial value
+                file: 'jsonOutput',
+                data: [],// initial value
+                lineColorList: ["#d8b365", "#f5f5f5", "#5ab4ac"],
             }
         }
 
@@ -23,7 +24,8 @@ export default function Chart() {
             // only update props if props have changed
             if (nextProps.data !== this.props.data) { // keep this because it prevents it from entering an infinite rerender loop
                 this.setState({
-                    data: this.props.data
+                    data: this.props.data,
+                    lineColorList: this.props.lineColorList,
                 }, () => {
                     console.log("data received by Chart");
                     console.log(this.state.data);
@@ -35,7 +37,7 @@ export default function Chart() {
             Promise.all([
                 fetch(`${process.env.PUBLIC_URL}/jsonOutput.json`),
             ]).then(responses => Promise.all(responses.map(resp => resp.json())))
-                .then(([jsonOutput, mainVizColor]) => {
+                .then(([jsonOutput]) => {
                     // sf.forEach(day => day.date = new Date(day.date));
                     // this.setState({channelVals: {sf, ny}});
                     this.setState(
@@ -52,6 +54,7 @@ export default function Chart() {
 
         render() {
             const data = this.state.channelVals[this.state.file];
+            const lineColorList = this.state.lineColorList;
             return (
                 <div key={this.state.data} className="Chart">
                     {/*<h5>*/}
@@ -66,7 +69,7 @@ export default function Chart() {
                     {/*        }*/}
                     {/*    </select>*/}
                     {/*</h5>*/}
-                    <MainChartViz data={data}/>
+                    <MainChartViz data={data} lineColorList={lineColorList}/>
                 </div>
             );
         }

@@ -8,7 +8,6 @@ const margin = {top: 25, right: 25, bottom: 25, left: 25};
 class MainChartViz extends Component {
     state = {
         lines: null,
-        lineColorList: ["#d8b365", "#f5f5f5", "#5ab4ac"],
         lineCol: null,
         // d3 helpers
         xScale: d3.scaleLinear().range([margin.left, width - margin.right]),
@@ -23,7 +22,7 @@ class MainChartViz extends Component {
 
     static getDerivedStateFromProps(nextProps, prevState) {
         if (!nextProps.data) return null; // data hasn't been loaded yet so do nothing
-        const {data} = nextProps;
+        const {data, lineColorList} = nextProps;
         const {xScale, yScale, lineGenerator} = prevState;
         var allFields = Object.keys(data[0]);
         var firstCol = allFields[0]; //gives the column name of the first column, which is the string "Timestamp"
@@ -31,16 +30,13 @@ class MainChartViz extends Component {
         var sliced = allFields.slice(1, numCol); //gives all the column names of data, excluding the first column
         // data has changed, so recalculate scale domains
         const timeDomain = d3.extent(data, d => d[firstCol]);
-        // const valMax = d3.max(data, d => d[sliced]);
+        // const valMax = d3.max(data[sliced],(d) => d[sliced]);
         // const valMin = d3.min(data, d => d[sliced]);
         xScale.domain(timeDomain);
         yScale.domain([-5, 5]);
         // yScale.domain([valMin, valMax]); this should be updated to use the global min/max
-        //currently does not populate one line at a time
-        let lineColorList = ["#d8b365", "#f5f5f5", "#5ab4ac"];
-        let lineCol;
         for (let col of lineColorList) {
-            lineCol = col;
+            var lineCol = col;
         }
         lineGenerator.x(d => xScale(d[firstCol]));
         // calculate line for drawing paths
@@ -60,17 +56,6 @@ class MainChartViz extends Component {
                 .attr("stroke", lineColorList[i])
         })
         return {lines, lineCol};
-        // console.log(data);
-        // let lines = data.map((d,i)=> {
-        //
-        //     // let cname of sliced
-        //     return {
-        //         y: yScale(d => !isNaN(d[i])),
-        //         // x: xScale(d[firstCol]),
-        //         lineCol: lineColorList[sliced.findIndex(d[i])]
-        //     }
-        // })
-        // return {lines};
     }
 
     componentDidUpdate() {
