@@ -11,7 +11,7 @@ import Link from '@material-ui/core/Link';
 import DataTable from './DataTable';
 import CurrSeqSelection from './CurrSeqSelection.js'
 import Filter from './Filter.js'
-import Chart from './ChartData.js'
+import ChartData from './ChartData.js'
 import Stats from './Stats.js'
 
 function Copyright() {
@@ -72,7 +72,7 @@ export default function Dashboard(props) {
 
     function receiveData(tableData) {
         setDataState(tableData);
-        console.log("calling receiveData", receivedData);
+        console.log("calling receiveData");
     }
 
     return (
@@ -106,7 +106,7 @@ export default function Dashboard(props) {
                             <Grid item lg={12}>
                                 {/* MainChart */}
                                 <Paper className={fixedHeightPaper}>
-                                    <Chart/>
+                                    <ChartData data={receivedData}/>
                                 </Paper>
                             </Grid>
                             <Grid item lg={12}>
