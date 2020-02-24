@@ -72,6 +72,7 @@ export default function Dashboard(props) {
     function receiveData(tableData) {
         console.log("calling receiveData");
         setData(tableData);
+        console.log(receivedData);
     }
 
     return (
