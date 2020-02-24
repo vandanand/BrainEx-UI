@@ -126,6 +126,8 @@ export default class DataTable extends Component {
 
         });
         this.props.sendData(table);
+        // this.props.sendData(colors);
+        console.log('table', table);
         return table;
     }
 
@@ -176,5 +178,6 @@ export default class DataTable extends Component {
             </React.Fragment>
         );
     }
-
 }
+
+

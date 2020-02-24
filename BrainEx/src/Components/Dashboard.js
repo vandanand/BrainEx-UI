@@ -61,17 +61,18 @@ const useStyles = makeStyles(theme => ({
 export default function Dashboard(props) {
     const classes = useStyles();
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-    const [receivedData, setData] = useState(() => []);
+    const [receivedData, setDataState] = useState(() => []);
+    // const [lineCol,setLineColorState] = useState(()=>[]);
 
     useEffect(() => {
-        console.log("parent received info!");
-        console.log(receivedData);
+        console.log("parent received info!", receivedData);
+        let lineColorList = receivedData.map(d => d.color);
+        console.log(lineColorList, 'linecolors');
     });
 
     function receiveData(tableData) {
-        console.log("calling receiveData");
-        setData(tableData);
-        console.log(receivedData);
+        setDataState(tableData);
+        console.log("calling receiveData", receivedData);
     }
 
     return (

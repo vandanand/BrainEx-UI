@@ -23,12 +23,11 @@ export default function Chart() {
         componentDidUpdate(nextProps, nextState, snapshot) {
             // only update props if props have changed
             if (nextProps.data !== this.props.data) { // keep this because it prevents it from entering an infinite rerender loop
-                this.setState({
+                nextState.setState({
                     data: this.props.data,
                     lineColorList: this.props.lineColorList,
                 }, () => {
-                    console.log("data received by Chart");
-                    console.log(this.state.data);
+                    console.log("data received by Chart", this.state.data);
                 });
             }
         }
