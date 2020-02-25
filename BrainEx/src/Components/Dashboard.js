@@ -54,7 +54,7 @@ const useStyles = makeStyles(theme => ({
         flexDirection: 'column',
     },
     fixedHeight: {
-        height: 525,
+        height: 530,
     }
 }));
 
@@ -66,8 +66,6 @@ export default function Dashboard(props) {
 
     useEffect(() => {
         console.log("parent received info!", receivedData);
-        let lineColorList = receivedData.map(d => d.color);
-        console.log(lineColorList, 'linecolors');
     });
 
     function receiveData(tableData) {

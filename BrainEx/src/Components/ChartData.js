@@ -13,22 +13,25 @@ class ChartData extends Component {
         super(props);
         this.state = {
             channelVals: [],
-            // lineColor:[],
             file: 'jsonOutput',
             data: [],// initial value
-            lineColorList: ["#d8b365", "#f5f5f5", "#5ab4ac"],
+            lineColorList: [],
         }
     }
 
     componentDidUpdate(nextProps, nextState, snapshot) {
         // only update props if props have changed
         console.log(nextProps.data, 'nextPropsData');
+        // let lineColorList = receivedData.map(d => d.color);
+        // console.log(lineColorList, 'linecolors');
         if (nextProps.data !== this.props.data) { // keep this because it prevents it from entering an infinite rerender loop
             this.setState({
                 data: this.props.data,
-                // lineColorList: this.props.lineColorList,
+                lineColorList: this.props.data.map(d => d.color),
             }, () => {
-                console.log("data received by Chart", this.state.data);
+                console.log("line data received by Chart", this.state.data);
+                console.log("color data received by Chart", this.state.lineColorList);
+
             });
         }
     }
@@ -54,7 +57,7 @@ class ChartData extends Component {
 
     render() {
         const data = this.state.channelVals[this.state.file];
-        const lineColorList = this.state.lineColorList;
+        const lineColors = this.state.lineColorList;
         return (
             <div key={this.state.data} className="Chart">
                 {/*<h5>*/}
@@ -73,7 +76,7 @@ class ChartData extends Component {
                     <Title>Query Result</Title>
                     <ResponsiveContainer>
                         {/*<ChartData/>*/}
-                        <MainChartViz data={data} lineColorList={lineColorList}/>
+                        <MainChartViz data={data} lineColorList={lineColors}/>
                     </ResponsiveContainer>
                 </React.Fragment>
             </div>

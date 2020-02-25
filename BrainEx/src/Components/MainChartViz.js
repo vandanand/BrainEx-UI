@@ -21,8 +21,8 @@ class MainChartViz extends Component {
     static getDerivedStateFromProps(nextProps, prevState) {
         if (!nextProps.data) return null; // data hasn't been loaded yet so do nothing
         const {data, lineColorList} = nextProps;
-        console.log(lineColorList, 'lineColorListinMain')
-        console.log(data, 'dataInMain')
+        console.log(lineColorList, 'lineColorListinMain');
+        console.log(data, 'lineDataInMain');
         const {xScale, yScale, lineGenerator} = prevState;
         var allFields = Object.keys(data[0]);
         var firstCol = allFields[0]; //gives the column name of the first column, which is the string "Timestamp"
