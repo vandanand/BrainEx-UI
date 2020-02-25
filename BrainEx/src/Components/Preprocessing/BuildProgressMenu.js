@@ -21,7 +21,7 @@ class BuildProgressMenu extends Component {
             open: false,
             message: null,
             mode: null,
-            isPreprocessing: true,
+            isPreprocessing: false,
             preprocessed_dataset: null
         };
         this.openModal = this.openModal.bind(this);
@@ -92,7 +92,7 @@ class BuildProgressMenu extends Component {
     };
 
     saveDataset = (e) => {
-
+        console.log("Dataset Saved!");
     };
 
     render() {
@@ -175,7 +175,9 @@ class BuildProgressMenu extends Component {
                                 Find Similar Sequences
                             </Link>
                         </ButtonGroup>
-                        <Button className="save_data" color="primary" onClick={this.saveDataset}>Save preprocessed dataset locally</Button>
+                        <ButtonGroup>
+                            <Button className="save_data" color="primary" onClick={this.saveDataset}>Save preprocessed dataset locally</Button>
+                        </ButtonGroup>
                     </div>
                 )}
             </div>
