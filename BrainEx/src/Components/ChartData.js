@@ -4,6 +4,7 @@ import {colors} from "@material-ui/core";
 import {useTheme} from '@material-ui/core/styles';
 import {ResponsiveContainer} from 'recharts';
 import Title from './Title';
+// import { Series, DataFrame } from 'pandas-js';
 
 // export default function Chart() {
 //     const theme = useTheme();
@@ -16,21 +17,33 @@ class ChartData extends Component {
             file: 'jsonOutput',
             data: [],// initial value
             lineColorList: [],
+            lineData: [],
         }
     }
 
     componentDidUpdate(nextProps, nextState, snapshot) {
         // only update props if props have changed
-        console.log(nextProps.data, 'nextPropsData');
+        // console.log(nextProps.data, 'nextPropsData');
         if (nextProps.data !== this.props.data) { // keep this because it prevents it from entering an infinite rerender loop
             this.setState({
                 data: this.props.data,
                 //this data still needs to be parsed
-                lineColorList: this.props.data.map(d => d.color).map(i => '#' + i),
+                // lineData: lineData,
+                lineColorList: this.props.data.map((d) => d.color).map(i => '#' + i),
                 //first get the color from the data object, then append pound sign to get the colors in proper hex format
             }, () => {
-                console.log("line data received by Chart", this.state.data);
-                console.log("color data received by Chart", this.state.lineColorList);
+                // console.log("color data received by Chart", this.state.lineColorList);
+                let lineData = this.state.data.map(d => {
+                    let mappedData = {}
+                    mappedData[d.id] = d.sequence;
+                    return mappedData
+                });
+                console.log(lineData, 'I am LineData!')
+                this.setState({
+                    lineData: lineData,
+                });
+                // parse the receivedData here before passing it to states
+                console.log("line data received by Chart", this.state.lineData);
 
             });
         }

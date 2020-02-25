@@ -17,8 +17,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 // creates a row of data
-function createData(id, color, subjectID, eventName, channelNum, startTime, endTime) {
-    return {id, color, subjectID, eventName, channelNum, startTime, endTime};
+function createData(id, color, subjectID, eventName, channelNum, startTime, endTime, sequence) {
+    return {id, color, subjectID, eventName, channelNum, startTime, endTime, sequence};
 }
 
 // generates x number of unique hex values
@@ -122,7 +122,7 @@ export default class DataTable extends Component {
             // todo add checkbox functionality here
             // todo should id of checkbox be index or row.id?
             // todo for the state value of this checkbox have an array of true/false and reference it by index when updating/displaying
-            let length = table.push(createData(row.id, colors[index], row.subjectID, row.eventName, row.channelNum, row.startTime, row.endTime));
+            let length = table.push(createData(row.id, colors[index], row.subjectID, row.eventName, row.channelNum, row.startTime, row.endTime, row.sequence));
 
         });
         this.props.sendData(table);

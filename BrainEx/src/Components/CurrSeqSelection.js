@@ -6,7 +6,6 @@ import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import CurSeqChartViz from "./CurSeqChartViz.js";
 import axios from 'axios';
 import {withStyles} from "@material-ui/core/styles";
-import ReChart from "./ReChart";
 import {ResponsiveContainer} from 'recharts';
 import {ThemeProvider, withTheme} from '@material-ui/styles';
 
