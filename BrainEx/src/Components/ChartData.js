@@ -8,7 +8,7 @@ import Title from './Title';
 // export default function Chart() {
 //     const theme = useTheme();
 
-    class ChartData extends Component {
+export default class ChartData extends Component {
         constructor(props) {
             super(props);
             this.state = {
