@@ -27,10 +27,23 @@ class SelectNewDataset extends Component {
 
     /*pull files from database here. this function is called after render() so all elements will be in place*/
     componentDidMount() {
-        //todo @Kyra -- pull all files from backend here (make the response an arrow function)
-        this.setState({
-            all_files: rawdata_files
-        });
+      axios.post('http://localhost:5000/rawNames')
+          .then((response) => {
+              console.log(response);
+              if (response.status === 200) {
+                  this.setState({
+                      all_files: response.data.Files
+                  }, () => {
+                      // console.log(this.state.current_file);
+                      console.log(response.data.Files);
+                  });
+              } else {
+                  console.log("File selection failed.");
+              }
+          })
+          .catch((error) => {
+              console.log(error);
+          });
     }
 
     // if no file is selected, do not go to next page
@@ -60,7 +73,7 @@ class SelectNewDataset extends Component {
         // console.log(curr_file);
         let file_form = new FormData();
         file_form.append("set_data", curr_file.name);
-        axios.post('http://localhost:5000/setFile', file_form)
+        axios.post('http://localhost:5000/setFileRaw', file_form)
             .then((response) => {
                 console.log(response);
                 if (response.status === 200) {
