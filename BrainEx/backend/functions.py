@@ -105,6 +105,7 @@ def setFilePro():
 
     if request.method == 'POST':
         uploadPath = os.path.join(application.config['UPLOAD_FOLDER_PRO'], request.form['set_data'])
+        num_worker = request.json['num_workers']
         use_spark_int = request.form['spark_val']
         if use_spark_int == "1":
             use_spark = True
