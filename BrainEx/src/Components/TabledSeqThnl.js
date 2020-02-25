@@ -1,9 +1,9 @@
-import React, {useState} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {useTheme} from '@material-ui/core/styles';
 import {LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer} from 'recharts';
 import Title from './Title';
 
-export default function TabledSeqThnl() {
+export default function TabledSeqThnl(props) {
 
     function arrayToJSON(array) {
         let JSONarray = [];
@@ -15,7 +15,8 @@ export default function TabledSeqThnl() {
         return JSONarray;
     }
 
-    const [seqData, setSeqData] = useState(arrayToJSON([0.1, -0.2, 3.06]));
+    const didMountRef = useRef(false);
+    const [seqData, setSeqData] = useState(arrayToJSON(props.data));
     const theme = useTheme();
 
     return (
