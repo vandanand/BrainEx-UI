@@ -29,6 +29,16 @@ def is_csv(filename):
     else:
         return False
 
+@application.route('/rawNames', methods=['GET', 'POST'])
+def getRawNames():
+        if request.method == 'POST':
+            files = os.listdir(application.config['UPLOAD_FOLDER_RAW'])
+            json = {
+                    "Message" : "Returning file names",
+                    "Files": files
+            }
+            return jsonify(json)
+
 @application.route('/getCSV', methods=['GET', 'POST'])
 def getStoreCSV():
     global numFeatures
@@ -42,13 +52,19 @@ def getStoreCSV():
         if csv and is_csv(csv.filename):
             toSave = os.path.join(application.config['UPLOAD_FOLDER_RAW'], csv.filename)
             csv.save(toSave) # Secure filename?? See tutorial
-            return "File has been uploaded."
+            csvPD = pd.read_csv(toSave)
+            out = csvPD.to_json()
+            returnDict = {
+                "message": "File has been uploaded.",
+                "fileContents": out
+            }
+            return jsonify(returnDict)
         else:
             return("Invalid file.  Please upload a CSV", 400)
 
-@application.route('/getDB', method=['GET', 'POST'])
+@application.route('/getDB', methods=['GET', 'POST'])
 def getStoreDB():
-    if request.method = 'POST':
+    if request.method == 'POST':
         if 'uploaded_data' not in request.files:
             return ("File not found.", 400)
         db = request.files['uploaded_data']
@@ -101,7 +117,21 @@ def setFilePro():
                 brainexDB = from_db(uploadPath, use_spark=use_spark, num_worker=num_worker, driver_mem=driver_mem, max_result_mem=max_result_mem)
             else:
                 brainexDB = from_db(uploadPath, use_spark=use_spark, num_worker=num_worker)
-        return "File has been set."
+            return "File is set!"
+        except Exception as e:
+            return (str(e), 400)
+
+@application.route('/saveFilePro', methods=['GET', 'POST'])
+def saveFilePro():
+    global brainexDB
+
+    if request.method == 'POST':
+        savePath = request.json['path']
+        try:
+            brainexDB.save(savePath)
+            return "Saved to your desired location."
+        except Exception as e:
+            return (str(e), 400)
 
 @application.route('/build', methods=['GET', 'POST'])
 def build():
