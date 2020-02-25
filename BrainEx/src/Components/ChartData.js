@@ -22,12 +22,12 @@ class ChartData extends Component {
     componentDidUpdate(nextProps, nextState, snapshot) {
         // only update props if props have changed
         console.log(nextProps.data, 'nextPropsData');
-        // let lineColorList = receivedData.map(d => d.color);
-        // console.log(lineColorList, 'linecolors');
         if (nextProps.data !== this.props.data) { // keep this because it prevents it from entering an infinite rerender loop
             this.setState({
                 data: this.props.data,
-                lineColorList: this.props.data.map(d => d.color),
+                //this data still needs to be parsed
+                lineColorList: this.props.data.map(d => d.color).map(i => '#' + i),
+                //first get the color from the data object, then append pound sign to get the colors in proper hex format
             }, () => {
                 console.log("line data received by Chart", this.state.data);
                 console.log("color data received by Chart", this.state.lineColorList);
