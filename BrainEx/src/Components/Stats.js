@@ -6,8 +6,6 @@ import ListItem from '@material-ui/core/ListItem';
 import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import ListItemText from '@material-ui/core/ListItemText';
-import ReCharts from "./ReChart";
-
 
 const useStyles = makeStyles({
     depositContext: {

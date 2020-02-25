@@ -6,7 +6,6 @@ import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import CurSeqChartViz from "./CurSeqChartViz.js";
 import axios from 'axios';
 import {withStyles} from "@material-ui/core/styles";
-import ReChart from "./ReChart";
 import {ResponsiveContainer} from 'recharts';
 import {ThemeProvider, withTheme} from '@material-ui/styles';
 
@@ -30,7 +29,7 @@ class CurrSeqSelection extends Component {
         this.state = {
             channelValues: [],
             // lineColor:[],
-            file: 'jsonOutput'
+            file:null,
         };
         this.updateFile = this.updateFile.bind(this);
         this.onClickHandler = this.onClickHandler.bind(this);
@@ -51,8 +50,6 @@ class CurrSeqSelection extends Component {
                     let data = [];
                     const jsonObj = JSON.parse(response.data.sequenceJSON)
                     for (let key in Object.keys(jsonObj)) {
-                        // console.log(key,'valKey');
-                        // console.(response.data.sequenceJSON[key],'val');
                         data.push(jsonObj[key])
                     }
                     this.setState({
@@ -61,7 +58,6 @@ class CurrSeqSelection extends Component {
                             console.log(response.data.sequenceJSON, 'sequenceJSON');
                         }
                     );
-                    console.log(data, "data")
                 } else {
                     console.log("Upload failure");
                 }
@@ -97,7 +93,6 @@ class CurrSeqSelection extends Component {
                             Upload
                         </Button>
                     </label>
-                    {/*<CurSeqChartViz data={data}/>*/}
                 </div>
 
             </React.Fragment>

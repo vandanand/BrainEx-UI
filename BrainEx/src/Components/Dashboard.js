@@ -54,15 +54,17 @@ const useStyles = makeStyles(theme => ({
         flexDirection: 'column',
     },
     fixedHeight: {
-        height: 525,
+        height: 530,
     }
 }));
 
 export default function Dashboard(props) {
     const classes = useStyles();
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-    const [receivedData, setData] = useState(() => []);
+    const [receivedData, setDataState] = useState(() => []);
     const [queryResults, setResults] = useState(() => {});
+    // const [receivedData, setDataState] = useState(() => []);
+    // const [lineCol,setLineColorState] = useState(()=>[]);
 
     useEffect(() => {
         console.log("parent received data!");
@@ -76,7 +78,7 @@ export default function Dashboard(props) {
 
     function receiveData(tableData) {
         console.log("calling receiveData");
-        setData(tableData);
+        setDataState(tableData);
     }
 
     function receiveResults(results) {

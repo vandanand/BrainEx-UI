@@ -123,8 +123,8 @@ export default class DataTable extends Component {
     }
 
     // creates a row of data
-    createData(id, color, startTime, endTime, similarity, data) {
-        return {id, color, startTime, endTime, similarity, data};
+    createData(id, color, startTime, endTime, similarity, sequence) {
+        return {id, color, startTime, endTime, similarity, sequence};
     }
     // function to create the data table content using an external source (in this case, a constant from another file)
     createTable(data) {
@@ -137,6 +137,8 @@ export default class DataTable extends Component {
         }
         console.log(table);
         this.props.sendData(table);
+        // this.props.sendData(colors);
+        console.log('table', table);
         return table;
     }
 
@@ -192,5 +194,6 @@ export default class DataTable extends Component {
             </React.Fragment>
         );
     }
-
 }
+
+
