@@ -4,56 +4,25 @@ import {LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer} from 'rechart
 import Title from './Title';
 
 export default function TabledSeqThnl() {
-    const [seqData, setSeqData] = useState({
-        data: [
-            {
-                "seqLength": "0",
-                "chanVal": 0.362,
 
-            },
-            {
-                "seqLength": "1",
-                "chanVal": -0.2,
+    function arrayToJSON(array) {
+        let JSONarray = [];
+        for (let i = 0; i<array.length;i++) {
+            JSONarray.push({"seqLength": i.toString(), "chanVal": array[i]})
+        }
+        console.log("JSONarray");
+        console.log(JSONarray);
+        return JSONarray;
+    }
 
-            },
-            {
-                "seqLength": "2",
-                "chanVal": 1.9,
-
-            },
-            {
-                "seqLength": "3",
-                "chanVal": 3.06,
-            },
-            {
-                "seqLength": "4",
-                "chanVal": -0.13,
-            },
-            {
-                "seqLength": "5",
-                "chanVal": -.029,
-            },
-            {
-                "seqLength": "6",
-                "chanVal": -.03,
-            },
-            {
-                "seqLength": "7",
-                "chanVal": 0.93,
-            },
-            {
-                "seqLength": "8",
-                "chanVal": 1.87,
-            }
-        ]
-    });
+    const [seqData, setSeqData] = useState(arrayToJSON([0.1, -0.2, 3.06]));
     const theme = useTheme();
 
     return (
         <React.Fragment>
             <ResponsiveContainer>
                 <LineChart
-                    data={seqData.data}
+                    data={seqData}
                     margin={{
                         top: 0,
                         right: 0,

@@ -136,6 +136,9 @@ export default class DataTable extends Component {
             let length = table.push(this.createData(result.ID, colors[i], result.start, result.end, result.similarity, result.data));
         }
         console.log(table);
+        console.log("json stringify:");
+        let print = table[0].sequence;
+        console.log(JSON.parse(JSON.stringify(print)));
         this.props.sendData(table);
         // this.props.sendData(colors);
         console.log('table', table);
