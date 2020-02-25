@@ -7,21 +7,15 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Title from './Title';
 import Checkbox from '@material-ui/core/Checkbox';
-import {query_results_dd} from "../data/query_results_dd";
 import Rainbow from 'rainbowvis.js/rainbowvis.js';
 import {top_color, bottom_color} from '../data/default_values';
-import TabledSeqThnl from "./TabledSeqThnl";
+import TabledSeqThnl from "./TabledSeqThnl"; // thumbnail component
 
 const useStyles = makeStyles(theme => ({
     // styles go here
 }));
 
-// creates a row of data
-function createData(id, color, subjectID, eventName, channelNum, startTime, endTime) {
-    return {id, color, subjectID, eventName, channelNum, startTime, endTime};
-}
-
-// generates x number of unique hex values
+// generates x number of unique hex values between two given colors (generates a proportional gradient)
 function generateColors(numColors, top_color, bottom_color) {
     let colors = [];
     let color_range = new Rainbow();
@@ -47,16 +41,30 @@ export default class DataTable extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            checkboxValues: this.initializeCheckboxValues(query_results_dd),
-            tableData: this.createTable(query_results_dd),
+            checkboxValues: [],
+            queryResults: [],
             allChecked: true
-            // filteredData: this.createTable(query_results_dd) // intially its all data
+            // filteredData: this.createTable(query_results) // initially its all data
         };
         this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
         this.initializeCheckboxValues = this.initializeCheckboxValues.bind(this);
         this.createTable = this.createTable.bind(this);
         this.selectAll = this.selectAll.bind(this);
         this.getTrueRows = this.getTrueRows.bind(this);
+        this.createData = this.createData.bind(this);
+    }
+
+    componentDidUpdate(nextProps, nextState, snapshot) {
+        // only update props if props have changed
+        if (nextProps.queryResults !== this.props.queryResults) { // keep this because it prevents it from entering an infinite rerender loop
+            this.setState({
+                queryResults: (this.props.queryResults) ? this.createTable(this.props.queryResults) : [],
+                checkboxValues: (this.props.queryResults) ? this.initializeCheckboxValues(this.props.queryResults) : []
+            }, () => {
+                console.log("queryResults received by DataTable");
+                console.log(this.state.queryResults);
+            });
+        }
     }
 
     // return the data rows with "show" = true
@@ -83,7 +91,7 @@ export default class DataTable extends Component {
         }, () => {
             console.log("updated in handle checkbox change to " + this.state.allChecked);
             // send new true data to ChartData through Dashboard
-            let filteredData = this.getTrueRows(this.state.tableData);
+            let filteredData = this.getTrueRows(this.state.queryResults);
             this.props.sendData(filteredData);
         });
     }
@@ -98,14 +106,14 @@ export default class DataTable extends Component {
         }, () => {
             console.log("checkboxes updated in selectAll to " + this.state.allChecked);
             // send new true data to ChartData through Dashboard
-            let filteredData = this.getTrueRows(this.state.tableData);
+            let filteredData = this.getTrueRows(this.state.queryResults);
             this.props.sendData(filteredData);
         });
     }
 
     // initialize list of checkbox values to be all true, same number of items as rows in data
     initializeCheckboxValues(data) {
-        let numCheckboxes = data.length;
+        let numCheckboxes = Object.keys(data).length;
         // create list of checkbox values (initialized to true)
         let checkbox_values = []; // value to be stored in showSequence (the state values are true/false)
         for (let i = 0; i < numCheckboxes; i++) {
@@ -114,18 +122,23 @@ export default class DataTable extends Component {
         return checkbox_values;
     }
 
+    // creates a row of data
+    createData(id, color, startTime, endTime, similarity, sequence) {
+        return {id, color, startTime, endTime, similarity, sequence};
+    }
     // function to create the data table content using an external source (in this case, a constant from another file)
     createTable(data) {
-        const table = [];
-        let colors = generateColors(data.length, top_color, bottom_color);
-        data.map((row, index) => {
-            // todo add checkbox functionality here
-            // todo should id of checkbox be index or row.id?
-            // todo for the state value of this checkbox have an array of true/false and reference it by index when updating/displaying
-            let length = table.push(createData(row.id, colors[index], row.subjectID, row.eventName, row.channelNum, row.startTime, row.endTime));
-
-        });
+        let colors = generateColors(Object.keys(data).length, top_color, bottom_color);
+        let numResults = Object.keys(data).length;
+        let table = [];
+        for (let i = 0; i < numResults; i++) {
+            let result = data[i];
+            let length = table.push(this.createData(result.ID, colors[i], result.start, result.end, result.similarity, result.data));
+        }
+        console.log(table);
         this.props.sendData(table);
+        // this.props.sendData(colors);
+        console.log('table', table);
         return table;
     }
 
@@ -141,31 +154,36 @@ export default class DataTable extends Component {
                                 <Checkbox checked={this.state.allChecked} onChange={this.selectAll}/>
                             </TableCell>
                             {/*<TableCell>Color</TableCell>*/}
-                            <TableCell>Subject ID</TableCell>
-                            <TableCell>Event Name</TableCell>
-                            <TableCell>Channel Number</TableCell>
+                            <TableCell>Sequence ID</TableCell>
                             <TableCell>Start Time</TableCell>
                             <TableCell>End Time</TableCell>
-                            <TableCell>Distance</TableCell>
+                            <TableCell>Similarity</TableCell>
                             <TableCell>Thumbnail</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {this.state.tableData.map((row, i) => (
+                        {(this.state.queryResults) ? (this.state.queryResults.map((row, i) => (
                             <TableRow key={row.id}>
                                 <TableCell style={{backgroundColor: "#" + row.color}}>
                                     <Checkbox id={row.id} key={i} checked={this.state.checkboxValues[i]}
                                               onChange={(e) => this.handleCheckboxChange(i, e)}/>
                                 </TableCell>
-                                <TableCell>{row.subjectID}</TableCell>
-                                <TableCell>{row.eventName}</TableCell>
-                                <TableCell>{row.channelNum}</TableCell>
+                                <TableCell>{row.id}</TableCell>
                                 <TableCell>{row.startTime}</TableCell>
                                 <TableCell>{row.endTime}</TableCell>
-                                <TableCell>0%</TableCell>
-                                <TableCell><TabledSeqThnl/></TableCell>
+                                <TableCell>{row.similarity}</TableCell>
+                                <TableCell><TabledSeqThnl data={row.data}/></TableCell>
                             </TableRow>
-                        ))}
+                        ))) : (
+                            <TableRow>
+                                <TableCell></TableCell>
+                                <TableCell></TableCell>
+                                <TableCell></TableCell>
+                                <TableCell></TableCell>
+                                <TableCell></TableCell>
+                                <TableCell></TableCell>
+                            </TableRow>
+                        )}
                     </TableBody>
                 </Table>
                 {/*<div className={classes.seeMore}>*/}
@@ -176,5 +194,6 @@ export default class DataTable extends Component {
             </React.Fragment>
         );
     }
-
 }
+
+

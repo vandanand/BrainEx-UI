@@ -61,16 +61,6 @@ export default function TabledSeqThnl() {
                         left: 0,
                     }}
                 >
-                    {/*<XAxis dataKey="seqLength" tick={false} stroke={theme.palette.text.secondary}/>*/}
-                    {/*<YAxis stroke={theme.palette.text.secondary} tick={false}>*/}
-                    {/*    /!*<Label*!/*/}
-                    {/*    /!*    angle={270}*!/*/}
-                    {/*    /!*    position="left"*!/*/}
-                    {/*    /!*    style={{textAnchor: 'middle', fill: theme.palette.text.primary}}*!/*/}
-                    {/*    /!*>*!/*/}
-                    {/*    /!*    Sales ($)*!/*/}
-                    {/*    /!*</Label>*!/*/}
-                    {/*</YAxis>*/}
                     <Line type="monotone" dataKey="chanVal" stroke={theme.palette.primary.main} dot={false}/>
                 </LineChart>
             </ResponsiveContainer>

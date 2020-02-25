@@ -2,23 +2,24 @@ import React , { Component } from "react";
 import '../../Stylesheets/BuildOptions.css';
 import Slider, { Range } from 'rc-slider';
 import 'rc-slider/assets/index.css';
-import { TextField, Select, MenuItem, Checkbox, Button, Link, InputLabel } from '@material-ui/core';
+import {
+    TextField,
+    Select,
+    MenuItem,
+    Checkbox,
+    Button,
+    Link,
+    InputLabel,
+    DialogTitle,
+    DialogContent, Typography, DialogActions, Dialog
+} from '@material-ui/core';
 import { Link as RouterLink } from "react-router-dom";
 import $ from 'jquery';
 import axios from 'axios';
 import Input from "@material-ui/core/Input";
-import {
-    default_dv,
-    default_st,
-    default_loi,
-    default_sv,
-    default_nw,
-    default_dm,
-    default_mrm,
-    build_progress,
-    select_new_dataset
-} from "../../data/default_values";
+import { default_dv, default_st, default_spark, default_sv, default_nw, default_dm, default_mrm, build_progress, select_new_dataset } from "../../data/default_values";
 import BuildProgressMenu from "./BuildProgressMenu.js";
+import FormData from "form-data";
 
 class BuildOptions extends Component {
 
@@ -31,6 +32,7 @@ class BuildOptions extends Component {
             loi_val: (this.props.location.state !== undefined) ? [1, this.props.location.state.loi_max] : [1, 100], /*[0:max length]*/
             loi_max: (this.props.location.state !== undefined) ? this.props.location.state.loi_max : 100,
             spark_val: default_sv,
+            spark_installed: default_spark,
             num_workers: default_nw,
             dm_val: default_dm,
             mrm_val: default_mrm,
@@ -54,29 +56,21 @@ class BuildOptions extends Component {
         this.update_dm = this.update_dm.bind(this);
         this.update_mrm = this.update_mrm.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.toggleOptions = this.toggleOptions.bind(this);
+        this.openModal = this.openModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);
     }
 
-    componentDidMount() {
-        // spark options listener -- toggles display of additional options using a button/link
-        $("#spark_toggle").click(function(){
-            $(".advanced_spark").toggle();
-            if ($(".advanced_spark").is(":visible")) {
-                $(".display-this").hide();
-                $(".hide-this").show();
-            } else {
-                $(".display-this").show();
-                $(".hide-this").hide();
-            }
-        });
-    }
-
-    // dynamically update feature number value in state
-    /*update_feature = (e) => {
-        const feature_val = e.target.value;
-        this.setState({
-            feature_val: feature_val
-        });
-    };*/
+    toggleOptions = (e) => {
+        $(".advanced_spark").toggle();
+        if ($(".advanced_spark").is(":visible")) {
+            $(".display-this").hide();
+            $(".hide-this").show();
+        } else {
+            $(".display-this").show();
+            $(".hide-this").hide();
+        }
+    };
 
     // dynamically update distance type value in state
     update_distance = (e) => {
@@ -125,11 +119,27 @@ class BuildOptions extends Component {
     };
 
     // dynamically update state of "use spark?" checkbox (checked/unchecked)
+    // todo @Kyra -> make api call to test spark -- return "spark is properly installed" or the error
     update_spark = (e) => {
         const spark_val = e.target.checked;
-        this.setState({
-            spark_val: spark_val
-        });
+        if (spark_val && !this.state.spark_installed) { // if the user wants spark and we have not checked if it is installed
+            axios.post('http://localhost:5000/checkSpark')
+                .then((response) => {
+                    console.log(response);
+                    if (response.status === 200) {
+                        this.setState({
+                            spark_installed: true,
+                            spark_val: spark_val
+                        }, () => {
+                            console.log(response.data);
+                        });
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                    this.openModal(error);
+                });
+        }
     };
     // dynamically update number of workers/cores value in state
     update_nw = (e) => {
@@ -176,9 +186,37 @@ class BuildOptions extends Component {
         }); // proceed to next page once information has been passed
     };
 
+    // functions for opening and closing spark modal
+    openModal = (message) => {
+        this.setState({
+            open: true,
+            message: message
+        });
+    };
+    closeModal = () => {
+        this.setState({
+           open: false,
+           message: null
+        });
+    };
+
     render() {
         return(
             <div className="full-height">
+                <Dialog className="dialog" open={this.state.open} onClose={this.closeModal}>
+                    <DialogTitle id="alert-dialog-title">{this.state.message}</DialogTitle>
+                    <DialogContent>
+                        <Typography id="alert-dialog-description">
+                            Spark must be properly installed on this computer to be able to access this feature.
+                            (note: include directions towards resources on how to do this)
+                        </Typography>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={this.closeModal} color="primary">
+                            OK
+                        </Button>
+                    </DialogActions>
+                </Dialog>
                 <form className="build_form" onSubmit={this.handleSubmit}>
                     <table>
                         <tbody>
@@ -298,7 +336,7 @@ class BuildOptions extends Component {
                                     checked={this.state.spark_val}
                                     onChange={this.update_spark}
                                 />
-                                <Button id="spark_toggle" color="primary">
+                                <Button id="spark_toggle" color="primary" onClick={this.toggleOptions}>
                                     <p className="display-this">Display advanced Spark options</p>
                                     <p className="hide-this">Hide advanced Spark options</p>
                                 </Button>

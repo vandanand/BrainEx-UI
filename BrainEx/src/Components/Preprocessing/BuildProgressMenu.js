@@ -21,18 +21,22 @@ class BuildProgressMenu extends Component {
             open: false,
             message: null,
             mode: null,
-            isPreprocessing: true
+            isPreprocessing: true,
+            preprocessed_dataset: null
         };
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.cancelPreprocessing = this.cancelPreprocessing.bind(this);
+        this.saveDataset = this.saveDataset.bind(this);
     }
 
     componentDidMount() {
         axios.post('http://localhost:5000/build', this.state.form_data)
             .then((response) => {
+                console.log(response);
                 this.setState({
                     isPreprocessing: false
+                    // preprocessed_dataset: response.data.data
                 }, () => {
                     console.log(response.data);
                 })
@@ -85,6 +89,10 @@ class BuildProgressMenu extends Component {
         } else {
             console.log("invalid modal mode.")
         }
+    };
+
+    saveDataset = (e) => {
+
     };
 
     render() {
@@ -167,6 +175,7 @@ class BuildProgressMenu extends Component {
                                 Find Similar Sequences
                             </Link>
                         </ButtonGroup>
+                        <Button className="save_data" color="primary" onClick={this.saveDataset}>Save preprocessed dataset locally</Button>
                     </div>
                 )}
             </div>

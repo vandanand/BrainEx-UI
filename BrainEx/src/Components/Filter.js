@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import Divider from "@material-ui/core/Divider";
 import Title from "./Title";
 import clsx from 'clsx';
@@ -34,55 +34,62 @@ const useStyles = makeStyles(theme => ({
 export default function Filter(props) {
     const classes = useStyles();
     // range slider
-    //// set initial values using min and max
     const [rangeVal, setRangeVal] = useState([props.loi_min, props.loi_max]);
     const [startVal, setStartVal] = useState(props.loi_min);
     const [endVal, setEndVal] = useState(props.loi_max);
     // establish constants for min and max
-    const MIN = props.loi_min;
-    const MAX = props.loi_max;
+    // const MIN = props.loi_min;
+    // const MAX = props.loi_max;
     //number of matches
     const [numMatches, setNumMatches] = useState(5);
     //overlap of sequences
     const [overlapVal, setOverlapVal] = useState(40);
     //exclude same id
     const [excludeID, setExcludeID] = useState(true);
+    // query results
+    const [queryResults, setQueryResults] = useState(null);
 
-    /*update the range values for loi range*/
+    useEffect(() => {
+        console.log("results received");
+        console.log(queryResults);
+        props.sendResults(queryResults);
+    }, [queryResults]);
+
+    /*/!*update the range values for loi range*!/
     function handleRangeChange(event) {
         // console.log(event);
         const newRangeVal = event;
         setRangeVal(newRangeVal); // new value is stored in the event, not the newValue
-        /*update input values*/
+        /!*update input values*!/
         const newStartVal = parseFloat(newRangeVal[0]);
         setStartVal(newStartVal);
         const newEndVal = parseFloat(newRangeVal[1]);
         setEndVal(newEndVal);
     }
 
-    /*update the input boxes for the loi range*/
+    /!*update the input boxes for the loi range*!/
     const handleRangeChangeStart = event => {
-        /*get original range value*/
+        /!*get original range value*!/
         let newRangeVal = rangeVal;
-        /*update only the starting value*/
+        /!*update only the starting value*!/
         const newStartVal = parseFloat(event.target.value);
         setStartVal(newStartVal);
         // console.log("new start val: " + newStartVal);
-        /*update range value*/
+        /!*update range value*!/
         newRangeVal[0] = newStartVal;
         setRangeVal(newRangeVal);
     };
     const handleRangeChangeEnd = event => {
-        /*get original range value*/
+        /!*get original range value*!/
         let newRangeVal = rangeVal;
-        /*update only the end value*/
+        /!*update only the end value*!/
         const newEndVal = parseFloat(event.target.value);
         // console.log("new end val: " + newEndVal);
         setEndVal(newEndVal);
-        /*update range value*/
+        /!*update range value*!/
         newRangeVal[1] = newEndVal;
         setRangeVal(newRangeVal);
-    };
+    };*/
 
     const handleMatchChange = (e) => {
         console.log(e.target.value);
@@ -102,32 +109,25 @@ export default function Filter(props) {
     /*when apply is clicked, submit the form to the backend*/
     const handleQuery = (e) => {
         e.preventDefault(); // dont refresh the page on submit
-        let loi = rangeVal.toString();
+        // let loi = rangeVal.toString();
         let best_matches = numMatches.toString();
         let overlap = (overlapVal/100).toString();
         let excludeS = excludeID.toString();
         let form = new FormData();
-        form.append("loi", loi);
+        // form.append("loi", loi);
         form.append("best_matches", best_matches);
         form.append("overlap", overlap);
         form.append("excludeS", excludeS);
         console.log(form);
         axios.post('http://localhost:5000/query', form)
         .then(function (response) {
-          console.log(response);
+          console.log(response.data['message']);
+          setQueryResults(JSON.parse(response.data['resultJSON']));
         })
         .catch(function (error) {
           console.log(error);
         });
     };
-
-    /*const handleBlur = () => {
-        if (rangeVal[0] < 0) {
-            setRangeVal(0);
-        } else if (rangeVal[1] > 100) {
-            setRangeVal(100);
-        }
-    };*/
 
     return (
         <React.Fragment>
@@ -137,7 +137,7 @@ export default function Filter(props) {
                 <form className={classes.root} noValidate autoComplete="off">
                     <FormControl component="fieldset">
                         <FormGroup>
-                            <Typography id="range-slider" gutterBottom>
+                            {/*<Typography id="range-slider" gutterBottom>
                                 Lengths of interest for matches
                             </Typography>
                             <Grid container spacing={2} alignItems="center">
@@ -160,8 +160,8 @@ export default function Filter(props) {
                                     <Range
                                         value={rangeVal}
                                         step={0.1}
-                                        min={MIN} /*todo set as min loi from build options*/
-                                        max={MAX} /*todo set as max loi from build options*/
+                                        min={MIN}
+                                        max={MAX}
                                         onChange={handleRangeChange}/>
                                 </Grid>
                                 <Grid item>
@@ -180,8 +180,9 @@ export default function Filter(props) {
                                             'aria-labelledby': 'input-slider',
                                         }}/>
                                 </Grid>
-                            </Grid>
+                            </Grid>*/}
 
+                            {/* NUMBER OF MATCHES FIELD */}
                             <TextField
                                 required
                                 value={numMatches}
@@ -197,6 +198,7 @@ export default function Filter(props) {
                                     min: 1,
                                     type: 'number'
                                 }}/>
+                                {/* OVERLAP FIELD */}
                             <TextField
                                 required
                                 value={overlapVal}
@@ -214,6 +216,7 @@ export default function Filter(props) {
                                     max: 100,
                                     type: 'number'
                                 }}/>
+                                {/* EXCLUDE SAME ID FIELD */}
                             <FormControlLabel
                                 value="checkBox"
                                 control={<Checkbox color="primary" checked={excludeID} onChange={handleExcludeIDChange}/>}
