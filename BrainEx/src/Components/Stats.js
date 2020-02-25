@@ -25,18 +25,18 @@ export default function Stats() {
     const classes = useStyles();
     return (
         <React.Fragment>
-                <Title>Statistics</Title>
-                <Divider/>
-                <List aria-label="primary">
-                    <ListItem>
-                        <ListItemText primary="Mean" color="textPrimary"/>
-                        <Typography color="textSecondary">3.52</Typography>
-                    </ListItem>
-                    <ListItem>
-                        <ListItemText primary="Mode"/>
-                        <Typography color="textSecondary">4.67</Typography>
-                    </ListItem>
-                </List>
+            <Title>Statistics</Title>
+            <Divider/>
+            <List aria-label="primary">
+                <ListItem>
+                    <ListItemText primary="Mean" color="textPrimary"/>
+                    <Typography color="textSecondary">3.52</Typography>
+                </ListItem>
+                <ListItem>
+                    <ListItemText primary="Mode"/>
+                    <Typography color="textSecondary">4.67</Typography>
+                </ListItem>
+            </List>
         </React.Fragment>
     );
 }
