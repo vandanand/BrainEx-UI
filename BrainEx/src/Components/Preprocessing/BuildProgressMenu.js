@@ -21,7 +21,7 @@ class BuildProgressMenu extends Component {
             open: false,
             message: null,
             mode: null,
-            isPreprocessing: false,
+            isPreprocessing: true,
             preprocessed_dataset: null
         };
         this.openModal = this.openModal.bind(this);
