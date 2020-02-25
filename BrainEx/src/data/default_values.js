@@ -1,12 +1,11 @@
 /* build option defaults */
-const MAX = 100; // todo get this from API return
-export const default_dv = "eu";
-export const default_st = 0.1;
-export const default_loi = [0, MAX]; //todo this might might not happen here because of the max call
-export const default_sv = true;
-export const default_nw = 4;
-export const default_dm = 16;
-export const default_mrm = 16;
+export const default_dv = "eu"; // default distance value (Euclidean)
+export const default_st = 0.1; // default similarity threshold (0:1)
+export const default_nw = 4; // default number of workers
+export const default_sv = false; // default spark value (use spark v use python multi-threading
+export const default_spark = false; // default "is spark installed correctly?"
+export const default_dm = 16; // default driver memory (GB)
+export const default_mrm = 16; // default max result memory (GB)
 
 /* data table defaults */
 // for query result gradient:

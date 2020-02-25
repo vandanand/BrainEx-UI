@@ -7,3 +7,4 @@ venv
 .idea
 python.exe
 node_modules
+__pycache__/

@@ -11,7 +11,7 @@ import Link from '@material-ui/core/Link';
 import DataTable from './DataTable';
 import CurrSeqSelection from './CurrSeqSelection.js'
 import Filter from './Filter.js'
-import Chart from './ChartData.js'
+import ChartData from './ChartData.js'
 import Stats from './Stats.js'
 
 function Copyright() {
@@ -54,24 +54,37 @@ const useStyles = makeStyles(theme => ({
         flexDirection: 'column',
     },
     fixedHeight: {
-        height: 525,
+        height: 530,
     }
 }));
 
 export default function Dashboard(props) {
     const classes = useStyles();
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-    const [receivedData, setData] = useState(() => []);
+    const [receivedData, setDataState] = useState(() => []);
+    const [queryResults, setResults] = useState(() => {});
+    // const [receivedData, setDataState] = useState(() => []);
+    // const [lineCol,setLineColorState] = useState(()=>[]);
 
     useEffect(() => {
-        console.log("parent received info!");
+        console.log("parent received data!");
         console.log(receivedData);
-    });
+    }, [receivedData]);
+
+    useEffect(() => {
+        console.log("parent received results!");
+        console.log(queryResults);
+    }, [queryResults]);
 
     function receiveData(tableData) {
         console.log("calling receiveData");
-        setData(tableData);
-        console.log(receivedData);
+        setDataState(tableData);
+    }
+
+    function receiveResults(results) {
+        console.log("calling receiveResults");
+        console.log(results);
+        setResults(results);
     }
 
     return (
@@ -91,7 +104,7 @@ export default function Dashboard(props) {
                             {/* filters */}
                             <Grid item lg={12}>
                                 <Paper className={classes.paper}>
-                                    <Filter loi_min={props.loi_min} loi_max={props.loi_max}/>
+                                    <Filter sendResults={receiveResults} loi_min={props.loi_min} loi_max={props.loi_max}/>
                                 </Paper>
                             </Grid>
                             {/*stats*/}
@@ -105,13 +118,13 @@ export default function Dashboard(props) {
                             <Grid item lg={12}>
                                 {/* MainChart */}
                                 <Paper className={fixedHeightPaper}>
-                                    <Chart/>
+                                    <ChartData data={receivedData}/>
                                 </Paper>
                             </Grid>
                             <Grid item lg={12}>
                                 {/* Table */}
                                 <Paper className={fixedHeightPaper}>
-                                    <DataTable sendData={receiveData}/>
+                                    <DataTable queryResults={queryResults} sendData={receiveData}/>
                                 </Paper>
                             </Grid>
                         </Grid>
