@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import Divider from "@material-ui/core/Divider";
 import Title from "./Title";
 import clsx from 'clsx';
@@ -48,6 +48,12 @@ export default function Filter(props) {
     const [excludeID, setExcludeID] = useState(true);
     // query results
     const [queryResults, setQueryResults] = useState(null);
+
+    useEffect(() => {
+        console.log("results received");
+        console.log(queryResults);
+        props.sendResults(queryResults);
+    }, [queryResults]);
 
     /*/!*update the range values for loi range*!/
     function handleRangeChange(event) {
@@ -115,20 +121,13 @@ export default function Filter(props) {
         console.log(form);
         axios.post('http://localhost:5000/query', form)
         .then(function (response) {
-          console.log(response);
+          console.log(response.data['message']);
+          setQueryResults(JSON.parse(response.data['resultJSON']));
         })
         .catch(function (error) {
           console.log(error);
         });
     };
-
-    /*const handleBlur = () => {
-        if (rangeVal[0] < 0) {
-            setRangeVal(0);
-        } else if (rangeVal[1] > 100) {
-            setRangeVal(100);
-        }
-    };*/
 
     return (
         <React.Fragment>

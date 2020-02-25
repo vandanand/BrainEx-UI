@@ -18,3 +18,9 @@ export const query_results_dd = [{"id":1,"subjectID":"989-SART-WOQ8527-EC","even
 {"id":18,"subjectID":"849-SART-EQS6013-IK","eventName":"target correct","channelNum":"Channel-9 HbO","startTime":26508,"endTime":86884},
 {"id":19,"subjectID":"346-SART-CYQ3753-AT","eventName":"target correct","channelNum":"Channel-0 HbO","startTime":17324,"endTime":83293},
 {"id":20,"subjectID":"110-SART-CCM8999-IV","eventName":"target incorrect","channelNum":"Channel-9 HbO","startTime":42483,"endTime":93740}*/];
+
+export const query_results_unparsed = { 0: {similarity: 0.7885216669, ID: "('Italy_power1029', '2', '401879', '437109')", start: 6, end: 8, data: Array(3)},
+1: {similarity: 0.7640045303, ID: "('Italy_power35', '2', '1636593', '1647855')", start: 7, end: 9, data: Array(3)},
+2: {similarity: 0.7637853173, ID: "('Italy_power531', '2', '1656944', '1688190')", start: 7, end: 9, data: Array(3)},
+3: {similarity: 0.7636493587, ID: "('Italy_power266', '2', '1140796', '1142280')", start: 6, end: 8, data: Array(3)},
+4: {similarity: 0.7556334885, ID: "('Italy_power993', '2', '1039354', '1071515')", start: 7, end: 9, data: Array(3)} };
