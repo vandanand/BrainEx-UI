@@ -135,7 +135,6 @@ export default class DataTable extends Component {
             let result = data[i];
             let length = table.push(this.createData(result.ID, colors[i], result.start, result.end, result.similarity, result.data));
         }
-        console.log(table);
         this.props.sendData(table);
         // this.props.sendData(colors);
         console.log('table', table);
@@ -172,7 +171,7 @@ export default class DataTable extends Component {
                                 <TableCell>{row.startTime}</TableCell>
                                 <TableCell>{row.endTime}</TableCell>
                                 <TableCell>{row.similarity}</TableCell>
-                                <TableCell><TabledSeqThnl data={row.data}/></TableCell>
+                                <TableCell><TabledSeqThnl data={row.sequence}/></TableCell>
                             </TableRow>
                         ))) : (
                             <TableRow>
