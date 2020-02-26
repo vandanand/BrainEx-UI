@@ -16,81 +16,67 @@ class ChartData extends Component {
             // file: 'jsonOutput',
             data: [],// initial value
             lineColorList: [],
-            lineData: [],
+            lineData: [{
+                // "Timestamp": "0",
+                // "DataVal": 0
+            }],
         }
+        this.dataFormatter = this.dataFormatter.bind(this);
     }
+
+    dataFormatter(lineData) {
+        let jsonData = lineData.map(d => {
+            let mappedData = {};
+            mappedData[d.id] = d.sequence;
+            return mappedData
+        });
+        let parsedLineData = [];
+        let firstData = Object.values(jsonData[0])[0];
+        let timeLength = firstData.length;
+        for (let i = 0; i < timeLength; i++) {
+            parsedLineData.push({"Timestamp": i + ""})
+        }
+        jsonData.forEach(function (d) {
+            let keys = Object.keys(d);
+            let id = keys[0] + "";
+            let dataArr = d[id];
+            for (let i = 0; i < dataArr.length; i++) {
+                parsedLineData[i][id] = dataArr[i]
+            }
+        });
+        return parsedLineData
+    };
 
     componentDidUpdate(nextProps, nextState, snapshot) {
         // only update props if props have changed
         if (nextProps.data !== this.props.data) {
-            function dataFormatter(lineData) {
-                let jsonData = lineData.map(d => {
-                    let mappedData = {};
-                    mappedData[d.id] = d.sequence;
-                    return mappedData
-                });
-                let parsedLineData = [];
-                let firstData = Object.values(jsonData[0])[0];
-                let timeLength = firstData.length;
-                for (let i = 0; i < timeLength; i++) {
-                    parsedLineData.push({"Timestamp": i + ""})
-                }
-                jsonData.forEach(function (d) {
-                    let keys = Object.keys(d);
-                    let id = keys[0] + "";
-                    let dataArr = d[id];
-                    for (let i = 0; i < dataArr.length; i++) {
-                        parsedLineData[i][id] = dataArr[i]
-                    }
-                });
-                return parsedLineData
-            }
-
-            console.log(dataFormatter(this.props.data));
-
             // keep this because it prevents it from entering an infinite rerender loop
             this.setState({
                 data: this.props.data,
-                //this data still needs to be parsed
-                lineData: dataFormatter(this.props.data),
-                // .map(d => {
-                // let mappedData = {};
-                // mappedData[d.id] = d.sequence}),
+                lineData: this.dataFormatter(this.props.data),
                 lineColorList: this.props.data.map((d) => d.color).map(i => '#' + i),
                 //first get the color from the data object, then append pound sign to get the colors in proper hex format
             }, () => {
                 console.log("line data received by Chart", this.state.lineData);
-                // this.setState({
-                //     lineData: lineData,
-                // });
-                // parse the receivedData here before passing it to states
-
             });
         }
     }
 
     //
-    componentDidMount() {
-        // Promise.all([
-        //     fetch(`${process.env.PUBLIC_URL}/jsonOutput.json`),
-        // ]).then(responses => Promise.all(responses.map(resp => resp.json())))
-        //     .then(([jsonOutput]) => {
-        //         // sf.forEach(day => day.date = new Date(day.date));
-        //         // this.setState({channelVals: {sf, ny}});
-        //         this.setState(
-        //             {channelVals: {jsonOutput}}
-        //         );
-        //     });
-        this.setState(
-            {lineData: []}
-        );
-
-    }
-
-    // updateFile = (e) => {
-    //     // this.setState({file: e.target.value});
-    //     this.setState({file: 'jsonOutput'});
+    // componentDidMount() {
+    //     this.setState(
+    //         {
+    //             data: this.props.data,
+    //             lineData: this.dataFormatter(this.props.data),
+    //             lineColorList: this.props.data.map((d) => d.color).map(i => '#' + i),
+    //         })
     // }
+
+
+// updateFile = (e) => {
+//     // this.setState({file: e.target.value});
+//     this.setState({});
+// }
 
     render() {
         const lineData = this.state.lineData;
@@ -108,7 +94,7 @@ class ChartData extends Component {
             </div>
         );
     }
-}
+};
 
 export default ChartData;
 

@@ -19,15 +19,16 @@ class MainChartViz extends Component {
         .tickFormat(d => `${d}`);
 
     static getDerivedStateFromProps(nextProps, prevState) {
-        console.log(nextProps.lineData, 'testing Props.lineData');
-        console.log(nextProps.lineColorList, 'testing Props.lineColorList');
-        if (!nextProps.data) return null; // lineData hasn't been loaded yet so do nothing
-        const {lineData, lineColorList} = nextProps;
-        // console.log(lineColorList, 'lineColorListinMain');
-        console.log(lineData, 'lineDataInMain');
-        console.log(lineColorList, 'lineColorListInMain');
+        // console.log(nextProps.lineData, 'testing Props.lineData');
+        // console.log(nextProps.lineColorList, 'testing Props.lineColorList');
         const {xScale, yScale, lineGenerator} = prevState;
+        const {lineData, lineColorList} = nextProps;
+        // console.log(lineColorList, 'lineColorListInMain');
+        // console.log(lineData, 'lineDataInMain');
+        // if (!nextProps.data) return null; // lineData hasn't been loaded yet so do nothing
+        // console.log(JSON.parse(lineData[0]),'whatTheActualFuck, lineData[0]');
         var allFields = Object.keys(lineData[0]);
+        // console.log(Object.keys(lineData[0]),'whatTheActualFuck, objKey.lineData[0]');
         var firstCol = allFields[0]; //gives the column name of the first column, which is the string "Timestamp"
         var numCol = allFields.length; //gives the total number of columns in the lineData, including the first non-lineData column
         var sliced = allFields.slice(1, numCol); //gives all the column names of lineData, excluding the first column
