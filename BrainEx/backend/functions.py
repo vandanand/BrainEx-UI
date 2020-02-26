@@ -59,9 +59,11 @@ def setFile():
             if 'unnamed' in elem:
                 notFeature = notFeature + 1;
         numFeatures = len(dataframe.columns) - notFeature
+        json = dataframe.to_json()
         returnDict = {
             "message": "File has been set.",
-            "maxLength": str(notFeature)
+            "maxLength": str(notFeature),
+            "data": json
         }
         return jsonify(returnDict)
 
