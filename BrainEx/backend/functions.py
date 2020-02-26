@@ -11,10 +11,11 @@ import pandas as pd
 import numpy as np
 
 import findspark
+import shutil
+import zipfile
 
-UPLOAD_FOLDER = "./uploads"
-UPLOAD_FOLDER_RAW = "./uploads/raw"
-UPLOAD_FOLDER_PRO = "./uploads/preprocessed"
+UPLOAD_FOLDER_RAW = os.path.join(os.path.dirname(os.path.abspath(__file__)), "uploads\\raw")
+UPLOAD_FOLDER_PRO = os.path.join(os.path.dirname(os.path.abspath(__file__)), "uploads\\preprocessed")
 
 application = Flask(__name__)
 CORS(application)
@@ -105,6 +106,8 @@ def setFilePro():
 
     if request.method == 'POST':
         uploadPath = os.path.join(application.config['UPLOAD_FOLDER_PRO'], request.form['set_data'])
+        with zipfile.ZipFile(uploadPath, 'r') as zip_ref:
+            zip_ref.extractall(uploadPath + "toDel")
         num_worker = request.json['num_workers']
         use_spark_int = request.form['spark_val']
         if use_spark_int == "1":
@@ -118,22 +121,26 @@ def setFilePro():
             if use_spark:
                 driver_mem = int(driver_mem)
                 max_result_mem = int(max_result_mem)
-                brainexDB = from_db(uploadPath, use_spark=use_spark, num_worker=num_worker, driver_mem=driver_mem, max_result_mem=max_result_mem)
+                brainexDB = from_db(uploadPath + "toDel", use_spark=use_spark, num_worker=num_worker, driver_mem=driver_mem, max_result_mem=max_result_mem)
             else:
-                brainexDB = from_db(uploadPath, use_spark=use_spark, num_worker=num_worker)
+                brainexDB = from_db(uploadPath + "toDel", use_spark=use_spark, num_worker=num_worker)
+            shutil.rmtree(uploadPrth + "toDel")
             return "File is set!"
         except Exception as e:
             return (str(e), 400)
 
 @application.route('/saveFilePro', methods=['GET', 'POST'])
 def saveFilePro():
-    global brainexDB
+     global brainexDB
 
     if request.method == 'POST':
-        savePath = request.json['path']
+        os.chdir(os.path.dirname(os.path.abspath(__file__)))
+        savePath = "../../Saved_Preprocessed/most_recent_data"
         try:
             brainexDB.save(savePath)
-            return "Saved to your desired location."
+            shutil.make_archive(savePath, "zip", "../../Saved_Preprocessed")
+            shutil.rmtree(savePath)
+            return "Saved to the Saved_Preprocessed folder."
         except Exception as e:
             return (str(e), 400)
 
