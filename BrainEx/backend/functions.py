@@ -43,6 +43,16 @@ def getRawNames():
             }
             return jsonify(json)
 
+@application.route('/proNames', methods=['GET', 'POST'])
+def getRawNames():
+        if request.method == 'POST':
+            files = os.listdir(application.config['UPLOAD_FOLDER_PRO'])
+            json = {
+                    "Message" : "Returning file names",
+                    "pro_files": files
+            }
+            return jsonify(json)
+
 @application.route('/getCSV', methods=['GET', 'POST'])
 def getStoreCSV():
     global numFeatures
