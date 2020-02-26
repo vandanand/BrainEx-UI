@@ -38,7 +38,7 @@ def getRawNames():
             files = os.listdir(application.config['UPLOAD_FOLDER_RAW'])
             json = {
                     "Message" : "Returning file names",
-                    "Files": files
+                    "raw_files": files
             }
             return jsonify(json)
 

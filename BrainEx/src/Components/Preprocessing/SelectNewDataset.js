@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {preprocessed_files, rawdata_files} from "../../data/dummy_data";
+// import {preprocessed_files, rawdata_files} from "../../data/dummy_data";
 import '../../Stylesheets/Home.css';
 import { Button, Link, Typography, ButtonGroup } from '@material-ui/core';
 import { Link as RouterLink } from "react-router-dom";
@@ -7,6 +7,7 @@ import FormData from "form-data";
 import $ from "jquery";
 import axios from 'axios';
 import {build_options, root} from "../../data/default_values";
+import {file_names} from '../../data/file_names'
 
 class SelectNewDataset extends Component {
 
@@ -15,7 +16,7 @@ class SelectNewDataset extends Component {
         this.state = {
             current_file: null, /* for storing the currently selected file in the file-list */
             upload_files: null, /* for storing the file(s) chosen to be uploaded */
-            all_files: [], /* for storing files displayed in file-list */
+            all_files: file_names, /* for storing files displayed in file-list */
             curr_loi_max: null
         };
         /* binding all handlers to the class */
@@ -32,10 +33,10 @@ class SelectNewDataset extends Component {
               console.log(response);
               if (response.status === 200) {
                   this.setState({
-                      all_files: response.data.Files
+                      all_files: this.state.all_files(response.data.raw_files)
                   }, () => {
                       // console.log(this.state.current_file);
-                      console.log(response.data.Files);
+                      console.log(response.data.raw_files);
                   });
               } else {
                   console.log("File selection failed.");
