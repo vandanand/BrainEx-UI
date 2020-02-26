@@ -170,10 +170,13 @@ def complete_query():
             end = [i.end for i in seqs]
             data = [i.data.tolist() for i in seqs]
             pandasQ = pd.DataFrame({"similarity":sims, "ID":ids, "start":start, "end":end, "data":data})
+            print(data)
             json = pandasQ.to_json(orient="index")
             returnDict = {
                 "message": "Query results.",
-                "resultJSON": json
+                "resultJSON": json,
+                "dataMin": dataMin,
+                "dataMax": dataMax
             }
             return jsonify(returnDict)
         except Exception as e:
