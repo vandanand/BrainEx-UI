@@ -92,7 +92,13 @@ class BuildProgressMenu extends Component {
     };
 
     saveDataset = (e) => {
-        console.log("Dataset Saved!");
+      axios.post('http://localhost:5000/saveFilePro')
+          .then((response) => {
+              console.log(response);
+          })
+          .catch(function (error) {
+              console.log(error);
+          });
     };
 
     render() {
