@@ -33,7 +33,7 @@ class SelectNewDataset extends Component {
               console.log(response);
               if (response.status === 200) {
                   this.setState({
-                      all_files: this.state.all_files(response.data.raw_files)
+                      all_files: this.state.all_files.concat(response.data.raw_files)
                   }, () => {
                       // console.log(this.state.current_file);
                       console.log(response.data.raw_files);
@@ -79,6 +79,7 @@ class SelectNewDataset extends Component {
                 console.log(response);
                 if (response.status === 200) {
                     this.setState({
+                        // todo @Kyra i need the file returned here so i can set it as current_file in the response
                         curr_loi_max: response.data.maxLength
                     }, () => {
                         // console.log(this.state.current_file);
@@ -103,13 +104,12 @@ class SelectNewDataset extends Component {
             upload_files: new_files
         }, () => {
             console.log("upload files added to state successfully:"); // for debugging purposes
-            // console.log(this.state.upload_files) // cannot print text and object in the same console.log
+            console.log(this.state.upload_files) // cannot print text and object in the same console.log
         }); // print state for debugging
     };
 
     /* when "add" is triggered this function takes the files currently in upload_states and should
-    * send them to the server.
-    * todo the server should then add them to wherever all_files is pulling from */
+    * send them to the server.*/
     onClickHandler = (e) => {
         e.preventDefault(); // prevents page refresh on submit
         /* create form data object and append files to be uploaded onto it*/
@@ -123,12 +123,10 @@ class SelectNewDataset extends Component {
         // Hook up to Kyra's server
         axios.post('http://localhost:5000/getCSV', file_form)
             .then((response) => {
-                // console.log("about to print response");
-                // console.log(response); // for debugging purposes
-                // todo if the Files can be returned here I will do that instead, but will probably keep the if 200 just cause that's good practice
+                console.log(response); // for debugging purposes
                 if (response.status === 200) { // if successful
-                    // add uploaded_data to all_files in state
                     this.setState({
+                        // todo @Kyra i need the filenames in this reponse
                         all_files: all_files.concat(new_files),
                         upload_files: null // reset upload_files to none
                     }, () => { // callback function for debugging
@@ -154,7 +152,7 @@ class SelectNewDataset extends Component {
                                 <Typography className="directions" variant="h4">Select a dataset to preview here</Typography>
                                 <ButtonGroup className="file-list" orientation="vertical" color="primary">
                                     { this.state.all_files.map((file, index) => (
-                                        <Button id={index} className="btn-file" variant="contained" key={index} onClick={this.fileHandler}>{file.name}</Button>
+                                        <Button id={index} className="btn-file" variant="contained" key={index} onClick={this.fileHandler}>{file}</Button>
                                     ))}
                                 </ButtonGroup>
                                 {/*adding a new file (upload_files)*/}
