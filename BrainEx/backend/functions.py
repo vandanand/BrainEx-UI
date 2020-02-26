@@ -75,7 +75,7 @@ def getStoreDB():
         if db.filename == '':
             return("File not found", 400)
         if db:
-            toSave = os.path.join(application.config['UPLOAD_FOLDER_PRO'], pro.filename)
+            toSave = os.path.join(application.config['UPLOAD_FOLDER_PRO'], db.filename)
             db.save(toSave) # Secure filename?? See tutorial
             return "File has been uploaded."
         else:

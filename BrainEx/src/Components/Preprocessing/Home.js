@@ -61,7 +61,7 @@ class Home extends Component {
         let file_form = new FormData();
         let new_files = this.state.upload_files;
         new_files.map((file) => {
-            file_form.append("file", file); // add upload_files to FormData object
+            file_form.append("uploaded_data", file); // add upload_files to FormData object
         });
         let all_files = this.state.all_files;
         console.log(...file_form);
