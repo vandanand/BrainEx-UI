@@ -1,10 +1,8 @@
 import os
 
 import genex.database.genexengine as gxdb
-from genex.utils.gxe_utils import from_csv
+from genex.utils.gxe_utils import from_csv, from_db
 from genex.classes.Sequence import Sequence
-
-from pyspark import SparkContext, SparkConf
 
 from flask import Flask, request, jsonify
 from flask_cors import CORS
@@ -15,10 +13,13 @@ import numpy as np
 import findspark
 
 UPLOAD_FOLDER = "./uploads"
+UPLOAD_FOLDER_RAW = "./uploads/raw"
+UPLOAD_FOLDER_PRO = "./uploads/preprocessed"
 
 application = Flask(__name__)
 CORS(application)
-application.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+application.config['UPLOAD_FOLDER_RAW'] = UPLOAD_FOLDER_RAW
+application.config['UPLOAD_FOLDER_PRO'] = UPLOAD_FOLDER_PRO
 
 uploadPath = None
 brainexDB = None
@@ -31,6 +32,16 @@ def is_csv(filename):
     else:
         return False
 
+@application.route('/rawNames', methods=['GET', 'POST'])
+def getRawNames():
+        if request.method == 'POST':
+            files = os.listdir(application.config['UPLOAD_FOLDER_RAW'])
+            json = {
+                    "Message" : "Returning file names",
+                    "Files": files
+            }
+            return jsonify(json)
+
 @application.route('/getCSV', methods=['GET', 'POST'])
 def getStoreCSV():
     global numFeatures
@@ -42,18 +53,39 @@ def getStoreCSV():
         if csv.filename == '':
             return("File not found", 400)
         if csv and is_csv(csv.filename):
-            toSave = os.path.join(application.config['UPLOAD_FOLDER'], csv.filename)
+            toSave = os.path.join(application.config['UPLOAD_FOLDER_RAW'], csv.filename)
             csv.save(toSave) # Secure filename?? See tutorial
-            return "File has been uploaded."
+            csvPD = pd.read_csv(toSave)
+            out = csvPD.to_json()
+            returnDict = {
+                "message": "File has been uploaded.",
+                "fileContents": out
+            }
+            return jsonify(returnDict)
         else:
             return("Invalid file.  Please upload a CSV", 400)
 
-@application.route('/setFile', methods=['GET', 'POST'])
-def setFile():
+@application.route('/getDB', methods=['GET', 'POST'])
+def getStoreDB():
+    if request.method == 'POST':
+        if 'uploaded_data' not in request.files:
+            return ("File not found.", 400)
+        db = request.files['uploaded_data']
+        if db.filename == '':
+            return("File not found", 400)
+        if db:
+            toSave = os.path.join(application.config['UPLOAD_FOLDER_PRO'], pro.filename)
+            db.save(toSave) # Secure filename?? See tutorial
+            return "File has been uploaded."
+        else:
+            return("Invalid file.", 400)
+
+@application.route('/setFileRaw', methods=['GET', 'POST'])
+def setFileRaw():
     global uploadPath, numFeatures
 
     if request.method == 'POST':
-        uploadPath = os.path.join(application.config['UPLOAD_FOLDER'], request.form['set_data'])
+        uploadPath = os.path.join(application.config['UPLOAD_FOLDER_RAW'], request.form['set_data'])
         dataframe = pd.read_csv(uploadPath, delimiter=',')
         dataframe.columns = map(str.lower, dataframe.columns)
         notFeature = 0
@@ -66,6 +98,44 @@ def setFile():
             "maxLength": str(notFeature)
         }
         return jsonify(returnDict)
+
+@application.route('/setFilePro', methods=['GET', 'POST'])
+def setFilePro():
+    global uploadPath, brainexDB
+
+    if request.method == 'POST':
+        uploadPath = os.path.join(application.config['UPLOAD_FOLDER_PRO'], request.form['set_data'])
+        num_worker = request.json['num_workers']
+        use_spark_int = request.form['spark_val']
+        if use_spark_int == "1":
+            use_spark = True
+            driver_mem = request.form['dm_val']
+            max_result_mem = request.form['mrm_val']
+        else:
+            use_spark = False
+        try:
+            num_worker = int(num_worker)
+            if use_spark:
+                driver_mem = int(driver_mem)
+                max_result_mem = int(max_result_mem)
+                brainexDB = from_db(uploadPath, use_spark=use_spark, num_worker=num_worker, driver_mem=driver_mem, max_result_mem=max_result_mem)
+            else:
+                brainexDB = from_db(uploadPath, use_spark=use_spark, num_worker=num_worker)
+            return "File is set!"
+        except Exception as e:
+            return (str(e), 400)
+
+@application.route('/saveFilePro', methods=['GET', 'POST'])
+def saveFilePro():
+    global brainexDB
+
+    if request.method == 'POST':
+        savePath = request.json['path']
+        try:
+            brainexDB.save(savePath)
+            return "Saved to your desired location."
+        except Exception as e:
+            return (str(e), 400)
 
 @application.route('/checkSpark', methods=['GET', 'POST'])
 def checkSpark():

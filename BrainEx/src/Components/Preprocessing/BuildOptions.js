@@ -327,7 +327,7 @@ class BuildOptions extends Component {
                         {/*form input 6*/}
                         <tr className="form-group">
                             <td className="form_label">
-                                <InputLabel htmlFor="use_spark">Use Spark:</InputLabel>
+                                <InputLabel htmlFor="use_spark">Preprocess Using Spark:</InputLabel>
                             </td>
                             <td className="form_input is_check">
                                 <Checkbox

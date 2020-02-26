@@ -34,7 +34,7 @@ class ChartData extends Component {
             }, () => {
                 // console.log("color data received by Chart", this.state.lineColorList);
                 let lineData = this.state.data.map(d => {
-                    let mappedData = {}
+                    let mappedData = {};
                     mappedData[d.id] = d.sequence;
                     return mappedData
                 });

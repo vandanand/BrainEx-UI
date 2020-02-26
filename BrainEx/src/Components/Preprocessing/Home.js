@@ -5,6 +5,7 @@ import { preprocessed_files } from "../../data/dummy_data";
 import { Button, Link, Typography, ButtonGroup } from '@material-ui/core';
 import FormData from 'form-data';
 import {select_new_dataset} from "../../data/default_values";
+import axios from 'axios'
 
 class Home extends Component {
 
@@ -30,6 +31,16 @@ class Home extends Component {
     showFilename = (e) => {
         let element = e.currentTarget;
         console.log(element.name);
+        let file_form = new FormData();
+        file_form.append("set_data", element);
+        axios.post('http://localhost:5000/setFilePro', file_form)
+            .then((response) => {
+                console.log(response);
+
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     };
 
     onChangeHandler = (e) => {
@@ -62,6 +73,27 @@ class Home extends Component {
             console.log("files \"uploaded\" successfully");
             console.log(this.state.all_files);
         });
+        axios.post('http://localhost:5000/getDB', file_form)
+            .then((response) => {
+                // console.log("about to print response");
+                // console.log(response); // for debugging purposes
+                // todo if the Files can be returned here I will do that instead, but will probably keep the if 200 just cause that's good practice
+                if (response.status === 200) { // if successful
+                    // add uploaded_data to all_files in state
+                    this.setState({
+                        all_files: all_files.concat(new_files),
+                        upload_files: null // reset upload_files to none
+                    }, () => { // callback function for debugging
+                        console.log(response.data);
+                    })
+                } else {
+                    console.log("file upload unsuccessful. :(");
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
     };
 
     render() {
