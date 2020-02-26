@@ -19,19 +19,22 @@ class MainChartViz extends Component {
         .tickFormat(d => `${d}`);
 
     static getDerivedStateFromProps(nextProps, prevState) {
-        if (!nextProps.data) return null; // data hasn't been loaded yet so do nothing
-        const {data, lineColorList} = nextProps;
-        console.log(lineColorList, 'lineColorListinMain');
-        console.log(data, 'lineDataInMain');
+        console.log(nextProps.lineData, 'testing Props.lineData');
+        console.log(nextProps.lineColorList, 'testing Props.lineColorList');
+        if (!nextProps.data) return null; // lineData hasn't been loaded yet so do nothing
+        const {lineData, lineColorList} = nextProps;
+        // console.log(lineColorList, 'lineColorListinMain');
+        console.log(lineData, 'lineDataInMain');
+        console.log(lineColorList, 'lineColorListInMain');
         const {xScale, yScale, lineGenerator} = prevState;
-        var allFields = Object.keys(data[0]);
+        var allFields = Object.keys(lineData[0]);
         var firstCol = allFields[0]; //gives the column name of the first column, which is the string "Timestamp"
-        var numCol = allFields.length; //gives the total number of columns in the data, including the first non-data column
-        var sliced = allFields.slice(1, numCol); //gives all the column names of data, excluding the first column
-        // data has changed, so recalculate scale domains
-        const timeDomain = d3.extent(data, d => d[firstCol]);
-        // const valMax = d3.max(data[sliced],(d) => d[sliced]);
-        // const valMin = d3.min(data, d => d[sliced]);
+        var numCol = allFields.length; //gives the total number of columns in the lineData, including the first non-lineData column
+        var sliced = allFields.slice(1, numCol); //gives all the column names of lineData, excluding the first column
+        // lineData has changed, so recalculate scale domains
+        const timeDomain = d3.extent(lineData, d => d[firstCol]);
+        // const valMax = d3.max(lineData[sliced],(d) => d[sliced]);
+        // const valMin = d3.min(lineData, d => d[sliced]);
         xScale.domain(timeDomain);
         yScale.domain([-5, 5]);
         // yScale.domain([valMin, valMax]); this should be updated to use the global min/max
@@ -45,7 +48,7 @@ class MainChartViz extends Component {
             lineGenerator
                 .defined(d => !isNaN(d[cname]))
                 .y(d => yScale(d[cname]));
-            lines.push(lineGenerator(data));
+            lines.push(lineGenerator(lineData));
         }
 
         lines.forEach(function (d, i) {

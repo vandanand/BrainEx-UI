@@ -15,7 +15,7 @@ export default function TabledSeqThnl(props) {
         return JSONarray;
     }
 
-    const didMountRef = useRef(false);
+    // const didMountRef = useRef(false);
     const [seqData, setSeqData] = useState(arrayToJSON(props.data));
     const theme = useTheme();
 
