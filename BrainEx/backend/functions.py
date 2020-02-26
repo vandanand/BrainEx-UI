@@ -133,7 +133,7 @@ def setFilePro():
 def saveFilePro():
      global brainexDB
 
-    if request.method == 'POST':
+     if request.method == 'POST':
         os.chdir(os.path.dirname(os.path.abspath(__file__)))
         savePath = "../../Saved_Preprocessed/most_recent_data"
         try:
