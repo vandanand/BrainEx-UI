@@ -176,7 +176,7 @@ class BuildProgressMenu extends Component {
                             </Link>
                         </ButtonGroup>
                         <ButtonGroup>
-                            <Button className="save_data" color="primary" onClick={this.saveDataset}>Save preprocessed dataset locally</Button>
+                            <Button className="save_data" color="primary" onClick={this.saveDataset}>Download preprocessed dataset</Button>
                         </ButtonGroup>
                     </div>
                 )}
