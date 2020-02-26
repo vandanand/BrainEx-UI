@@ -14,9 +14,8 @@ import findspark
 import shutil
 import zipfile
 
-UPLOAD_FOLDER = "./uploads"
-UPLOAD_FOLDER_RAW = "./uploads/raw"
-UPLOAD_FOLDER_PRO = "./uploads/preprocessed"
+UPLOAD_FOLDER_RAW = os.path.join(os.path.dirname(os.path.abspath(__file__)), "uploads\\raw")
+UPLOAD_FOLDER_PRO = os.path.join(os.path.dirname(os.path.abspath(__file__)), "uploads\\preprocessed")
 
 application = Flask(__name__)
 CORS(application)
