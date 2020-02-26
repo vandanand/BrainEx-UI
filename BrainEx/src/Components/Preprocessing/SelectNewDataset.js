@@ -73,7 +73,7 @@ class SelectNewDataset extends Component {
         // console.log("current file:"); // for debugging purposes
         // console.log(curr_file);
         let file_form = new FormData();
-        file_form.append("set_data", curr_file.name);
+        file_form.append("set_data", curr_file);
         axios.post('http://localhost:5000/setFileRaw', file_form)
             .then((response) => {
                 console.log(response);
@@ -171,7 +171,7 @@ class SelectNewDataset extends Component {
                             <div className="home-content">
                                 {/*display currently selected file to the user*/}
                                 {(this.state.current_file !== null) ? (
-                                    <p className="curr-file">File currently selected: {this.state.current_file.name}</p>
+                                    <p className="curr-file">File currently selected: {this.state.current_file}</p>
                                 ) : (
                                     <p className="curr-file">There is no file currently selected</p>
                                 )}
