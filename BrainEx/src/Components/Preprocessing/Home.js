@@ -113,7 +113,7 @@ class Home extends Component {
                                 <form className="form-group files home-content">
                                     <Typography className="directions" variant="h5">Load another preprocessed dataset</Typography>
                                     <div className="new-file d-flex justify-content-center align-items-center">
-                                        <input type="file" name="file" className="form-control-file" accept=".csv" onChange={this.onChangeHandler} multiple/>
+                                        <input type="file" name="file" className="form-control-file" accept=".zip" onChange={this.onChangeHandler} multiple/>
                                         <Button type="submit" className="btn-primary" variant="contained" color="primary" onClick={this.onClickHandler}>Add</Button>
                                     </div>
                                 </form>
