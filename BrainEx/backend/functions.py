@@ -93,9 +93,11 @@ def setFileRaw():
             if 'unnamed' in elem:
                 notFeature = notFeature + 1;
         numFeatures = len(dataframe.columns) - notFeature
+        json = dataframe.to_json()
         returnDict = {
             "message": "File has been set.",
-            "maxLength": str(notFeature)
+            "maxLength": str(notFeature),
+            "data": json
         }
         return jsonify(returnDict)
 
@@ -239,23 +241,32 @@ def complete_query():
             exclude = False
         else:
             exclude = True
-        try:
-            query_result = brainexDB.query(query=querySeq, best_k=best_matches, exclude_same_id=exclude, overlap=overlap)
-            query_result.reverse()
-            sims = [i[0] for i in query_result]
-            seqs = [i[1] for i in query_result]
-            for i in seqs:
-                i = i.fetch_data(brainexDB.data_original)
-            ids = [str(i.seq_id) for i in seqs]
-            start = [i.start for i in seqs]
-            end = [i.end for i in seqs]
-            data = [i.data.tolist() for i in seqs]
-            pandasQ = pd.DataFrame({"similarity":sims, "ID":ids, "start":start, "end":end, "data":data})
-            json = pandasQ.to_json(orient="index")
-            returnDict = {
-                "message": "Query results.",
-                "resultJSON": json
-            }
-            return jsonify(returnDict)
-        except Exception as e:
-            return (str(e), 400)
+        # try:
+        query_result = brainexDB.query(query=querySeq, best_k=best_matches, exclude_same_id=exclude, overlap=overlap)
+        query_result.reverse()
+        sims = [i[0] for i in query_result]
+        seqs = [i[1] for i in query_result]
+        for i in seqs:
+            i = i.fetch_data(brainexDB.data_original)
+        ids = [str(i.seq_id) for i in seqs]
+        start = [i.start for i in seqs]
+        end = [i.end for i in seqs]
+        data = [i.data.tolist() for i in seqs]
+        pandasQ = pd.DataFrame({"similarity":sims, "ID":ids, "start":start, "end":end, "data":data})
+        dataMax = -9999
+        dataMin = 9999
+        for elem in pandasQ['data']:
+            if max(elem) > dataMax:
+                dataMax = max(elem)
+            if min(elem) < dataMin:
+                dataMin = min(elem)
+        json = pandasQ.to_json(orient="index")
+        returnDict = {
+            "message": "Query results.",
+            "resultJSON": json,
+            "dataMin": dataMin,
+            "dataMax": dataMax
+        }
+        return jsonify(returnDict)
+        # except Exception as e:
+        #     return (str(e), 400)
