@@ -76,6 +76,21 @@ export default function ViewForCSV() {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
+    // componentDidMount() {
+    //     Promise.all([
+    //         fetch(`${process.env.PUBLIC_URL}/convertcsv.csv`),
+    //     ]).then(responses => Promise.all(responses.map(resp => resp.json())))
+    //         .then(([jsonOutput]) => {
+    //             // sf.forEach(day => day.date = new Date(day.date));
+    //             // this.setState({channelVals: {sf, ny}});
+    //             this.setState(
+    //                 {file: {jsonOutput}}
+    //             );
+    //         });
+    //
+    // }
+
+
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };

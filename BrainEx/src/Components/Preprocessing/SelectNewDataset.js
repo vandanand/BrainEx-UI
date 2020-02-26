@@ -7,6 +7,7 @@ import FormData from "form-data";
 import $ from "jquery";
 import axios from 'axios';
 import {build_options, root} from "../../data/default_values";
+import ViewerForCSV from "./ViewerForCSV";
 
 class SelectNewDataset extends Component {
 
@@ -69,6 +70,7 @@ class SelectNewDataset extends Component {
                     }, () => {
                         // console.log(this.state.current_file);
                         console.log(response.data.message);
+                        console.log('allData');
                     });
                 } else {
                     console.log("File selection failed.");
@@ -158,11 +160,14 @@ class SelectNewDataset extends Component {
                         <div className="right build">
                             <div className="home-content">
                                 {/*display currently selected file to the user*/}
+                                <ViewerForCSV/>
+                                {/*this is for testing purposes only*/}
                                 {(this.state.current_file !== null) ? (
-                                    <p className="curr-file">File currently selected: {this.state.current_file.name}</p>
-                                ) : (
-                                    <p className="curr-file">There is no file currently selected</p>
-                                )}
+                                        <p className="curr-file">File currently selected: {this.state.current_file.name}</p>
+                                    )
+                                    : (
+                                        <p className="curr-file">There is no file currently selected</p>
+                                    )}
                                 <Link
                                     onClick={this.isFileSelected}
                                     disabled={true}
