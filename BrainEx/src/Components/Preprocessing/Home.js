@@ -22,9 +22,23 @@ class Home extends Component {
 
     // pull files from database here. this function will be called after render()
     componentDidMount() {
-        this.setState({
-            all_files: preprocessed_files // todo have this set to pull from wherever the files are pulled from -mg
-        });
+        axios.post('http://localhost:5000/proNames')
+          .then((response) => {
+              console.log(response);
+              if (response.status === 200) {
+                  this.setState({
+                      all_files: this.state.all_files.concat(response.data.pro_files)
+                  }, () => {
+                      // console.log(this.state.current_file);
+                      console.log(response.data.pro_files);
+                  });
+              } else {
+                  console.log("File selection failed.");
+              }
+          })
+          .catch((error) => {
+              console.log(error);
+          });
     }
 
     // use this function to do any handling once a file in the list is selected
