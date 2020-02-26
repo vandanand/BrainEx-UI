@@ -43,14 +43,17 @@ class Home extends Component {
 
     // use this function to do any handling once a file in the list is selected
     showFilename = (e) => {
-        let element = e.currentTarget;
-        console.log(element.name);
+        let element = e.currentTarget.name;
+        console.log(element);
         let file_form = new FormData();
         file_form.append("set_data", element);
+        file_form.append("num_workers", 4);
+        // file_form.append("dm_val", 16);
+        // file_form.append("mrm_val", 16);
+        console.log(...file_form);
         axios.post('http://localhost:5000/setFilePro', file_form)
             .then((response) => {
                 console.log(response);
-
             })
             .catch((error) => {
                 console.log(error);
@@ -77,25 +80,16 @@ class Home extends Component {
         new_files.map((file) => {
             file_form.append("uploaded_data", file); // add upload_files to FormData object
         });
-        let all_files = this.state.all_files;
-        console.log(...file_form);
-        // todo instead of below, send FormData to server and make state update somehow
-        this.setState({
-            all_files: all_files.concat(new_files),
-            upload_files: null
-        }, () => {
-            console.log("files \"uploaded\" successfully");
-            console.log(this.state.all_files);
-        });
+        const file_names = new_files.map(file => file.name); // get array of file_names to add to add_files (todo @Kyra would be nice to get this from backend instead)
         axios.post('http://localhost:5000/getDB', file_form)
             .then((response) => {
                 // console.log("about to print response");
-                // console.log(response); // for debugging purposes
+                console.log(response); // for debugging purposes
                 // todo if the Files can be returned here I will do that instead, but will probably keep the if 200 just cause that's good practice
                 if (response.status === 200) { // if successful
                     // add uploaded_data to all_files in state
                     this.setState({
-                        all_files: all_files.concat(new_files),
+                        all_files: this.state.all_files.concat(file_names),
                         upload_files: null // reset upload_files to none
                     }, () => { // callback function for debugging
                         console.log(response.data);
@@ -120,7 +114,7 @@ class Home extends Component {
                                 <Typography className="directions" variant="h4">Select a preprocessed dataset to explore here</Typography>
                                 <ButtonGroup className="file-list" orientation="vertical" color="primary">
                                     { this.state.all_files.map((file, index) => (
-                                        <Button name={file.name} className="btn-file" variant="contained" key={index} onClick={this.showFilename}>{file.name}</Button>
+                                        <Button name={file} className="btn-file" variant="contained" key={index} onClick={this.showFilename}>{file}</Button>
                                     ))}
                                 </ButtonGroup>
                                 {/*adding a new file*/}
