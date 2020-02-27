@@ -17,6 +17,7 @@ export default function TabledSeqThnl(props) {
 
     // const didMountRef = useRef(false);
     const [seqData, setSeqData] = useState(arrayToJSON(props.data));
+    const [color, setColor] = useState("#" + props.color);
     const theme = useTheme();
 
     return (
@@ -31,7 +32,7 @@ export default function TabledSeqThnl(props) {
                         left: 0,
                     }}
                 >
-                    <Line type="monotone" dataKey="chanVal" stroke={theme.palette.primary.main} dot={false}/>
+                    <Line type="monotone" dataKey="chanVal" stroke={color} dot={false}/>
                 </LineChart>
             </ResponsiveContainer>
         </React.Fragment>
