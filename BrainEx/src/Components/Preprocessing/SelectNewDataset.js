@@ -177,26 +177,36 @@ class SelectNewDataset extends Component {
                     </div>
                     <div className="col no-gutters">
                         <div className="right d-flex justify-content-center align-items-center">
-                            <div>
-                                {/*display currently selected file to the user*/}
-                                {(this.state.current_file === null) ? (
-                                    <div className="home-content">
+                            <div className="home-content">
+                                <div className="csv-viewer">
+                                    {(this.state.current_file === null) ? (
                                         <Typography className="directions" variant="h2" color="primary" gutterBottom>
                                             Please upload and/or choose a file on the left to proceed
                                         </Typography>
-                                    </div>
-                                ) : (
-                                    (this.state.data !== null) ? (
-                                        <div>{Object.keys(this.state.data).map((key, index) => {
-                                            console.log(key);
-                                            console.log(this.state.data[key]);
-                                        })}</div>
                                     ) : (
-                                        <Typography component="h2" variant="h16" color="primary" gutterBottom>
-                                            No Data
-                                        </Typography>
-                                    )
-                                )}
+                                        (this.state.data !== null) ? (
+                                            <table className="csv-content">
+                                                {Object.keys(this.state.data).map((header, i) => {
+                                                    // loop through each header and fill in the table cell
+                                                    return (
+                                                        <tr>
+                                                            <thead className={header + i}>{header}</thead>
+                                                            {Object.keys(this.state.data[header]).map((cell_key, i) => {
+                                                                return(
+                                                                    <td className={header + i}>{this.state.data[header][cell_key]}</td>
+                                                                );
+                                                            })}
+                                                        </tr>
+                                                    );
+                                                })}
+                                            </table>
+                                        ) : (
+                                            <Typography variant="h2" color="primary" gutterBottom>
+                                                No Data
+                                            </Typography>
+                                        )
+                                    )}
+                                </div>
                                 <Link
                                     onClick={this.isFileSelected}
                                     disabled={true}
