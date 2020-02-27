@@ -17,7 +17,7 @@ export default class MainChartViz extends React.Component {
                 lineColorList: ['#FFFFFF'],
                 lineData: [{
                     "Timestamp": "0",
-                    "DataVal": 0
+                    "Data Values": 0
                 }],
             })
         } // error prevention

@@ -20,6 +20,7 @@ class SelectNewDataset extends Component {
             all_files: [], /* for storing files displayed in file-list */
             curr_loi_max: null,
             data: null
+            // viewPort:null,
         };
         /* binding all handlers to the class */
         this.onChangeHandler = this.onChangeHandler.bind(this);
@@ -165,19 +166,22 @@ class SelectNewDataset extends Component {
                                 <form className="form-group files home-content">
                                     <Typography className="directions" variant="h5">Load another dataset</Typography>
                                     <div className="new-file d-flex justify-content-center align-items-center">
-                                        <input type="file" name="file" className="form-control-file" accept=".csv" onChange={this.onChangeHandler} multiple/>
-                                        <Button type="submit" className="btn-primary" variant="contained" color="primary" onClick={this.onClickHandler}>Add</Button>
+                                        <input type="file" name="file" className="form-control-file" accept=".csv"
+                                               onChange={this.onChangeHandler} multiple/>
+                                        <Button type="submit" variant="contained" color="primary"
+                                                onClick={this.onClickHandler}>Add</Button>
                                     </div>
                                 </form>
                             </div>
                         </div>
                     </div>
-                    <div className="col no-gutters">
+                    <div className="col">
                         <div className="right build">
-                            <div className="home-content">
+                            <div>
                                 {/*display currently selected file to the user*/}
                                 {(this.state.current_file === null) ? (
-                                    <p className="curr-file">Please select a file from the left to be preprocessed</p>
+                                    <Typography component="h2" variant="h16" color="primary" gutterBottom>Please
+                                            upload a file on the left to proceed</Typography>
                                 ) : (
                                     (this.state.data !== null) ? (
                                         <div>{Object.keys(this.state.data).map((key, index) => {
@@ -201,8 +205,9 @@ class SelectNewDataset extends Component {
                                         state: {
                                             loi_max: this.state.curr_loi_max,
                                             file: this.state.current_file
-                                        }}}>
-                                    Next
+                                        }
+                                    }}>
+                                    Proceed to Preprocessing
                                 </Link>
                                 <Link
                                     className="build-btn left-btn btn btn-secondary"
