@@ -265,7 +265,7 @@ def complete_query():
         start = [i.start for i in seqs]
         end = [i.end for i in seqs]
         data = [i.data.tolist() for i in seqs]
-        rank = [i in range(0,len(seqs))]
+        rank = [i in range(0,len(end))]
         pandasQ = pd.DataFrame({"similarity":sims, "ID":ids, "start":start, "end":end, "data":data, "rank":rank})
         dataMax = -9999
         dataMin = 9999
