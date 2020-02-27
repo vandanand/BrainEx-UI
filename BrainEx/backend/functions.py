@@ -274,19 +274,35 @@ def complete_query():
         end = [i.end for i in seqs]
         data = [i.data.tolist() for i in seqs]
         pandasQ = pd.DataFrame({"similarity":sims, "ID":ids, "start":start, "end":end, "data":data, "sequence_id":sequence_id})
-        dataMax = -9999
-        dataMin = 9999
+        allData = []
         for elem in pandasQ['data']:
-            if max(elem) > dataMax:
-                dataMax = max(elem)
-            if min(elem) < dataMin:
-                dataMin = min(elem)
+            for e in elem:
+                allData.append(e)
+        dataMin = min(allData)
+        dataMax = max(allData)
+        dataSd = np.std(allData)
+        dataMean = sum(allData)/len(allData)
+        dataMedian = np.median(allData)
+        lenP = pandasQ['end'] - pandasQ['start']
+        lenMin = lenP.min()
+        lenMax = lenP.max()
+        lenSd = lenP.std()
+        lenMean = lenP.mean()
+        lenMedian = lenP.median()
         json = pandasQ.to_json(orient="index")
         returnDict = {
             "message": "Query results.",
             "resultJSON": json,
-            "dataMin": dataMin,
-            "dataMax": dataMax
+            "dataMin": float(dataMin),
+            "dataMax": float(dataMax),
+            "dataSd": float(dataSd),
+            "dataMean": float(dataMean),
+            "dataMedian": float(dataMedian),
+            "lenMin": float(lenMin),
+            "lenMax": float(lenMax),
+            'lenSd': float(lenSd),
+            'lenMean': float(lenMean),
+            'lenMedian': float(lenMedian)
         }
         return jsonify(returnDict)
         # except Exception as e:
