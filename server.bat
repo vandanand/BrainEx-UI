@@ -1,5 +1,5 @@
 call venv\scripts\activate
-py -m pip install -r requirements.txt
+python -m pip install --user -r requirements.txt
 cd BrainEx\backend
 set FLASK_APP=functions.py
-flask run
+python -m flask run
