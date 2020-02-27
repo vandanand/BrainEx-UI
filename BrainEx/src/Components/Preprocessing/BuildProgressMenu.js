@@ -92,7 +92,13 @@ class BuildProgressMenu extends Component {
     };
 
     saveDataset = (e) => {
-        console.log("Dataset Saved!");
+      axios.post('http://localhost:5000/saveFilePro')
+          .then((response) => {
+              console.log(response);
+          })
+          .catch(function (error) {
+              console.log(error);
+          });
     };
 
     render() {
@@ -176,7 +182,7 @@ class BuildProgressMenu extends Component {
                             </Link>
                         </ButtonGroup>
                         <ButtonGroup>
-                            <Button className="save_data" color="primary" onClick={this.saveDataset}>Save preprocessed dataset locally</Button>
+                            <Button className="save_data" color="primary" onClick={this.saveDataset}>Download preprocessed dataset</Button>
                         </ButtonGroup>
                     </div>
                 )}
