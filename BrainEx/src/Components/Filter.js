@@ -8,6 +8,7 @@ import { makeStyles, Button, ButtonGroup, FormControl,
     FormGroup, FormControlLabel, Checkbox, Typography,
     Slider, Input, Grid, InputAdornment, TextField } from "@material-ui/core";
 import axios from 'axios';
+import {default_matches, default_overlap, excludeSameID} from "../data/default_values";
 
 /*function preventDefault(event) {
     event.preventDefault();
@@ -41,11 +42,11 @@ export default function Filter(props) {
     // const MIN = props.loi_min;
     // const MAX = props.loi_max;
     //number of matches
-    const [numMatches, setNumMatches] = useState(5);
+    const [numMatches, setNumMatches] = useState(default_matches);
     //overlap of sequences
-    const [overlapVal, setOverlapVal] = useState(40);
+    const [overlapVal, setOverlapVal] = useState(default_overlap);
     //exclude same id
-    const [excludeID, setExcludeID] = useState(true);
+    const [excludeID, setExcludeID] = useState(excludeSameID);
     // query results
     const [queryResults, setQueryResults] = useState(null);
 
