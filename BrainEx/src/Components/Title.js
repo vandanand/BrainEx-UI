@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography';
 
 export default function Title(props) {
   return (
-    <Typography component="h2" variant="h2" color="primary" gutterBottom>
+    <Typography variant="h4" color="primary" gutterBottom>
       {props.children}
     </Typography>
   );

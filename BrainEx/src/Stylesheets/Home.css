@@ -3,12 +3,13 @@
 }
 
 .MuiTypography-root {
-    font-size: 125% !important;
+    font-size: 110%;
 }
 
-/*.MuiTypography-h2{*/
-/*    font-size: 200% !important;*/
-/*}*/
+.MuiTypography-h2 {
+    font-size: 200% !important;
+}
+
 .row {
     height: 100%;
     width: 100%; /*prevents wonky scroll bars*/
