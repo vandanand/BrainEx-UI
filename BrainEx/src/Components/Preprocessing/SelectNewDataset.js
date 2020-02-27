@@ -120,6 +120,7 @@ class SelectNewDataset extends Component {
         });
         // console.log(...file_form); // for debugging purposes
         let all_files = this.state.all_files;
+        const file_names = new_files.map(file => file.name);
         // Hook up to Kyra's server
         axios.post('http://localhost:5000/getCSV', file_form)
             .then((response) => {
@@ -127,7 +128,7 @@ class SelectNewDataset extends Component {
                 if (response.status === 200) { // if successful
                     this.setState({
                         // todo @Kyra i need the filenames in this reponse
-                        all_files: all_files.concat(new_files),
+                        all_files: all_files.concat(file_names),
                         upload_files: null // reset upload_files to none
                     }, () => { // callback function for debugging
                         console.log(response.data);
