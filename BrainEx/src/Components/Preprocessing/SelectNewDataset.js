@@ -17,7 +17,9 @@ class SelectNewDataset extends Component {
             current_file: null, /* for storing the currently selected file in the file-list */
             upload_files: null, /* for storing the file(s) chosen to be uploaded */
             all_files: [], /* for storing files displayed in file-list */
-            curr_loi_max: null
+            curr_loi_max: null,
+            // viewPort:null,
+
         };
         /* binding all handlers to the class */
         this.onChangeHandler = this.onChangeHandler.bind(this);
@@ -81,6 +83,7 @@ class SelectNewDataset extends Component {
                     this.setState({
                         // todo @Kyra i need the file returned here so i can set it as current_file in the response
                         curr_loi_max: response.data.maxLength
+
                     }, () => {
                         // console.log(this.state.current_file);
                         console.log(response.data.message);
@@ -191,8 +194,9 @@ class SelectNewDataset extends Component {
                                         state: {
                                             loi_max: this.state.curr_loi_max,
                                             file: this.state.current_file
-                                        }}}>
-                                    Next
+                                        }
+                                    }}>
+                                    Proceed to Preprocessing
                                 </Link>
                                 <Link
                                     className="build-btn left-btn btn btn-secondary"
