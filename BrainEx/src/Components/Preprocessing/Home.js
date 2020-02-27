@@ -10,11 +10,13 @@ import {
     DialogTitle,
     DialogContent,
     DialogActions,
-    Dialog
+    Dialog, TextField
 } from '@material-ui/core';
 import FormData from 'form-data';
-import {build_progress, query_page, select_new_dataset} from "../../data/default_values";
+import {build_progress, query_page, select_new_dataset, default_nw, default_dm, default_mrm} from "../../data/default_values";
 import axios from 'axios'
+import FormGroup from "@material-ui/core/FormGroup";
+import FormControl from "@material-ui/core/FormControl";
 
 class Home extends Component {
 
@@ -24,7 +26,10 @@ class Home extends Component {
             upload_files: null,
             all_files: [],
             current_file: null,
-            open: false
+            open: false,
+            num_workers: default_nw,
+            dm_val: default_dm,
+            mrm_val: default_mrm
         };
         this.onChangeHandler = this.onChangeHandler.bind(this);
         this.onClickHandler = this.onClickHandler.bind(this);
@@ -58,15 +63,19 @@ class Home extends Component {
     fileHandler = (e) => {
         let curr_file = e.currentTarget.name;
         console.log(curr_file);
+        this.setState({
+            current_file: curr_file
+        });
         let file_form = new FormData();
         file_form.append("set_data", curr_file);
-        file_form.append("num_workers", 4);
+        file_form.append("num_workers", this.state.num_workers);
+        file_form.append("dm_val", this.state.dm_val);
+        file_form.append("mrm_val", this.state.mrm_val);
         console.log(...file_form);
         axios.post('http://localhost:5000/setFilePro', file_form)
             .then((response) => {
                 console.log(response);
                 this.setState({
-                    current_file: curr_file,
                     open: true
                 });
             })
@@ -132,6 +141,28 @@ class Home extends Component {
 
     };
 
+    // dynamically update number of workers/cores value in state
+    update_nw = (e) => {
+        const num_workers = e.target.value;
+        this.setState({
+            num_workers: num_workers
+        });
+    };
+    // dynamically update driver memory value in state
+    update_dm = (e) => {
+        const dm_val = e.target.value;
+        this.setState({
+            dm_val: dm_val
+        });
+    };
+    // dynamically update max result memory value in state
+    update_mrm = (e) => {
+        const mrm_val = e.target.value;
+        this.setState({
+            mrm_val: mrm_val
+        });
+    };
+
     render() {
         return(
             <div className="full-height"> {/*this styling lets the content stretch to bottom of page*/}
@@ -139,7 +170,44 @@ class Home extends Component {
                     <DialogTitle className="prog-item" id="alert-dialog-title">Query with Dataset {this.state.current_file}?</DialogTitle>
                     <DialogContent>
                         <Typography className="prog-item" id="alert-dialog-description">
-                            Would you like to work with this preprocessed dataset?
+                            Would you like to explore/query this preprocessed dataset with the following parameters?
+                            <form>
+                                <FormGroup>
+                                    <Typography>Number of Workers</Typography>
+                                    <FormControl>
+                                        <TextField
+                                            id="num_workers"
+                                            type="number"
+                                            InputProps={{inputProps: {min: 0}}}
+                                            value={this.state.num_workers}
+                                            onChange={this.update_nw}/>
+                                    </FormControl>
+                                </FormGroup>
+                                <FormGroup>
+                                    <Typography>Driver Memory</Typography>
+                                    <FormControl>
+                                        <TextField
+                                            id="driver_mem"
+                                            type="number"
+                                            InputProps={{ inputProps: { min: 0 } }}
+                                            value={this.state.dm_val}
+                                            onChange={this.update_dm}
+                                        />
+                                    </FormControl>
+                                </FormGroup>
+                                <FormGroup>
+                                    <Typography>Max Result Memory</Typography>
+                                    <FormControl>
+                                        <TextField
+                                            id="max_result_mem"
+                                            type="number"
+                                            InputProps={{ inputProps: { min: 0 } }}
+                                            value={this.state.mrm_val}
+                                            onChange={this.update_mrm}
+                                        />
+                                    </FormControl>
+                                </FormGroup>
+                            </form>
                         </Typography>
                     </DialogContent>
                     <DialogActions>
