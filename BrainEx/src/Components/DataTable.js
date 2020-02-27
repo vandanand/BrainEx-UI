@@ -8,11 +8,15 @@ import TableRow from '@material-ui/core/TableRow';
 import Title from './Title';
 import Checkbox from '@material-ui/core/Checkbox';
 import Rainbow from 'rainbowvis.js/rainbowvis.js';
+import Button from '@material-ui/core/Button';
 import {top_color, bottom_color} from '../data/default_values';
 import TabledSeqThnl from "./TabledSeqThnl"; // thumbnail component
+import SaveIcon from '@material-ui/icons/Save';
 
 const useStyles = makeStyles(theme => ({
-    // styles go here
+    button: {
+        margin: theme.spacing(1),
+    },
 }));
 
 // generates x number of unique hex values between two given colors (generates a proportional gradient)
@@ -142,6 +146,7 @@ export default class DataTable extends Component {
     }
 
     render() {
+        // const classes = useStyles();
         return (
             <React.Fragment>
                 <Title>Ranked Matching Sequences</Title>
@@ -185,6 +190,15 @@ export default class DataTable extends Component {
                         )}
                     </TableBody>
                 </Table>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    size="large"
+                    // className={classes.button}
+                    startIcon={<SaveIcon/>}
+                >
+                    Save
+                </Button>
                 {/*<div className={classes.seeMore}>*/}
                 {/*  <Link color="primary" href="#" onClick={preventDefault}>*/}
                 {/*    Show more sequences*/}

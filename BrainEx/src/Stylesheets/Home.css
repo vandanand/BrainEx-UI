@@ -2,6 +2,18 @@
     height: calc(100% - 64px); /*64px is height of header*/
 }
 
+.MuiTypography-root .MuiTypography-h2 .MuiTypography-body1 {
+    font-size: 120% !important;
+}
+
+/*.MuiTypography-h2 .MuiTypography-body1{*/
+/*    font-size: 500% !important;*/
+/*}*/
+
+.MuiFormControlLabel-label.MuiFormLabel-root .MuiInputLabel-root {
+    font-size: 110% !important;
+}
+
 .row {
     height: 100%;
     width: 100%; /*prevents wonky scroll bars*/
@@ -112,4 +124,11 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+}
+
+.prompt-for-upload {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: red;
 }
