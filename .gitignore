@@ -8,3 +8,4 @@ venv
 python.exe
 node_modules
 __pycache__/
+cpython-37.pyc
