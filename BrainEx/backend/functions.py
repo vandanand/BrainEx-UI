@@ -58,23 +58,18 @@ def getStoreCSV():
     global numFeatures
 
     if request.method == 'POST':
-        if 'uploaded_data' not in request.files:
-            return ("File not found.", 400)
-        csv = request.files['uploaded_data']
-        if csv.filename == '':
-            return("File not found", 400)
-        if csv and is_csv(csv.filename):
-            toSave = os.path.join(application.config['UPLOAD_FOLDER_RAW'], csv.filename)
-            csv.save(toSave) # Secure filename?? See tutorial
-            csvPD = pd.read_csv(toSave)
-            out = csvPD.to_json()
-            returnDict = {
-                "message": "File has been uploaded.",
-                "fileContents": out
-            }
-            return jsonify(returnDict)
-        else:
-            return("Invalid file.  Please upload a CSV", 400)
+        for i in range(len(request.files)):
+            if 'uploaded_data' + str(i) not in request.files:
+                return ("File not found.", 400)
+            csv = request.files['uploaded_data' + str(i)]
+            if csv.filename == '':
+                return("File not found", 400)
+            if csv and is_csv(csv.filename):
+                toSave = os.path.join(application.config['UPLOAD_FOLDER_RAW'], csv.filename)
+                csv.save(toSave) # Secure filename?? See tutorial
+            else:
+                return("Invalid file.  Please upload a CSV", 400)
+        return "Files uploaded."
 
 @application.route('/getDB', methods=['GET', 'POST'])
 def getStoreDB():
