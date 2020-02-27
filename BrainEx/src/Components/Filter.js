@@ -129,6 +129,7 @@ export default function Filter(props) {
         axios.post('http://localhost:5000/query', form)
         .then(function (response) {
           console.log(response.data['message']);
+          console.log(response.data);
           setQueryResults(JSON.parse(response.data['resultJSON']));
         })
         .catch(function (error) {
