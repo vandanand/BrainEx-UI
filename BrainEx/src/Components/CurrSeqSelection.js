@@ -55,7 +55,7 @@ class CurrSeqSelection extends Component {
                     this.setState({
                             channelValues: data,
                         }, () => {
-                            console.log(response.data.sequenceJSON, 'sequenceJSON');
+                            // console.log(response.data.sequenceJSON, 'sequenceJSON');
                         }
                     );
                 } else {

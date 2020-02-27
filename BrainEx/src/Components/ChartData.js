@@ -4,7 +4,6 @@ import {colors} from "@material-ui/core";
 import {useTheme} from '@material-ui/core/styles';
 import {ResponsiveContainer} from 'recharts';
 import Title from './Title';
-// import { Series, DataFrame } from 'pandas-js';
 
 // export default function Chart() {
 //     const theme = useTheme();
@@ -13,100 +12,93 @@ class ChartData extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            channelVals: [],
-            file: 'jsonOutput',
+            // channelVals: [],
+            // file: 'jsonOutput',
             data: [],// initial value
-            lineColorList: [],
-            lineData: [],
+            lineColorList: ['#FFFFFF'],
+            lineData: [{
+                "Timestamp": "0",
+                "DataVal": 0
+            }],
         }
+        // this.dataFormatter = this.dataFormatter.bind(this);
     }
+
 
     componentDidUpdate(nextProps, nextState, snapshot) {
         // only update props if props have changed
-        // console.log(nextProps.data, 'nextPropsData');
-        if (nextProps.data !== this.props.data) { // keep this because it prevents it from entering an infinite rerender loop
-            this.setState({
-                data: this.props.data,
-                //this data still needs to be parsed
-                // lineData: lineData,
-                lineColorList: this.props.data.map((d) => d.color).map(i => '#' + i),
-                //first get the color from the data object, then append pound sign to get the colors in proper hex format
-            }, () => {
-                // console.log("color data received by Chart", this.state.lineColorList);
-                let lineData = this.state.data.map(d => {
+        if (nextProps.data !== this.props.data) {
+            function dataFormatter(lineData) {
+                let jsonData = lineData.map(d => {
                     let mappedData = {};
                     mappedData[d.id] = d.sequence;
                     return mappedData
                 });
-                console.log(lineData, 'I am LineData!')
-                this.setState({
-                    lineData: lineData,
+                let parsedLineData = [];
+                let firstData = Object.values(jsonData[0])[0];
+                let timeLength = firstData.length;
+                for (let i = 0; i < timeLength; i++) {
+                    parsedLineData.push({"Timestamp": i + ""})
+                }
+                jsonData.forEach(function (d) {
+                    let keys = Object.keys(d);
+                    let id = keys[0] + "";
+                    let dataArr = d[id];
+                    for (let i = 0; i < dataArr.length; i++) {
+                        parsedLineData[i][id] = dataArr[i]
+                    }
                 });
-                // parse the receivedData here before passing it to states
-                console.log("line data received by Chart", this.state.lineData);
+                console.log('dataFormatter', parsedLineData);
+                return parsedLineData
+            }
 
+            let linePaths = dataFormatter(this.props.data);
+            // keep this because it prevents it from entering an infinite rerender loop
+            this.setState({
+                data: this.props.data,
+                lineData: linePaths,
+                lineColorList: this.props.data.map((d) => d.color).map(i => '#' + i),
+                //first get the color from the data object, then append pound sign to get the colors in proper hex format
+            }, () => {
+                console.log("just data received by Chart", this.state.data);
+                console.log("line data received by Chart", this.state.lineData);
+                console.log("line color data received by Chart", this.state.lineColorList);
             });
         }
     }
 
-    componentDidMount() {
-        Promise.all([
-            fetch(`${process.env.PUBLIC_URL}/jsonOutput.json`),
-        ]).then(responses => Promise.all(responses.map(resp => resp.json())))
-            .then(([jsonOutput]) => {
-                // sf.forEach(day => day.date = new Date(day.date));
-                // this.setState({channelVals: {sf, ny}});
-                this.setState(
-                    {channelVals: {jsonOutput}}
-                );
-            });
 
-    }
+    // componentDidMount() {
+    //     this.setState(
+    //         {
+    //             data: this.props.data,
+    //             lineData: this.dataFormatter(this.props.data),
+    //             lineColorList: this.props.data.map((d) => d.color).map(i => '#' + i),
+    //         })
+    // }
 
-    updateFile = (e) => {
-        // this.setState({file: e.target.value});
-        this.setState({file: 'jsonOutput'});
-    }
+
+// updateFile = (e) => {
+//     // this.setState({file: e.target.value});
+//     this.setState({});
+// }
 
     render() {
-        const data = this.state.channelVals[this.state.file];
+        const drawLines = this.state.lineData;
         const lineColors = this.state.lineColorList;
         return (
-            <div key={this.state.data} className="Chart">
-                {/*<h5>*/}
-                {/*    <select name='updateFile' onChange={this.updateFile}>*/}
-                {/*// this can be changed to the table click for changing files*/}
-                {/*        {*/}
-                {/*            [// {label: 'New York', value: 'ny'},*/}
-                {/*            ].map(option => {*/}
-                {/*                // return (<option key={option.value} value={option.value}>{option.label}</option>);*/}
-                {/*                return (<option key={option.value} value={option.value}>{option.label}</option>);*/}
-                {/*            })*/}
-                {/*        }*/}
-                {/*    </select>*/}
-                {/*</h5>*/}
+            <div className="Chart">
                 <React.Fragment>
                     <Title>Query Result</Title>
                     <ResponsiveContainer>
-                        {/*<ChartData/>*/}
-                        <MainChartViz data={data} lineColorList={lineColors}/>
+                        <MainChartViz lineData={drawLines} lineColorList={lineColors}/>
                     </ResponsiveContainer>
                 </React.Fragment>
             </div>
         );
     }
-}
+};
 
-//
-//     return (
-//         <React.Fragment>
-//             <Title>Query Result</Title>
-//             <ResponsiveContainer>
-//                 <ChartData/>
-//             </ResponsiveContainer>
-//         </React.Fragment>
-//     );
-// }
 export default ChartData;
 
 

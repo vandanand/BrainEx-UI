@@ -44,7 +44,7 @@ function createData(name, code, population, size) {
     return {name, code, population, size, density};
 }
 
-const rows = [
+const fileData = [
     createData('India', 'IN', 1324171354, 3287263),
     createData('China', 'CN', 1403500365, 9596961),
     createData('Italy', 'IT', 60483973, 301340),
@@ -73,9 +73,25 @@ const useStyles = makeStyles({
 
 export default function ViewForCSV() {
     const classes = useStyles();
+    const [fileSrc, setFileSrc] = React.useState(0);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
+    //
+    // useEffect(() => {
+    //     Promise.all([
+    //         fetch(`${process.env.PUBLIC_URL}/jsonOutput.json`),
+    //     ]).then(responses => Promise.all(responses.map(resp => resp.json())))
+    //         .then(([jsonOutput]) => {
+    //             // sf.forEach(day => day.date = new Date(day.date));
+    //             // this.setState({channelVals: {sf, ny}});
+    //             setFileSrc(jsonOutput)
+    //         });
+    //
+    // });
+    //
+    // const selectionHandler(status) {
+    //     setFileSrc(status.isOnline);
+    // };
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
@@ -105,7 +121,7 @@ export default function ViewForCSV() {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
+                                {fileData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
                                     return (
                                         <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                                             {columns.map(column => {
@@ -125,7 +141,7 @@ export default function ViewForCSV() {
                     <TablePagination
                         rowsPerPageOptions={[10, 25, 100]}
                         component="div"
-                        count={rows.length}
+                        count={fileData.length}
                         rowsPerPage={rowsPerPage}
                         page={page}
                         onChangePage={handleChangePage}
