@@ -110,13 +110,20 @@ def setFileRaw():
 
 @application.route('/setFilePro', methods=['GET', 'POST'])
 def setFilePro():
-    global uploadPath, brainexDB
+    global uploadPath, brainexDB, numFeatures
 
     if request.method == 'POST':
         uploadPath = os.path.join(application.config['UPLOAD_FOLDER_PRO'], request.form['set_data'])
         with zipfile.ZipFile(uploadPath, 'r') as zip_ref:
             zip_ref.extractall(uploadPath + "toDel")
         num_worker = request.form['num_workers']
+        dataframe = pd.read_csv(uploadPath + "toDel\\most_recent_data\\data_raw.csv", delimiter=',')
+        dataframe.columns = map(str.lower, dataframe.columns)
+        notFeature = 0
+        for elem in dataframe.columns:
+            if 'unnamed' in elem:
+                notFeature = notFeature + 1;
+        numFeatures = len(dataframe.columns) - notFeature
         # use_spark_int = request.form['spark_val']
         # if use_spark_int == "1":
         #     use_spark = True
@@ -129,7 +136,7 @@ def setFilePro():
             # if use_spark:
             driver_mem = int(driver_mem)
             max_result_mem = int(max_result_mem)
-            brainexDB = from_db(uploadPath + "toDel\\most_recent_Data", num_worker=num_worker, driver_mem=driver_mem, max_result_mem=max_result_mem) # driver_mem=driver_mem, max_result_mem=max_result_mem
+            brainexDB = from_db(uploadPath + "toDel\\most_recent_data", num_worker=num_worker, driver_mem=driver_mem, max_result_mem=max_result_mem)
             # else:
             #     brainexDB = from_db(uploadPath + "toDel\\most_recent_Data", num_worker=num_worker)
             shutil.rmtree(uploadPath + "toDel")
@@ -261,12 +268,12 @@ def complete_query():
         seqs = [i[1] for i in query_result]
         for i in seqs:
             i = i.fetch_data(brainexDB.data_original)
-        ids = [str(i.seq_id) for i in seqs]
+        ids = [i for i in range(1,best_matches+1)]
+        sequence_id = [i.seq_id for i in seqs]
         start = [i.start for i in seqs]
         end = [i.end for i in seqs]
         data = [i.data.tolist() for i in seqs]
-        rank = [i in range(0,len(end))]
-        pandasQ = pd.DataFrame({"similarity":sims, "ID":ids, "start":start, "end":end, "data":data, "rank":rank})
+        pandasQ = pd.DataFrame({"similarity":sims, "ID":ids, "start":start, "end":end, "data":data, "sequence_id":sequence_id})
         dataMax = -9999
         dataMin = 9999
         for elem in pandasQ['data']:
