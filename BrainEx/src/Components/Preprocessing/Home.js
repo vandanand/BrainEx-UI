@@ -136,7 +136,7 @@ class Home extends Component {
         return(
             <div className="full-height"> {/*this styling lets the content stretch to bottom of page*/}
                 <Dialog className="dialog" open={this.state.open} onClose={this.closeModal}>
-                    <DialogTitle className="prog-item" id="alert-dialog-title">Select Dataset {this.state.current_file}</DialogTitle>
+                    <DialogTitle className="prog-item" id="alert-dialog-title">Query with Dataset {this.state.current_file}?</DialogTitle>
                     <DialogContent>
                         <Typography className="prog-item" id="alert-dialog-description">
                             Would you like to work with this preprocessed dataset?
