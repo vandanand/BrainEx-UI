@@ -11,6 +11,8 @@ class MainChartViz extends Component {
         xScale: d3.scaleLinear().range([margin.left, width - margin.right]),
         yScale: d3.scaleLinear().range([height - margin.bottom, margin.top]),
         lineGenerator: d3.line().curve(d3.curveCardinal),
+        lineData: this.props.lineData,
+        lineColorList: this.props.lineColorList,
         // drawPath:null,
     };
     xAxis = d3.axisBottom().scale(this.state.xScale)
@@ -66,20 +68,28 @@ class MainChartViz extends Component {
     //     d3.select(this.refs.yAxis).call(this.yAxis);
     // }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        const {xScale, yScale, lineGenerator} = prevState;
-        if (this.props.lineData !== prevProps.lineData) {
-            console.log('execution right after if check')
-            const lineData = this.props.lineData;
-            const lineColorList = this.props.lineColorList;
-            // if (!nextProps.data) return null; // lineData hasn't been loaded yet so do nothing
-            var allFields = Object.keys(lineData[0]);
-            console.log(Object.keys(lineData[0]), 'objKey.lineData[0]');
+    componentDidUpdate(nextProps, nextState, snapshot) {
+        console.log(this.props.lineData, 'this.props.linedata in main chart viz');
+        console.log(nextProps.lineData, 'prevprops.linedata in main chart viz');
+        if (this.props.lineData !== nextProps.lineData) {
+            if (!this.state.lineData) return null; // lineData hasn't been loaded yet so do nothing
+            this.setState({
+                lineData: this.props.lineData,
+                lineColorList: this.props.lineColorList,
+            }, () => {
+                console.log('execution test');
+            });
+            console.log('execution right after if check');
+            // const lineData = this.props.lineData;
+            // const lineColorList = this.props.lineColorList;
+            const {xScale, yScale, lineGenerator} = nextState;
+            var allFields = Object.keys(this.state.lineData[0]);
+            console.log(Object.keys(this.state.lineData[0]), 'objKey.lineData[0]');
             var firstCol = allFields[0]; //gives the column name of the first column, which is the string "Timestamp"
             var numCol = allFields.length; //gives the total number of columns in the lineData, including the first non-lineData column
             var sliced = allFields.slice(1, numCol); //gives all the column names of lineData, excluding the first column
             // lineData has changed, so recalculate scale domains
-            const timeDomain = d3.extent(lineData, d => d[firstCol]);
+            const timeDomain = d3.extent(this.state.lineData, d => d[firstCol]);
             // const valMax = d3.max(lineData[sliced],(d) => d[sliced]);
             // const valMin = d3.min(lineData, d => d[sliced]);
             xScale.domain(timeDomain);
@@ -87,7 +97,7 @@ class MainChartViz extends Component {
             d3.select(this.refs.xAxis).call(this.xAxis);
             d3.select(this.refs.yAxis).call(this.yAxis);
             // yScale.domain([valMin, valMax]); this should be updated to use the global min/max
-            for (let col of lineColorList) {
+            for (let col of this.state.lineColorList) {
                 var lineCol = col;
             }
             lineGenerator.x(d => xScale(d[firstCol]));
@@ -97,14 +107,14 @@ class MainChartViz extends Component {
                 lineGenerator
                     .defined(d => !isNaN(d[cname]))
                     .y(d => yScale(d[cname]));
-                lines.push(lineGenerator(lineData));
+                lines.push(lineGenerator(this.state.lineData));
             }
-            lines.forEach(function (d, i) {
+            lines.forEach((d, i) => {
                 d3.selectAll("#svg")
                     .append("path")
                     .attr("fill", "none")
                     .attr("d", lines[i])
-                    .attr("stroke", lineColorList[i])
+                    .attr("stroke", this.state.lineColorList[i])
             })
             return {lines, lineCol};
         }

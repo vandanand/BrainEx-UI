@@ -15,15 +15,14 @@ class ChartData extends Component {
             // channelVals: [],
             // file: 'jsonOutput',
             data: [],// initial value
-            lineColorList: [],
+            lineColorList: ['#FFFFFF'],
             lineData: [{
-                // "Timestamp": "0",
-                // "DataVal": 0
+                "Timestamp": "0",
+                "DataVal": 0
             }],
         }
         this.dataFormatter = this.dataFormatter.bind(this);
     }
-
     dataFormatter(lineData) {
         let jsonData = lineData.map(d => {
             let mappedData = {};
@@ -44,12 +43,14 @@ class ChartData extends Component {
                 parsedLineData[i][id] = dataArr[i]
             }
         });
+        console.log('dataFormmater', parsedLineData);
         return parsedLineData
     };
 
     componentDidUpdate(nextProps, nextState, snapshot) {
         // only update props if props have changed
         if (nextProps.data !== this.props.data) {
+            // let linePaths = this.dataFormatter(this.props.data);
             // keep this because it prevents it from entering an infinite rerender loop
             this.setState({
                 data: this.props.data,
@@ -58,11 +59,12 @@ class ChartData extends Component {
                 //first get the color from the data object, then append pound sign to get the colors in proper hex format
             }, () => {
                 console.log("line data received by Chart", this.state.lineData);
+                console.log("line color data received by Chart", this.state.lineColorList);
             });
         }
     }
 
-    //
+
     // componentDidMount() {
     //     this.setState(
     //         {
