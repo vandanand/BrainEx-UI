@@ -30,23 +30,23 @@ class SelectNewDataset extends Component {
 
     /*pull files from database here. this function is called after render() so all elements will be in place*/
     componentDidMount() {
-      axios.post('http://localhost:5000/rawNames')
-          .then((response) => {
-              console.log(response);
-              if (response.status === 200) {
-                  this.setState({
-                      all_files: this.state.all_files.concat(response.data.raw_files)
-                  }, () => {
-                      // console.log(this.state.current_file);
-                      console.log(response.data.raw_files);
-                  });
-              } else {
-                  console.log("File selection failed.");
-              }
-          })
-          .catch((error) => {
-              console.log(error);
-          });
+        axios.post('http://localhost:5000/rawNames')
+            .then((response) => {
+                console.log(response);
+                if (response.status === 200) {
+                    this.setState({
+                        all_files: this.state.all_files.concat(response.data.raw_files)
+                    }, () => {
+                        // console.log(this.state.current_file);
+                        console.log(response.data.raw_files);
+                    });
+                } else {
+                    console.log("File selection failed.");
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     }
 
     // if no file is selected, do not go to next page
@@ -82,7 +82,7 @@ class SelectNewDataset extends Component {
                 if (response.status === 200) {
                     this.setState({
                         curr_loi_max: response.data.maxLength,
-                        data: response.data.data
+                        data: JSON.parse(response.data.data)
                         // todo @Kyra i need the file name returned here so i can set it as current_file in the response
                     }, () => {
                         // console.log(this.state.current_file);
@@ -180,15 +180,18 @@ class SelectNewDataset extends Component {
                                 {/*display currently selected file to the user*/}
                                 {/*<ViewerForCSV/>*/}
                                 {/*this is for testing purposes only*/}
-                                {(this.state.current_file !== null) ? (
-                                        <p className="curr-file">File currently selected: {this.state.current_file.name}</p>
-                                ) : (
-                                        <p className="curr-file">There is no file currently selected</p>
-                                )}
+                                {/*{(this.state.current_file !== null) ? (*/}
+                                {/*    <p className="curr-file">File currently selected: {this.state.current_file}</p>*/}
+                                {/*) : (*/}
+                                {/*    <p className="curr-file">There is no file currently selected</p>*/}
+                                {/*)}*/}
                                 {(this.state.data !== null) ? (
-                                    <p>{this.state.data}</p>
+                                    <div>{Object.keys(this.state.data).map((key, index) => {
+                                        console.log(key);
+                                        console.log(this.state.data[key]);
+                                    })}</div>
                                 ) : (
-                                    <p>No Data</p>
+                                    <div>No Data</div>
                                 )}
                                 <Link
                                     onClick={this.isFileSelected}
