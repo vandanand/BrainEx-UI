@@ -129,7 +129,7 @@ class SelectNewDataset extends Component {
                 console.log(response); // for debugging purposes
                 if (response.status === 200) { // if successful
                     this.setState({
-                        // todo @Kyra i need the filenames in this reponse
+                        // todo @Kyra i need the filenames in this response
                         all_files: all_files.concat(file_names),
                         upload_files: null // reset upload_files to none
                     }, () => { // callback function for debugging
