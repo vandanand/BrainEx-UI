@@ -1,5 +1,4 @@
 .gitignore
-genex
 setup.py
 package-lock.json
 preprocessed_datasets

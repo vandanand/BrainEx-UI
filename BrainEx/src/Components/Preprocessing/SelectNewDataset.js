@@ -17,7 +17,7 @@ class SelectNewDataset extends Component {
         this.state = {
             current_file: null, /* for storing the currently selected file in the file-list */
             upload_files: null, /* for storing the file(s) chosen to be uploaded */
-            all_files: file_names, /* for storing files displayed in file-list */
+            all_files: [], /* for storing files displayed in file-list */
             curr_loi_max: null
             data: null
         };
