@@ -113,23 +113,23 @@ def setFilePro():
         uploadPath = os.path.join(application.config['UPLOAD_FOLDER_PRO'], request.form['set_data'])
         with zipfile.ZipFile(uploadPath, 'r') as zip_ref:
             zip_ref.extractall(uploadPath + "toDel")
-        num_worker = request.json['num_workers']
-        use_spark_int = request.form['spark_val']
-        if use_spark_int == "1":
-            use_spark = True
-            driver_mem = request.form['dm_val']
-            max_result_mem = request.form['mrm_val']
-        else:
-            use_spark = False
+        num_worker = request.form['num_workers']
+        # use_spark_int = request.form['spark_val']
+        # if use_spark_int == "1":
+        #     use_spark = True
+        # driver_mem = request.form['dm_val']
+        # max_result_mem = request.form['mrm_val']
+        # else:
+        #     use_spark = False
         try:
             num_worker = int(num_worker)
-            if use_spark:
-                driver_mem = int(driver_mem)
-                max_result_mem = int(max_result_mem)
-                brainexDB = from_db(uploadPath + "toDel", use_spark=use_spark, num_worker=num_worker, driver_mem=driver_mem, max_result_mem=max_result_mem)
-            else:
-                brainexDB = from_db(uploadPath + "toDel", use_spark=use_spark, num_worker=num_worker)
-            shutil.rmtree(uploadPrth + "toDel")
+            # if use_spark:
+            # driver_mem = int(driver_mem)
+            # max_result_mem = int(max_result_mem)
+            brainexDB = from_db(uploadPath + "toDel\\most_recent_Data", num_worker=num_worker) # driver_mem=driver_mem, max_result_mem=max_result_mem
+            # else:
+            #     brainexDB = from_db(uploadPath + "toDel\\most_recent_Data", num_worker=num_worker)
+            shutil.rmtree(uploadPath + "toDel")
             return "File is set!"
         except Exception as e:
             return (str(e), 400)
