@@ -6,6 +6,9 @@ export const default_sv = false; // default spark value (use spark v use python 
 export const default_spark = false; // default "is spark installed correctly?"
 export const default_dm = 16; // default driver memory (GB)
 export const default_mrm = 16; // default max result memory (GB)
+export const default_matches = 5;
+export const excludeSameID = true;
+export const default_overlap = 100;
 
 /* data table defaults */
 // for query result gradient:
