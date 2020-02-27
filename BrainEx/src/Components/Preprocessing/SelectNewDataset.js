@@ -115,8 +115,10 @@ class SelectNewDataset extends Component {
         /* create form data object and append files to be uploaded onto it*/
         let file_form = new FormData();
         let new_files = this.state.upload_files;
+        var counter = 0;
         new_files.map((file) => {
-            file_form.append("uploaded_data", file); // add upload_files to FormData object
+            file_form.append("uploaded_data" + counter.toString(), file); // add upload_files to FormData object
+            counter++;
         });
         // console.log(...file_form); // for debugging purposes
         let all_files = this.state.all_files;
