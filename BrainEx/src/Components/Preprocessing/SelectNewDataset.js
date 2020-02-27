@@ -18,7 +18,7 @@ class SelectNewDataset extends Component {
             current_file: null, /* for storing the currently selected file in the file-list */
             upload_files: null, /* for storing the file(s) chosen to be uploaded */
             all_files: file_names, /* for storing files displayed in file-list */
-            curr_loi_max: null,
+            curr_loi_max: null
             data: null
         };
         /* binding all handlers to the class */
@@ -87,8 +87,6 @@ class SelectNewDataset extends Component {
                     }, () => {
                         // console.log(this.state.current_file);
                         console.log(response.data.message);
-                        console.log(this.state.data);
-                        console.log('allData');
                     });
                 } else {
                     console.log("File selection failed.");

@@ -12,6 +12,7 @@ import DataTable from './DataTable';
 import CurrSeqSelection from './CurrSeqSelection.js'
 import Filter from './Filter.js'
 import ChartData from './ChartData.js'
+import Chart from './Chart.js'
 import Stats from './Stats.js'
 
 function Copyright() {
@@ -127,6 +128,7 @@ export default function Dashboard(props) {
                                     <DataTable queryResults={queryResults} sendData={receiveData}/>
                                 </Paper>
                             </Grid>
+                            <Chart/>
                         </Grid>
                     </Grid>
                     <Box pt={4}>

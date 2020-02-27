@@ -15,54 +15,59 @@ class ChartData extends Component {
             // channelVals: [],
             // file: 'jsonOutput',
             data: [],// initial value
-            lineColorList: [],
+            lineColorList: ['#FFFFFF'],
             lineData: [{
-                // "Timestamp": "0",
-                // "DataVal": 0
+                "Timestamp": "0",
+                "DataVal": 0
             }],
         }
-        this.dataFormatter = this.dataFormatter.bind(this);
+        // this.dataFormatter = this.dataFormatter.bind(this);
     }
 
-    dataFormatter(lineData) {
-        let jsonData = lineData.map(d => {
-            let mappedData = {};
-            mappedData[d.id] = d.sequence;
-            return mappedData
-        });
-        let parsedLineData = [];
-        let firstData = Object.values(jsonData[0])[0];
-        let timeLength = firstData.length;
-        for (let i = 0; i < timeLength; i++) {
-            parsedLineData.push({"Timestamp": i + ""})
-        }
-        jsonData.forEach(function (d) {
-            let keys = Object.keys(d);
-            let id = keys[0] + "";
-            let dataArr = d[id];
-            for (let i = 0; i < dataArr.length; i++) {
-                parsedLineData[i][id] = dataArr[i]
-            }
-        });
-        return parsedLineData
-    };
 
     componentDidUpdate(nextProps, nextState, snapshot) {
         // only update props if props have changed
         if (nextProps.data !== this.props.data) {
+            function dataFormatter(lineData) {
+                let jsonData = lineData.map(d => {
+                    let mappedData = {};
+                    mappedData[d.id] = d.sequence;
+                    return mappedData
+                });
+                let parsedLineData = [];
+                let firstData = Object.values(jsonData[0])[0];
+                let timeLength = firstData.length;
+                for (let i = 0; i < timeLength; i++) {
+                    parsedLineData.push({"Timestamp": i + ""})
+                }
+                jsonData.forEach(function (d) {
+                    let keys = Object.keys(d);
+                    let id = keys[0] + "";
+                    let dataArr = d[id];
+                    for (let i = 0; i < dataArr.length; i++) {
+                        parsedLineData[i][id] = dataArr[i]
+                    }
+                });
+                console.log('dataFormatter', parsedLineData);
+                return parsedLineData
+            }
+
+            let linePaths = dataFormatter(this.props.data);
             // keep this because it prevents it from entering an infinite rerender loop
             this.setState({
                 data: this.props.data,
-                lineData: this.dataFormatter(this.props.data),
+                lineData: linePaths,
                 lineColorList: this.props.data.map((d) => d.color).map(i => '#' + i),
                 //first get the color from the data object, then append pound sign to get the colors in proper hex format
             }, () => {
+                console.log("just data received by Chart", this.state.data);
                 console.log("line data received by Chart", this.state.lineData);
+                console.log("line color data received by Chart", this.state.lineColorList);
             });
         }
     }
 
-    //
+
     // componentDidMount() {
     //     this.setState(
     //         {
@@ -79,16 +84,14 @@ class ChartData extends Component {
 // }
 
     render() {
-        const lineData = this.state.lineData;
+        const drawLines = this.state.lineData;
         const lineColors = this.state.lineColorList;
         return (
-            <div className="Chart"
-                // key={this.state.lineData}
-            >
+            <div className="Chart">
                 <React.Fragment>
                     <Title>Query Result</Title>
                     <ResponsiveContainer>
-                        <MainChartViz lineData={lineData} lineColorList={lineColors}/>
+                        <MainChartViz lineData={drawLines} lineColorList={lineColors}/>
                     </ResponsiveContainer>
                 </React.Fragment>
             </div>
