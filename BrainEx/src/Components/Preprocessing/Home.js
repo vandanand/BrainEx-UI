@@ -2,9 +2,18 @@ import React, { Component } from 'react';
 import {Link as RouterLink} from "react-router-dom";
 import '../../Stylesheets/Home.css'
 import { preprocessed_files } from "../../data/dummy_data";
-import { Button, Link, Typography, ButtonGroup } from '@material-ui/core';
+import {
+    Button,
+    Link,
+    Typography,
+    ButtonGroup,
+    DialogTitle,
+    DialogContent,
+    DialogActions,
+    Dialog
+} from '@material-ui/core';
 import FormData from 'form-data';
-import {select_new_dataset} from "../../data/default_values";
+import {build_progress, query_page, select_new_dataset} from "../../data/default_values";
 import axios from 'axios'
 
 class Home extends Component {
@@ -13,59 +22,76 @@ class Home extends Component {
         super(props);
         this.state = {
             upload_files: null,
-            all_files: []
+            all_files: [],
+            current_file: null,
+            open: false
         };
         this.onChangeHandler = this.onChangeHandler.bind(this);
         this.onClickHandler = this.onClickHandler.bind(this);
-        this.showFilename = this.showFilename.bind(this);
+        this.fileHandler = this.fileHandler.bind(this);
+        this.closeModal = this.closeModal.bind(this);
+        this.goToQuery = this.goToQuery.bind(this);
     }
 
     // pull files from database here. this function will be called after render()
     componentDidMount() {
         axios.post('http://localhost:5000/proNames')
-          .then((response) => {
-              console.log(response);
-              if (response.status === 200) {
-                  this.setState({
-                      all_files: this.state.all_files.concat(response.data.pro_files)
-                  }, () => {
-                      // console.log(this.state.current_file);
-                      console.log(response.data.pro_files);
-                  });
-              } else {
-                  console.log("File selection failed.");
-              }
-          })
-          .catch((error) => {
-              console.log(error);
-          });
+            .then((response) => {
+                console.log(response);
+                if (response.status === 200) {
+                    this.setState({
+                        all_files: this.state.all_files.concat(response.data.pro_files)
+                    }, () => {
+                        // console.log(this.state.current_file);
+                        console.log(response.data.pro_files);
+                    });
+                } else {
+                    console.log("File selection failed.");
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     }
 
     // use this function to do any handling once a file in the list is selected
-    showFilename = (e) => {
-        let element = e.currentTarget.name;
-        console.log(element);
+    fileHandler = (e) => {
+        let curr_file = e.currentTarget.name;
+        console.log(curr_file);
         let file_form = new FormData();
-        file_form.append("set_data", element);
+        file_form.append("set_data", curr_file);
         file_form.append("num_workers", 4);
-        // file_form.append("dm_val", 16);
-        // file_form.append("mrm_val", 16);
         console.log(...file_form);
         axios.post('http://localhost:5000/setFilePro', file_form)
             .then((response) => {
                 console.log(response);
+                this.setState({
+                    current_file: curr_file,
+                    open: true
+                });
             })
             .catch((error) => {
                 console.log(error);
             });
     };
 
+    closeModal = () => {
+        this.setState({
+            open: false,
+            current_file: null
+        })
+    };
+
+    goToQuery = () => {
+        this.props.history.push(query_page);
+    };
+
     onChangeHandler = (e) => {
         // convert FileList to an array of files
         const new_files = [...e.target.files];
         this.setState({
-                upload_files: new_files
-            }, () => {
+            upload_files: new_files
+        }, () => {
             console.log("files added to state successfully:");
             console.log(this.state.upload_files) // cannot print text and object in the same console.log
         }); // print state for debugging
@@ -109,6 +135,22 @@ class Home extends Component {
     render() {
         return(
             <div className="full-height"> {/*this styling lets the content stretch to bottom of page*/}
+                <Dialog className="dialog" open={this.state.open} onClose={this.closeModal}>
+                    <DialogTitle className="prog-item" id="alert-dialog-title">Select Dataset {this.state.current_file}</DialogTitle>
+                    <DialogContent>
+                        <Typography className="prog-item" id="alert-dialog-description">
+                            Would you like to work with this preprocessed dataset?
+                        </Typography>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={this.closeModal} color="primary">
+                            No
+                        </Button>
+                        <Button onClick={this.goToQuery} color="primary">
+                            Yes
+                        </Button>
+                    </DialogActions>
+                </Dialog>
                 <div className="row no-gutters">
                     <div className="col col-3 no-gutters"> {/*bootstrap columns should add up to 12 (4 + 8 = 12)*/}
                         <div className="left d-flex justify-content-center align-items-center">
@@ -116,7 +158,7 @@ class Home extends Component {
                                 <Typography className="directions" variant="h4">Select a preprocessed dataset to explore here</Typography>
                                 <ButtonGroup className="file-list" orientation="vertical" color="primary">
                                     { this.state.all_files.map((file, index) => (
-                                        <Button name={file} className="btn-file" variant="contained" key={index} onClick={this.showFilename}>{file}</Button>
+                                        <Button name={file} className="btn-file" variant="contained" key={index} onClick={this.fileHandler}>{file}</Button>
                                     ))}
                                 </ButtonGroup>
                                 {/*adding a new file*/}
