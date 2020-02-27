@@ -176,7 +176,7 @@ class SelectNewDataset extends Component {
                         <div className="right build">
                             <div className="home-content">
                                 {/*display currently selected file to the user*/}
-                                <ViewerForCSV/>
+                                {/*<ViewerForCSV/>*/}
                                 {/*this is for testing purposes only*/}
                                 {(this.state.current_file !== null) ? (
                                         <p className="curr-file">File currently selected: {this.state.current_file.name}</p>
@@ -184,6 +184,11 @@ class SelectNewDataset extends Component {
                                     : (
                                         <p className="curr-file">There is no file currently selected</p>
                                     )}
+                                {(this.state.data !== null) ? (
+                                    <p>{this.state.data}</p>
+                                ) :(
+                                    <p>No Data</p>
+                                )}
                                 <Link
                                     onClick={this.isFileSelected}
                                     disabled={true}
