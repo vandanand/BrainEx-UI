@@ -74,17 +74,18 @@ def getStoreCSV():
 @application.route('/getDB', methods=['GET', 'POST'])
 def getStoreDB():
     if request.method == 'POST':
-        if 'uploaded_data' not in request.files:
-            return ("File not found.", 400)
-        db = request.files['uploaded_data']
-        if db.filename == '':
-            return("File not found", 400)
-        if db:
-            toSave = os.path.join(application.config['UPLOAD_FOLDER_PRO'], db.filename)
-            db.save(toSave) # Secure filename?? See tutorial
-            return "File has been uploaded."
-        else:
-            return("Invalid file.", 400)
+        for i in range(len(request.files)):
+            if 'uploaded_data' + str(i) not in request.files:
+                return ("File not found.", 400)
+            db = request.files['uploaded_data' + str(i)]
+            if db.filename == '':
+                return("File not found", 400)
+            if db:
+                toSave = os.path.join(application.config['UPLOAD_FOLDER_PRO'], db.filename)
+                db.save(toSave) # Secure filename?? See tutorial
+            else:
+                return("Invalid file.", 400)
+        return "File has been uploaded."
 
 @application.route('/setFileRaw', methods=['GET', 'POST'])
 def setFileRaw():

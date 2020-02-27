@@ -77,8 +77,10 @@ class Home extends Component {
         e.preventDefault(); // prevents page refresh
         let file_form = new FormData();
         let new_files = this.state.upload_files;
+        var counter = 0;
         new_files.map((file) => {
-            file_form.append("uploaded_data", file); // add upload_files to FormData object
+            file_form.append("uploaded_data" + counter.toString(), file); // add upload_files to FormData object
+            counter++;
         });
         const file_names = new_files.map(file => file.name); // get array of file_names to add to add_files (todo @Kyra would be nice to get this from backend instead)
         axios.post('http://localhost:5000/getDB', file_form)
