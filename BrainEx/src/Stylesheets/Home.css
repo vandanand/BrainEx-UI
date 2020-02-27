@@ -2,6 +2,13 @@
     height: calc(100% - 64px); /*64px is height of header*/
 }
 
+.MuiTypography-root {
+    font-size: 125% !important;
+}
+
+/*.MuiTypography-h2{*/
+/*    font-size: 200% !important;*/
+/*}*/
 .row {
     height: 100%;
     width: 100%; /*prevents wonky scroll bars*/
@@ -112,4 +119,11 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+}
+
+.prompt-for-upload {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: red;
 }

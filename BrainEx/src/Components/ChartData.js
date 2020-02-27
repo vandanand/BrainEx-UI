@@ -18,7 +18,7 @@ class ChartData extends Component {
             lineColorList: ['#FFFFFF'],
             lineData: [{
                 "Timestamp": "0",
-                "DataVal": 0
+                "": 0
             }],
         }
         // this.dataFormatter = this.dataFormatter.bind(this);
@@ -29,13 +29,13 @@ class ChartData extends Component {
         // only update props if props have changed
         if (nextProps.data !== this.props.data) {
             function dataFormatter(lineData) {
-                console.log(lineData, 'lineData as received as props');
+                // console.log(lineData, 'lineData as received as props');
                 let jsonData = lineData.map(d => {
                     let mappedData = {};
                     mappedData[d.id] = d.sequence;
                     return mappedData
                 });
-                console.log(jsonData, 'jsonData in data formatter');
+                // console.log(jsonData, 'jsonData in data formatter');
                 let parsedLineData = [];
                 let firstData = Object.values(jsonData[0])[0];
                 let timeLength = firstData.length;
@@ -50,24 +50,24 @@ class ChartData extends Component {
                         parsedLineData[i][id] = dataArr[i]
                     }
                 });
-                console.log('parsedLineData in data formatter', parsedLineData);
-                console.log('jSONdata in the end of data formatter', jsonData);
+                // console.log('parsedLineData in data formatter', parsedLineData);
+                // console.log('jSONdata in the end of data formatter', jsonData);
                 return parsedLineData
             }
 
             let linePaths = dataFormatter(this.props.data);
             // keep this because it prevents it from entering an infinite rerender loop
-            console.log('data before setting the state', this.props.data);
-            console.log("line data before setting the state", linePaths);
+            // console.log('data before setting the state', this.props.data);
+            // console.log("line data before setting the state", linePaths);
             this.setState({
                 data: this.props.data,
                 lineData: linePaths,
                 lineColorList: this.props.data.map((d) => d.color).map(i => '#' + i),
                 //first get the color from the data object, then append pound sign to get the colors in proper hex format
             }, () => {
-                console.log("just data received by Chart", this.state.data);
-                console.log("line data received by Chart", this.state.lineData);
-                console.log("line color data received by Chart", this.state.lineColorList);
+                // console.log("just data received by Chart", this.state.data);
+                // console.log("line data received by Chart", this.state.lineData);
+                // console.log("line color data received by Chart", this.state.lineColorList);
             });
         }
     }
