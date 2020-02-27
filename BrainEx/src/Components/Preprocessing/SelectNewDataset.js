@@ -7,6 +7,7 @@ import FormData from "form-data";
 import $ from "jquery";
 import axios from 'axios';
 import {build_options, root} from "../../data/default_values";
+import ViewerForCSV from "./ViewerForCSV";
 import {file_names} from '../../data/file_names'
 
 class SelectNewDataset extends Component {
@@ -17,7 +18,8 @@ class SelectNewDataset extends Component {
             current_file: null, /* for storing the currently selected file in the file-list */
             upload_files: null, /* for storing the file(s) chosen to be uploaded */
             all_files: [], /* for storing files displayed in file-list */
-            curr_loi_max: null
+            curr_loi_max: null,
+            data: null
         };
         /* binding all handlers to the class */
         this.onChangeHandler = this.onChangeHandler.bind(this);
@@ -28,23 +30,23 @@ class SelectNewDataset extends Component {
 
     /*pull files from database here. this function is called after render() so all elements will be in place*/
     componentDidMount() {
-      axios.post('http://localhost:5000/rawNames')
-          .then((response) => {
-              console.log(response);
-              if (response.status === 200) {
-                  this.setState({
-                      all_files: this.state.all_files.concat(response.data.raw_files)
-                  }, () => {
-                      // console.log(this.state.current_file);
-                      console.log(response.data.raw_files);
-                  });
-              } else {
-                  console.log("File selection failed.");
-              }
-          })
-          .catch((error) => {
-              console.log(error);
-          });
+        axios.post('http://localhost:5000/rawNames')
+            .then((response) => {
+                console.log(response);
+                if (response.status === 200) {
+                    this.setState({
+                        all_files: this.state.all_files.concat(response.data.raw_files)
+                    }, () => {
+                        // console.log(this.state.current_file);
+                        console.log(response.data.raw_files);
+                    });
+                } else {
+                    console.log("File selection failed.");
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     }
 
     // if no file is selected, do not go to next page
@@ -79,8 +81,9 @@ class SelectNewDataset extends Component {
                 console.log(response);
                 if (response.status === 200) {
                     this.setState({
-                        // todo @Kyra i need the file returned here so i can set it as current_file in the response
-                        curr_loi_max: response.data.maxLength
+                        curr_loi_max: response.data.maxLength,
+                        data: JSON.parse(response.data.data)
+                        // todo @Kyra i need the file name returned here so i can set it as current_file in the response
                     }, () => {
                         // console.log(this.state.current_file);
                         console.log(response.data.message);
@@ -173,10 +176,20 @@ class SelectNewDataset extends Component {
                         <div className="right build">
                             <div className="home-content">
                                 {/*display currently selected file to the user*/}
-                                {(this.state.current_file !== null) ? (
-                                    <p className="curr-file">File currently selected: {this.state.current_file}</p>
+                                {/*<ViewerForCSV/>*/}
+                                {/*this is for testing purposes only*/}
+                                {/*{(this.state.current_file !== null) ? (*/}
+                                {/*    <p className="curr-file">File currently selected: {this.state.current_file}</p>*/}
+                                {/*) : (*/}
+                                {/*    <p className="curr-file">There is no file currently selected</p>*/}
+                                {/*)}*/}
+                                {(this.state.data !== null) ? (
+                                    <div>{Object.keys(this.state.data).map((key, index) => {
+                                        console.log(key);
+                                        console.log(this.state.data[key]);
+                                    })}</div>
                                 ) : (
-                                    <p className="curr-file">There is no file currently selected</p>
+                                    <div>No Data</div>
                                 )}
                                 <Link
                                     onClick={this.isFileSelected}
