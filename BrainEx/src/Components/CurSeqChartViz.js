@@ -20,7 +20,7 @@ export default function CurSeqChartViz(props) {
             {/*     <ResponsiveContainer  height="80%">*/}
             <LineChart
                 width={350} height={250}
-                data={plotData} syncId="anyId"
+                data={plotData}
                 margin={{top: 10, right: 10, left: 0, bottom: 10}}>
                 <XAxis tick={false}
                     dataKey="sequence_length"
@@ -29,7 +29,7 @@ export default function CurSeqChartViz(props) {
                 {/*<Tooltip/>*/}
                 <Line type='monotone' dataKey='query_seq' dot={false}
                       stroke={theme.palette.primary.main} fill={theme.palette.primary.main}/>
-                <Brush/>
+                {/*<Brush/>*/}
             </LineChart>
             {/*</ResponsiveContainer>*/}
             {/*</React.Fragment>*/}

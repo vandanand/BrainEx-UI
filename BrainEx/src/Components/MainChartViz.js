@@ -1,139 +1,60 @@
-import React, {Component} from 'react';
-import * as d3 from 'd3';
+import React, {useState, useRef, useEffect} from 'react';
+import {useTheme} from '@material-ui/core/styles';
+import {Label, LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ReferenceArea, Brush} from 'recharts';
 
-const width = 750;
-const height = 460;
-const margin = {top: 25, right: 25, bottom: 25, left: 25};
-
-class MainChartViz extends Component {
+export default class MainChartViz extends React.Component {
     state = {
-        // d3 helpers
-        xScale: d3.scaleLinear().range([margin.left, width - margin.right]),
-        yScale: d3.scaleLinear().range([height - margin.bottom, margin.top]),
-        lineGenerator: d3.line().curve(d3.curveCardinal),
         lineData: this.props.lineData,
         lineColorList: this.props.lineColorList,
         // drawPath:null,
     };
-    xAxis = d3.axisBottom().scale(this.state.xScale)
-        .tickFormat(d => `${d}`);
-    yAxis = d3.axisLeft().scale(this.state.yScale)
-        .tickFormat(d => `${d}`);
-    //
-    // static getDerivedStateFromProps(nextProps, prevState) {
-    //     // console.log(nextProps.lineData, 'testing Props.lineData');
-    //     // console.log(nextProps.lineColorList, 'testing Props.lineColorList');
-    //     const {xScale, yScale, lineGenerator} = prevState;
-    //     const {lineData, lineColorList} = nextProps;
-    //     // console.log(lineColorList, 'lineColorListInMain');
-    //     // console.log(lineData, 'lineDataInMain');
-    //     // if (!nextProps.data) return null; // lineData hasn't been loaded yet so do nothing
-    //     // console.log(JSON.parse(lineData[0]),'whatTheActualFuck, lineData[0]');
-    //     var allFields = Object.keys(lineData[0]);
-    //     // console.log(Object.keys(lineData[0]),'whatTheActualFuck, objKey.lineData[0]');
-    //     var firstCol = allFields[0]; //gives the column name of the first column, which is the string "Timestamp"
-    //     var numCol = allFields.length; //gives the total number of columns in the lineData, including the first non-lineData column
-    //     var sliced = allFields.slice(1, numCol); //gives all the column names of lineData, excluding the first column
-    //     // lineData has changed, so recalculate scale domains
-    //     const timeDomain = d3.extent(lineData, d => d[firstCol]);
-    //     // const valMax = d3.max(lineData[sliced],(d) => d[sliced]);
-    //     // const valMin = d3.min(lineData, d => d[sliced]);
-    //     xScale.domain(timeDomain);
-    //     yScale.domain([-5, 5]);
-    //     // yScale.domain([valMin, valMax]); this should be updated to use the global min/max
-    //     for (let col of lineColorList) {
-    //         var lineCol = col;
-    //     }
-    //     lineGenerator.x(d => xScale(d[firstCol]));
-    //     // calculate line for drawing paths
-    //     let lines = [];
-    //     for (let cname of sliced) {
-    //         lineGenerator
-    //             .defined(d => !isNaN(d[cname]))
-    //             .y(d => yScale(d[cname]));
-    //         lines.push(lineGenerator(lineData));
-    //     }
-    //     lines.forEach(function (d, i) {
-    //         d3.selectAll("#svg")
-    //             .append("path")
-    //             .attr("fill", "none")
-    //             .attr("d", lines[i])
-    //             .attr("stroke", lineColorList[i])
-    //     })
-    //     return {lines, lineCol};
-    // }
-
-    // componentDidUpdate(nextProps, nextState, snapshot) {
-    //     d3.select(this.refs.xAxis).call(this.xAxis);
-    //     d3.select(this.refs.yAxis).call(this.yAxis);
-    // }
 
     componentDidUpdate(nextProps, nextState, snapshot) {
         console.log(this.props.lineData, 'this.props.linedata in main chart viz');
         console.log(nextProps.lineData, 'prevprops.linedata in main chart viz');
+        if (!this.state.lineData) {
+            this.setState({
+                lineColorList: ['#FFFFFF'],
+                lineData: [{
+                    "Timestamp": "0",
+                    "DataVal": 0
+                }],
+            })
+        } // error prevention
         if (this.props.lineData !== nextProps.lineData) {
-            if (!this.state.lineData) return null; // lineData hasn't been loaded yet so do nothing
             this.setState({
                 lineData: this.props.lineData,
                 lineColorList: this.props.lineColorList,
             }, () => {
-                console.log('execution test');
+                console.log(this.state.lineData, 'this.state.lineData in componentDidUpdate');
+                console.log(this.state.lineColorList, 'this.state.lineColorlist in componentDidUpdate');
+
             });
-            console.log('execution right after if check');
-            // const lineData = this.props.lineData;
-            // const lineColorList = this.props.lineColorList;
-            const {xScale, yScale, lineGenerator} = nextState;
-            var allFields = Object.keys(this.state.lineData[0]);
-            console.log(Object.keys(this.state.lineData[0]), 'objKey.lineData[0]');
-            var firstCol = allFields[0]; //gives the column name of the first column, which is the string "Timestamp"
-            var numCol = allFields.length; //gives the total number of columns in the lineData, including the first non-lineData column
-            var sliced = allFields.slice(1, numCol); //gives all the column names of lineData, excluding the first column
-            // lineData has changed, so recalculate scale domains
-            const timeDomain = d3.extent(this.state.lineData, d => d[firstCol]);
-            // const valMax = d3.max(lineData[sliced],(d) => d[sliced]);
-            // const valMin = d3.min(lineData, d => d[sliced]);
-            xScale.domain(timeDomain);
-            yScale.domain([-5, 5]);
-            d3.select(this.refs.xAxis).call(this.xAxis);
-            d3.select(this.refs.yAxis).call(this.yAxis);
-            // yScale.domain([valMin, valMax]); this should be updated to use the global min/max
-            for (let col of this.state.lineColorList) {
-                var lineCol = col;
-            }
-            lineGenerator.x(d => xScale(d[firstCol]));
-            // calculate line for drawing paths
-            let lines = [];
-            for (let cname of sliced) {
-                lineGenerator
-                    .defined(d => !isNaN(d[cname]))
-                    .y(d => yScale(d[cname]));
-                lines.push(lineGenerator(this.state.lineData));
-            }
-            lines.forEach((d, i) => {
-                d3.selectAll("#svg")
-                    .append("path")
-                    .attr("fill", "none")
-                    .attr("d", lines[i])
-                    .attr("stroke", this.state.lineColorList[i])
-            })
-            return {lines, lineCol};
         }
     }
 
     render() {
+        if (!this.state.lineData) return null;
+        var allFields = Object.keys(this.state.lineData[0]);
+        var firstCol = allFields[0]; //gives the column name of the first column, which is the string "Timestamp"
+        var numCol = allFields.length; //gives the total number of columns in the lineData, including the first non-lineData column
+        var sliced = allFields.slice(1, numCol); //gives all the column names of lineData, excluding the first column
         return (
-            <svg id="svg" width={width} height={height}>
-                {/*{this.state.lines.map((d, i) => (<path key={i} d={d.y} fill='none' stroke={d.lineCol} strokeWidth='2'/>))}*/}
-                {/*<path d={this.state.lines} fill='none' stroke={black} strokeWidth='2'/>*/}
-                <g>
-                    <g ref='xAxis' transform={`translate(0, ${height - margin.bottom})`}/>
-                    <g ref='yAxis' transform={`translate(${margin.left}, 0)`}/>
-                </g>
-            </svg>
+            <div>
+                <LineChart width={750} height={460} data={this.state.lineData}
+                           margin={{top: 10, right: 30, left: 0, bottom: 0}}>
+                    {/*<CartesianGrid strokeDasharray="3 3"/>*/}
+                    <XAxis dataKey={firstCol} tick={true}/>
+                    <YAxis/>
+                    <Legend/>
+                    {/*<Tooltip/>*/}
+                    {
+                        (sliced.map((seqLength, i) => (<Line dot={false} type='monotone' dataKey={sliced[i]}
+                                                             stroke={this.state.lineColorList[i]}/>)))
+                    }
+                    <Brush/>
+                </LineChart>
+            </div>
         );
     }
 }
-
-export default MainChartViz;
-
-
