@@ -268,12 +268,11 @@ def complete_query():
         seqs = [i[1] for i in query_result]
         for i in seqs:
             i = i.fetch_data(brainexDB.data_original)
-        ids = [str(i.seq_id) for i in seqs]
+        ids = [i for i in range(1,best_matches+1)]
         start = [i.start for i in seqs]
         end = [i.end for i in seqs]
         data = [i.data.tolist() for i in seqs]
-        rank = [i for i in range(0,best_matches)]
-        pandasQ = pd.DataFrame({"similarity":sims, "ID":ids, "start":start, "end":end, "data":data, "rank":rank})
+        pandasQ = pd.DataFrame({"similarity":sims, "ID":ids, "start":start, "end":end, "data":data})
         dataMax = -9999
         dataMin = 9999
         for elem in pandasQ['data']:
