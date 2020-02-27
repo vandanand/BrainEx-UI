@@ -176,20 +176,17 @@ class SelectNewDataset extends Component {
                         <div className="right build">
                             <div className="home-content">
                                 {/*display currently selected file to the user*/}
-                                {/*<ViewerForCSV/>*/}
-                                {/*this is for testing purposes only*/}
-                                {/*{(this.state.current_file !== null) ? (*/}
-                                {/*    <p className="curr-file">File currently selected: {this.state.current_file}</p>*/}
-                                {/*) : (*/}
-                                {/*    <p className="curr-file">There is no file currently selected</p>*/}
-                                {/*)}*/}
-                                {(this.state.data !== null) ? (
-                                    <div>{Object.keys(this.state.data).map((key, index) => {
-                                        console.log(key);
-                                        console.log(this.state.data[key]);
-                                    })}</div>
+                                {(this.state.current_file === null) ? (
+                                    <p className="curr-file">Please select a file from the left to be preprocessed</p>
                                 ) : (
-                                    <div>No Data</div>
+                                    (this.state.data !== null) ? (
+                                        <div>{Object.keys(this.state.data).map((key, index) => {
+                                            console.log(key);
+                                            console.log(this.state.data[key]);
+                                        })}</div>
+                                    ) : (
+                                        <div>No Data</div>
+                                    )
                                 )}
                                 <Link
                                     onClick={this.isFileSelected}
