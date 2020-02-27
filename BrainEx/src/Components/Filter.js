@@ -224,7 +224,8 @@ export default function Filter(props) {
                                 {/* EXCLUDE SAME ID FIELD */}
                             <FormControlLabel
                                 value="checkBox"
-                                control={<Checkbox color="primary" checked={excludeID} onChange={handleExcludeIDChange}/>}
+                                control={<Checkbox color="primary" checked={excludeID} size='medium'
+                                                   onChange={handleExcludeIDChange}/>}
                                 label="Exclude subsequence matches from current sequence"
                                 labelPlacement="end"
                             />
