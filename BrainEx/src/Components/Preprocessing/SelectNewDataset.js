@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {preprocessed_files, rawdata_files} from "../../data/dummy_data";
+// import {preprocessed_files, rawdata_files} from "../../data/dummy_data";
 import '../../Stylesheets/Home.css';
 import { Button, Link, Typography, ButtonGroup } from '@material-ui/core';
 import { Link as RouterLink } from "react-router-dom";
@@ -7,6 +7,7 @@ import FormData from "form-data";
 import $ from "jquery";
 import axios from 'axios';
 import {build_options, root} from "../../data/default_values";
+import {file_names} from '../../data/file_names'
 
 class SelectNewDataset extends Component {
 
@@ -15,7 +16,7 @@ class SelectNewDataset extends Component {
         this.state = {
             current_file: null, /* for storing the currently selected file in the file-list */
             upload_files: null, /* for storing the file(s) chosen to be uploaded */
-            all_files: [], /* for storing files displayed in file-list */
+            all_files: file_names, /* for storing files displayed in file-list */
             curr_loi_max: null
         };
         /* binding all handlers to the class */
@@ -32,10 +33,10 @@ class SelectNewDataset extends Component {
               console.log(response);
               if (response.status === 200) {
                   this.setState({
-                      all_files: response.data.Files
+                      all_files: this.state.all_files.concat(response.data.raw_files)
                   }, () => {
                       // console.log(this.state.current_file);
-                      console.log(response.data.Files);
+                      console.log(response.data.raw_files);
                   });
               } else {
                   console.log("File selection failed.");
@@ -72,12 +73,13 @@ class SelectNewDataset extends Component {
         // console.log("current file:"); // for debugging purposes
         // console.log(curr_file);
         let file_form = new FormData();
-        file_form.append("set_data", curr_file.name);
+        file_form.append("set_data", curr_file);
         axios.post('http://localhost:5000/setFileRaw', file_form)
             .then((response) => {
                 console.log(response);
                 if (response.status === 200) {
                     this.setState({
+                        // todo @Kyra i need the file returned here so i can set it as current_file in the response
                         curr_loi_max: response.data.maxLength
                     }, () => {
                         // console.log(this.state.current_file);
@@ -102,33 +104,33 @@ class SelectNewDataset extends Component {
             upload_files: new_files
         }, () => {
             console.log("upload files added to state successfully:"); // for debugging purposes
-            // console.log(this.state.upload_files) // cannot print text and object in the same console.log
+            console.log(this.state.upload_files) // cannot print text and object in the same console.log
         }); // print state for debugging
     };
 
     /* when "add" is triggered this function takes the files currently in upload_states and should
-    * send them to the server.
-    * todo the server should then add them to wherever all_files is pulling from */
+    * send them to the server.*/
     onClickHandler = (e) => {
         e.preventDefault(); // prevents page refresh on submit
         /* create form data object and append files to be uploaded onto it*/
         let file_form = new FormData();
         let new_files = this.state.upload_files;
+        var counter = 0;
         new_files.map((file) => {
-            file_form.append("uploaded_data", file); // add upload_files to FormData object
+            file_form.append("uploaded_data" + counter.toString(), file); // add upload_files to FormData object
+            counter++;
         });
         // console.log(...file_form); // for debugging purposes
         let all_files = this.state.all_files;
+        const file_names = new_files.map(file => file.name);
         // Hook up to Kyra's server
         axios.post('http://localhost:5000/getCSV', file_form)
             .then((response) => {
-                // console.log("about to print response");
-                // console.log(response); // for debugging purposes
-                // todo if the Files can be returned here I will do that instead, but will probably keep the if 200 just cause that's good practice
+                console.log(response); // for debugging purposes
                 if (response.status === 200) { // if successful
-                    // add uploaded_data to all_files in state
                     this.setState({
-                        all_files: all_files.concat(new_files),
+                        // todo @Kyra i need the filenames in this response
+                        all_files: all_files.concat(file_names),
                         upload_files: null // reset upload_files to none
                     }, () => { // callback function for debugging
                         console.log(response.data);
@@ -153,7 +155,7 @@ class SelectNewDataset extends Component {
                                 <Typography className="directions" variant="h4">Select a dataset to preview here</Typography>
                                 <ButtonGroup className="file-list" orientation="vertical" color="primary">
                                     { this.state.all_files.map((file, index) => (
-                                        <Button id={index} className="btn-file" variant="contained" key={index} onClick={this.fileHandler}>{file.name}</Button>
+                                        <Button id={index} className="btn-file" variant="contained" key={index} onClick={this.fileHandler}>{file}</Button>
                                     ))}
                                 </ButtonGroup>
                                 {/*adding a new file (upload_files)*/}
@@ -172,7 +174,7 @@ class SelectNewDataset extends Component {
                             <div className="home-content">
                                 {/*display currently selected file to the user*/}
                                 {(this.state.current_file !== null) ? (
-                                    <p className="curr-file">File currently selected: {this.state.current_file.name}</p>
+                                    <p className="curr-file">File currently selected: {this.state.current_file}</p>
                                 ) : (
                                     <p className="curr-file">There is no file currently selected</p>
                                 )}

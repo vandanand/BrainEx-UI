@@ -1,59 +1,29 @@
-import React, {useState} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {useTheme} from '@material-ui/core/styles';
 import {LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer} from 'recharts';
 import Title from './Title';
 
-export default function TabledSeqThnl() {
-    const [seqData, setSeqData] = useState({
-        data: [
-            {
-                "seqLength": "0",
-                "chanVal": 0.362,
+export default function TabledSeqThnl(props) {
 
-            },
-            {
-                "seqLength": "1",
-                "chanVal": -0.2,
+    function arrayToJSON(array) {
+        let JSONarray = [];
+        for (let i = 0; i<array.length;i++) {
+            JSONarray.push({"seqLength": i.toString(), "chanVal": array[i]})
+        }
+        console.log("JSONarray");
+        console.log(JSONarray);
+        return JSONarray;
+    }
 
-            },
-            {
-                "seqLength": "2",
-                "chanVal": 1.9,
-
-            },
-            {
-                "seqLength": "3",
-                "chanVal": 3.06,
-            },
-            {
-                "seqLength": "4",
-                "chanVal": -0.13,
-            },
-            {
-                "seqLength": "5",
-                "chanVal": -.029,
-            },
-            {
-                "seqLength": "6",
-                "chanVal": -.03,
-            },
-            {
-                "seqLength": "7",
-                "chanVal": 0.93,
-            },
-            {
-                "seqLength": "8",
-                "chanVal": 1.87,
-            }
-        ]
-    });
+    const didMountRef = useRef(false);
+    const [seqData, setSeqData] = useState(arrayToJSON(props.data));
     const theme = useTheme();
 
     return (
         <React.Fragment>
             <ResponsiveContainer>
                 <LineChart
-                    data={seqData.data}
+                    data={seqData}
                     margin={{
                         top: 0,
                         right: 0,

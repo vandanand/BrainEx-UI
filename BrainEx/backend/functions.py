@@ -11,10 +11,11 @@ import pandas as pd
 import numpy as np
 
 import findspark
+import shutil
+import zipfile
 
-UPLOAD_FOLDER = "./uploads"
-UPLOAD_FOLDER_RAW = "./uploads/raw"
-UPLOAD_FOLDER_PRO = "./uploads/preprocessed"
+UPLOAD_FOLDER_RAW = os.path.join(os.path.dirname(os.path.abspath(__file__)), "uploads\\raw")
+UPLOAD_FOLDER_PRO = os.path.join(os.path.dirname(os.path.abspath(__file__)), "uploads\\preprocessed")
 
 application = Flask(__name__)
 CORS(application)
@@ -38,7 +39,17 @@ def getRawNames():
             files = os.listdir(application.config['UPLOAD_FOLDER_RAW'])
             json = {
                     "Message" : "Returning file names",
-                    "Files": files
+                    "raw_files": files
+            }
+            return jsonify(json)
+
+@application.route('/proNames', methods=['GET', 'POST'])
+def getProNames():
+        if request.method == 'POST':
+            files = os.listdir(application.config['UPLOAD_FOLDER_PRO'])
+            json = {
+                    "Message" : "Returning file names",
+                    "pro_files": files
             }
             return jsonify(json)
 
@@ -47,38 +58,34 @@ def getStoreCSV():
     global numFeatures
 
     if request.method == 'POST':
-        if 'uploaded_data' not in request.files:
-            return ("File not found.", 400)
-        csv = request.files['uploaded_data']
-        if csv.filename == '':
-            return("File not found", 400)
-        if csv and is_csv(csv.filename):
-            toSave = os.path.join(application.config['UPLOAD_FOLDER_RAW'], csv.filename)
-            csv.save(toSave) # Secure filename?? See tutorial
-            csvPD = pd.read_csv(toSave)
-            out = csvPD.to_json()
-            returnDict = {
-                "message": "File has been uploaded.",
-                "fileContents": out
-            }
-            return jsonify(returnDict)
-        else:
-            return("Invalid file.  Please upload a CSV", 400)
+        for i in range(len(request.files)):
+            if 'uploaded_data' + str(i) not in request.files:
+                return ("File not found.", 400)
+            csv = request.files['uploaded_data' + str(i)]
+            if csv.filename == '':
+                return("File not found", 400)
+            if csv and is_csv(csv.filename):
+                toSave = os.path.join(application.config['UPLOAD_FOLDER_RAW'], csv.filename)
+                csv.save(toSave) # Secure filename?? See tutorial
+            else:
+                return("Invalid file.  Please upload a CSV", 400)
+        return "Files uploaded."
 
 @application.route('/getDB', methods=['GET', 'POST'])
 def getStoreDB():
     if request.method == 'POST':
-        if 'uploaded_data' not in request.files:
-            return ("File not found.", 400)
-        db = request.files['uploaded_data']
-        if db.filename == '':
-            return("File not found", 400)
-        if db:
-            toSave = os.path.join(application.config['UPLOAD_FOLDER_PRO'], pro.filename)
-            db.save(toSave) # Secure filename?? See tutorial
-            return "File has been uploaded."
-        else:
-            return("Invalid file.", 400)
+        for i in range(len(request.files)):
+            if 'uploaded_data' + str(i) not in request.files:
+                return ("File not found.", 400)
+            db = request.files['uploaded_data' + str(i)]
+            if db.filename == '':
+                return("File not found", 400)
+            if db:
+                toSave = os.path.join(application.config['UPLOAD_FOLDER_PRO'], db.filename)
+                db.save(toSave) # Secure filename?? See tutorial
+            else:
+                return("Invalid file.", 400)
+        return "File has been uploaded."
 
 @application.route('/setFileRaw', methods=['GET', 'POST'])
 def setFileRaw():
@@ -105,35 +112,41 @@ def setFilePro():
 
     if request.method == 'POST':
         uploadPath = os.path.join(application.config['UPLOAD_FOLDER_PRO'], request.form['set_data'])
-        num_worker = request.json['num_workers']
-        use_spark_int = request.form['spark_val']
-        if use_spark_int == "1":
-            use_spark = True
-            driver_mem = request.form['dm_val']
-            max_result_mem = request.form['mrm_val']
-        else:
-            use_spark = False
+        with zipfile.ZipFile(uploadPath, 'r') as zip_ref:
+            zip_ref.extractall(uploadPath + "toDel")
+        num_worker = request.form['num_workers']
+        # use_spark_int = request.form['spark_val']
+        # if use_spark_int == "1":
+        #     use_spark = True
+        # driver_mem = request.form['dm_val']
+        # max_result_mem = request.form['mrm_val']
+        # else:
+        #     use_spark = False
         try:
             num_worker = int(num_worker)
-            if use_spark:
-                driver_mem = int(driver_mem)
-                max_result_mem = int(max_result_mem)
-                brainexDB = from_db(uploadPath, use_spark=use_spark, num_worker=num_worker, driver_mem=driver_mem, max_result_mem=max_result_mem)
-            else:
-                brainexDB = from_db(uploadPath, use_spark=use_spark, num_worker=num_worker)
+            # if use_spark:
+            # driver_mem = int(driver_mem)
+            # max_result_mem = int(max_result_mem)
+            brainexDB = from_db(uploadPath + "toDel\\most_recent_Data", num_worker=num_worker) # driver_mem=driver_mem, max_result_mem=max_result_mem
+            # else:
+            #     brainexDB = from_db(uploadPath + "toDel\\most_recent_Data", num_worker=num_worker)
+            shutil.rmtree(uploadPath + "toDel")
             return "File is set!"
         except Exception as e:
             return (str(e), 400)
 
 @application.route('/saveFilePro', methods=['GET', 'POST'])
 def saveFilePro():
-    global brainexDB
+     global brainexDB
 
-    if request.method == 'POST':
-        savePath = request.json['path']
+     if request.method == 'POST':
+        os.chdir(os.path.dirname(os.path.abspath(__file__)))
+        savePath = "../../Saved_Preprocessed/most_recent_data"
         try:
             brainexDB.save(savePath)
-            return "Saved to your desired location."
+            shutil.make_archive(savePath, "zip", "../../Saved_Preprocessed")
+            shutil.rmtree(savePath)
+            return "Saved to the Saved_Preprocessed folder."
         except Exception as e:
             return (str(e), 400)
 
