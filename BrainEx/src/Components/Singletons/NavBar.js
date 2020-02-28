@@ -11,6 +11,7 @@ import Home from "../Preprocessing/Home";
 import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
 import {cluster_exp, data_exp, query_page, root} from "../../data/default_values";
+import axios from "axios";
 
 const StyledMenu = withStyles({
   paper: {
@@ -47,6 +48,13 @@ class NavBar extends Component {
     }
 
     goHome = (e) => {
+      axios.post('http://localhost:5000/restart')
+          .then((response) => {
+              console.log(response);
+          })
+          .catch(function (error) {
+              console.log(error);
+          });
         this.props.history.push(root);
     };
 
