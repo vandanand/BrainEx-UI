@@ -127,8 +127,8 @@ export default class DataTable extends Component {
     }
 
     // creates a row of data
-    createData(id, color, startTime, endTime, similarity, sequence) {
-        return {id, color, startTime, endTime, similarity, sequence};
+    createData(rank, color, id, startTime, endTime, similarity, sequence) {
+        return {rank, color, id, startTime, endTime, similarity, sequence};
     }
     // function to create the data table content using an external source (in this case, a constant from another file)
     createTable(data) {
@@ -137,7 +137,7 @@ export default class DataTable extends Component {
         let table = [];
         for (let i = 0; i < numResults; i++) {
             let result = data[i];
-            let length = table.push(this.createData(result.ID, colors[i], result.start, result.end, result.similarity, result.data));
+            let length = table.push(this.createData(result.ID, colors[i], result.sequence_id, result.start, result.end, result.similarity, result.data));
         }
         this.props.sendData(table);
         // this.props.sendData(colors);
@@ -158,6 +158,7 @@ export default class DataTable extends Component {
                                 <Checkbox checked={this.state.allChecked} onChange={this.selectAll}/>
                             </TableCell>
                             {/*<TableCell>Color</TableCell>*/}
+                            <TableCell>Rank</TableCell>
                             <TableCell>Sequence ID</TableCell>
                             <TableCell>Start Time</TableCell>
                             <TableCell>End Time</TableCell>
@@ -172,6 +173,7 @@ export default class DataTable extends Component {
                                     <Checkbox id={row.id} key={i} checked={this.state.checkboxValues[i]}
                                               onChange={(e) => this.handleCheckboxChange(i, e)}/>
                                 </TableCell>
+                                <TableCell>{row.rank}</TableCell>
                                 <TableCell>{row.id}</TableCell>
                                 <TableCell>{row.startTime}</TableCell>
                                 <TableCell>{row.endTime}</TableCell>
