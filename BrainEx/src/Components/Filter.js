@@ -7,6 +7,8 @@ import 'rc-slider/assets/index.css';
 import { makeStyles, Button, ButtonGroup, FormControl,
     FormGroup, FormControlLabel, Checkbox, Typography,
     Slider, Input, Grid, InputAdornment, TextField } from "@material-ui/core";
+import CheckBoxOutlineBlankIcon from "material-ui-icons/CheckBoxOutlineBlank";
+import CheckBoxIcon from "material-ui-icons/CheckBox";
 import axios from 'axios';
 import {default_matches, default_overlap, excludeSameID} from "../data/default_values";
 
@@ -127,14 +129,14 @@ export default function Filter(props) {
         form.append("excludeS", excludeS);
         console.log(form);
         axios.post('http://localhost:5000/query', form)
-        .then(function (response) {
-          console.log(response.data['message']);
-          console.log(response.data);
-          setQueryResults(JSON.parse(response.data['resultJSON']));
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+            .then(function (response) {
+                console.log(response.data['message']);
+                console.log(response.data);
+                setQueryResults(JSON.parse(response.data['resultJSON']));
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
     };
 
     return (
@@ -204,7 +206,7 @@ export default function Filter(props) {
                                     min: 1,
                                     type: 'number'
                                 }}/>
-                                {/* OVERLAP FIELD */}
+                            {/* OVERLAP FIELD */}
                             <TextField
                                 required
                                 value={overlapVal}
@@ -223,11 +225,15 @@ export default function Filter(props) {
                                     max: 100,
                                     type: 'number'
                                 }}/>
-                                {/* EXCLUDE SAME ID FIELD */}
+                            {/* EXCLUDE SAME ID FIELD */}
                             <FormControlLabel
                                 value="checkBox"
-                                control={<Checkbox color="primary" checked={excludeID} size='medium'
-                                                   onChange={handleExcludeIDChange}/>}
+                                control={<Checkbox color="primary"
+                                                   checked={excludeID}
+                                                   onChange={handleExcludeIDChange}
+                                                   style={{ width: 36, height: 36 }}
+                                                   icon={<CheckBoxOutlineBlankIcon style={{ fontSize: 20 }} />}
+                                                   checkedIcon={<CheckBoxIcon style={{ fontSize: 20 }} />}/>}
                                 label="Exclude subsequence matches from current sequence"
                                 labelPlacement="end"
                             />

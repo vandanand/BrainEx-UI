@@ -7,17 +7,13 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Title from './Title';
 import Checkbox from '@material-ui/core/Checkbox';
+import CheckBoxOutlineBlankIcon from "material-ui-icons/CheckBoxOutlineBlank";
+import CheckBoxIcon from "material-ui-icons/CheckBox";
 import Rainbow from 'rainbowvis.js/rainbowvis.js';
 import Button from '@material-ui/core/Button';
 import {top_color, bottom_color} from '../data/default_values';
 import TabledSeqThnl from "./TabledSeqThnl"; // thumbnail component
 import SaveIcon from '@material-ui/icons/Save';
-
-const useStyles = makeStyles(theme => ({
-    button: {
-        margin: theme.spacing(1),
-    },
-}));
 
 // generates x number of unique hex values between two given colors (generates a proportional gradient)
 function generateColors(numColors, top_color, bottom_color) {
@@ -29,16 +25,6 @@ function generateColors(numColors, top_color, bottom_color) {
         colors.push(color_range.colorAt(i));
     }
     return colors;
-
-    //// use below for non-query data tables
-    /*let j = 360 / (numColors - 1); // distribute the colors evenly on the hue range
-    let r = []; // hold the generated colors
-    for (let i=0; i<numColors; i++)
-    {
-        // generate distinguishable hex colors using hsv and converting to hex
-        r.push(convert.hsv.hex(j * i, 100, 100)); // you can also alternate the saturation and value for even more contrast between the colors
-    }
-    return r;*/
 }
 
 export default class DataTable extends Component {
@@ -155,7 +141,11 @@ export default class DataTable extends Component {
                         <TableRow>
                             <TableCell>
                                 Show
-                                <Checkbox checked={this.state.allChecked} onChange={this.selectAll}/>
+                                <Checkbox checked={this.state.allChecked}
+                                          style={{ width: 36, height: 36 }}
+                                          icon={<CheckBoxOutlineBlankIcon style={{ fontSize: 20 }} />}
+                                          checkedIcon={<CheckBoxIcon style={{ fontSize: 20 }} />}
+                                          onChange={this.selectAll}/>
                             </TableCell>
                             {/*<TableCell>Color</TableCell>*/}
                             <TableCell>Rank</TableCell>
@@ -170,8 +160,13 @@ export default class DataTable extends Component {
                         {(this.state.queryResults) ? (this.state.queryResults.map((row, i) => (
                             <TableRow key={row.id}>
                                 <TableCell style={{backgroundColor: "#" + row.color}}>
-                                    <Checkbox id={row.id} key={i} checked={this.state.checkboxValues[i]}
-                                              onChange={(e) => this.handleCheckboxChange(i, e)}/>
+                                    <Checkbox id={row.id}
+                                              key={i}
+                                              checked={this.state.checkboxValues[i]}
+                                              onChange={(e) => this.handleCheckboxChange(i, e)}
+                                              style={{ width: 36, height: 36 }}
+                                              icon={<CheckBoxOutlineBlankIcon style={{ fontSize: 20 }} />}
+                                              checkedIcon={<CheckBoxIcon style={{ fontSize: 20 }} />}/>
                                 </TableCell>
                                 <TableCell>{row.rank}</TableCell>
                                 <TableCell>{row.id}</TableCell>
