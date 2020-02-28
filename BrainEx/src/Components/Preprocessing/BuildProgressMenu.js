@@ -147,11 +147,11 @@ class BuildProgressMenu extends Component {
                         <ButtonGroup className="prog-item">
                             <Link className="btn btn-secondary" variant="button" underline="none" color="default"
                                   onClick={this.openModal("home")}>
-                                Cancel and return to home
+                                Go back to home
                             </Link>
                             <Link className="btn btn-secondary" variant="button" underline="none" color="default"
                                   onClick={this.openModal("cancel")}>
-                                Cancel
+                                Go back to preprocessing options
                             </Link>
                         </ButtonGroup>
                     </div>
