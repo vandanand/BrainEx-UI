@@ -20,7 +20,6 @@ class SelectNewDataset extends Component {
             all_files: [], /* for storing files displayed in file-list */
             curr_loi_max: null,
             data: null
-            // viewPort:null,
         };
         /* binding all handlers to the class */
         this.onChangeHandler = this.onChangeHandler.bind(this);

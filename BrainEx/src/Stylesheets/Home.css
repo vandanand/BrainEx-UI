@@ -2,12 +2,16 @@
     height: calc(100% - 64px); /*64px is height of header*/
 }
 
-.MuiTypography-root {
-    font-size: 110%;
+.MuiTypography-root .MuiTypography-h2 .MuiTypography-body1 {
+    font-size: 120% !important;
 }
 
-.MuiTypography-h2 {
-    font-size: 200% !important;
+/*.MuiTypography-h2 .MuiTypography-body1{*/
+/*    font-size: 500% !important;*/
+/*}*/
+
+.MuiFormControlLabel-label.MuiFormLabel-root .MuiInputLabel-root {
+    font-size: 110% !important;
 }
 
 .row {

@@ -129,6 +129,7 @@ export default function Filter(props) {
         axios.post('http://localhost:5000/query', form)
         .then(function (response) {
           console.log(response.data['message']);
+          console.log(response.data);
           setQueryResults(JSON.parse(response.data['resultJSON']));
         })
         .catch(function (error) {
@@ -194,7 +195,7 @@ export default function Filter(props) {
                                 onChange={handleMatchChange}
                                 id="outlined-number"
                                 label="Number of best sequence matches"
-                                placeholder="5"
+                                placeholder={default_matches}
                                 // multiline
                                 size="small"
                                 variant="filled"
@@ -212,7 +213,7 @@ export default function Filter(props) {
                                 label="Overlap of sequence allowed"
                                 id="overlap-percentage"
                                 size="small"
-                                placeholder="40"
+                                placeholder={default_overlap}
                                 className={clsx(classes.margin, classes.textField)}
                                 InputProps={{
                                     startAdornment: <InputAdornment position="start">%</InputAdornment>,
@@ -225,7 +226,8 @@ export default function Filter(props) {
                                 {/* EXCLUDE SAME ID FIELD */}
                             <FormControlLabel
                                 value="checkBox"
-                                control={<Checkbox color="primary" checked={excludeID} onChange={handleExcludeIDChange}/>}
+                                control={<Checkbox color="primary" checked={excludeID} size='medium'
+                                                   onChange={handleExcludeIDChange}/>}
                                 label="Exclude subsequence matches from current sequence"
                                 labelPlacement="end"
                             />

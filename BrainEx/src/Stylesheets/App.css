@@ -9,12 +9,12 @@
 
 /*override @material-ui's css settings*/
 .MuiButton-root, .MuiButtonGroup-root, .MuiInputLabel-root, .MuiSelect-select {
-  /*text-transform: ;*/
-  /*font-size: 800%  !important;*/
+    /*text-transform: ;*/
+    /*font-size: 800%  !important;*/
 }
 
 .MuiInputBase-root {
-  font-size: 100% !important;
+    font-size: 100% !important;
 }
 
 .header {
@@ -39,13 +39,13 @@
 }
 
 .logo img {
-  width: 40px;
-  height: auto;
+    width: 40px;
+    height: auto;
 }
 
 .title {
-  font-size: 300% !important;
-  padding: 0;
+    font-size: 300% !important;
+    padding: 0;
 }
 
 .version {
