@@ -82,9 +82,23 @@ class BuildProgressMenu extends Component {
         console.log("preprocessing \"cancelled\".");
         if (mode === "cancel") {
             // return to previous screen
+            axios.post('http://localhost:5000/restart')
+                .then((response) => {
+                    console.log(response);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
             this.props.history.push(build_options);
         } else if (mode === "home") {
             // return to home
+            axios.post('http://localhost:5000/restart')
+                .then((response) => {
+                    console.log(response);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
             this.props.history.push(root);
         } else {
             console.log("invalid modal mode.")
@@ -93,6 +107,16 @@ class BuildProgressMenu extends Component {
 
     saveDataset = (e) => {
       axios.post('http://localhost:5000/saveFilePro')
+          .then((response) => {
+              console.log(response);
+          })
+          .catch(function (error) {
+              console.log(error);
+          });
+    };
+
+    goBack = (e) => {
+      axios.post('http://localhost:5000/restart')
           .then((response) => {
               console.log(response);
           })
@@ -153,7 +177,8 @@ class BuildProgressMenu extends Component {
                                 color="default"
                                 underline="none"
                                 component={RouterLink}
-                                to={root}>
+                                to={root}
+                                onClick={this.goBack}>
                                 Restart with another dataset
                             </Link>
                             <Link
