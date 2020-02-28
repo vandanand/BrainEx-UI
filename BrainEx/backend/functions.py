@@ -307,3 +307,10 @@ def complete_query():
         return jsonify(returnDict)
         # except Exception as e:
         #     return (str(e), 400)
+
+@application.route('/restart', methods=['GET', 'POST'])
+def stop():
+    global brainexDB
+
+    brainexDB.stop()
+    return "Database has been destroyed.  You may restart."
