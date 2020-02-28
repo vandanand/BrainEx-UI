@@ -158,6 +158,7 @@ export default class DataTable extends Component {
                                 <Checkbox checked={this.state.allChecked} onChange={this.selectAll}/>
                             </TableCell>
                             {/*<TableCell>Color</TableCell>*/}
+                            <TableCell>Rank</TableCell>
                             <TableCell>Sequence ID</TableCell>
                             <TableCell>Start Time</TableCell>
                             <TableCell>End Time</TableCell>
@@ -172,6 +173,7 @@ export default class DataTable extends Component {
                                     <Checkbox id={row.id} key={i} checked={this.state.checkboxValues[i]}
                                               onChange={(e) => this.handleCheckboxChange(i, e)}/>
                                 </TableCell>
+                                <TableCell>{row.rank}</TableCell>
                                 <TableCell>{row.id}</TableCell>
                                 <TableCell>{row.startTime}</TableCell>
                                 <TableCell>{row.endTime}</TableCell>
