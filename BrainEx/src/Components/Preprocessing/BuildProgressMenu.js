@@ -10,6 +10,8 @@ import {query_page, data_exp, build_options, root} from "../../data/default_valu
 import Button from "@material-ui/core/Button";
 import {homepage} from "d3/dist/package";
 import axios from "axios";
+import { store } from 'react-notifications-component';
+import 'react-notifications-component/dist/theme.css';
 
 class BuildProgressMenu extends Component {
     constructor(props) {
@@ -56,7 +58,7 @@ class BuildProgressMenu extends Component {
         } else {
             console.log("Invalid modal mode.");
         }
-        return (e) => {
+        return () => {
             this.setState({
                 open: true,
                 message: message,
@@ -106,13 +108,27 @@ class BuildProgressMenu extends Component {
     };
 
     saveDataset = (e) => {
-      axios.post('http://localhost:5000/saveFilePro')
-          .then((response) => {
-              console.log(response);
-          })
-          .catch(function (error) {
-              console.log(error);
-          });
+        axios.post('http://localhost:5000/saveFilePro')
+            .then((response) => {
+                console.log(response);
+                store.addNotification({
+                    title: "Download Successful",
+                    message: response.data,
+                    type: "success",
+                    insert: "top",
+                    container: "bottom-center",
+                    animationIn: ["animated", "fadeIn"],
+                    animationOut: ["animated", "fadeOut"],
+                    dismiss: {
+                        duration: 10000,
+                        pauseOnHover: true,
+                        onScreen: true
+                    }
+                })
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
     };
 
     goBack = (e) => {
@@ -159,7 +175,7 @@ class BuildProgressMenu extends Component {
                             </Link>
                             <Link className="btn btn-secondary" variant="button" underline="none" color="default"
                                   onClick={this.openModal("cancel")}>
-                                Cancel
+                                Cancel preprocessing
                             </Link>
                         </ButtonGroup>
                     </div>
@@ -169,12 +185,12 @@ class BuildProgressMenu extends Component {
                         <LinearProgress variant="determinate" value={100} className="progress"/>
                         <Typography className="prog-item" variant="h4">Preprocessing stage is complete!</Typography>
                         {/*todo by Sequences does she mean lines of data?*/}
-                        <Typography className="prog-item" variant="h4">Sequences Processed: N/A</Typography>
+                        {/*<Typography className="prog-item" variant="h4">Sequences Processed: N/A</Typography>*/}
                         <ButtonGroup className="prog-item">
                             <Link
                                 className="btn btn-secondary"
                                 variant="button"
-                                color="default"
+                                // color="defaultcolor="secondary"
                                 underline="none"
                                 component={RouterLink}
                                 to={root}

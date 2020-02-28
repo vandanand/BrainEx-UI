@@ -2,9 +2,23 @@
     height: calc(100% - 64px); /*64px is height of header*/
 }
 
+.MuiTypography-root .MuiTypography-h2 .MuiTypography-body1 {
+    font-size: 120% !important;
+}
+
+/*.MuiTypography-h2 .MuiTypography-body1{*/
+/*    font-size: 500% !important;*/
+/*}*/
+
+.MuiFormControlLabel-label.MuiFormLabel-root .MuiInputLabel-root {
+    font-size: 110% !important;
+}
+
 .row {
     height: 100%;
     width: 100%; /*prevents wonky scroll bars*/
+    margin: 0;
+    /*display: inline-block;*/
 }
 
 .col.col-3 {
@@ -20,8 +34,13 @@
     height: 100%;
 }
 
+.right {
+    width: 100%;
+}
+
 .right.build, .right.build .home-content {
     height: 100%;
+    width: calc(100%);
 }
 
 .MuiLink-root.build-btn {
@@ -112,4 +131,32 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+}
+
+.prompt-for-upload {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: red;
+}
+
+.home-content table {
+	display: table;
+}
+.home-content table tr {
+	display: table-cell;
+}
+.home-content table tr td {
+	display: block;
+}
+
+.right .home-content {
+
+}
+.csv-viewer {
+
+}
+
+.csv-content {
+
 }

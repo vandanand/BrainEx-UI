@@ -102,6 +102,12 @@ export default function Filter(props) {
         setOverlapVal(e.target.value);
     };
 
+    const handleClearInput = () => {
+        setNumMatches('');
+        setOverlapVal('');
+        setExcludeID(null);
+    };
+
     const handleExcludeIDChange = (e) => {
         console.log(e.target.checked);
         setExcludeID(e.target.checked);
@@ -134,14 +140,12 @@ export default function Filter(props) {
     return (
         <React.Fragment>
             <React.Fragment>
-                <Title>Filter</Title>
+                <Title>Query Options</Title>
                 <Divider/>
                 <form className={classes.root} noValidate autoComplete="off">
                     <FormControl component="fieldset">
                         <FormGroup>
-                            {/*<Typography id="range-slider" gutterBottom>
-                                Lengths of interest for matches
-                            </Typography>
+                            {/*
                             <Grid container spacing={2} alignItems="center">
                                 <Grid item>
                                     <Input
@@ -191,7 +195,7 @@ export default function Filter(props) {
                                 onChange={handleMatchChange}
                                 id="outlined-number"
                                 label="Number of best sequence matches"
-                                placeholder="5"
+                                placeholder={default_matches}
                                 // multiline
                                 size="small"
                                 variant="filled"
@@ -209,9 +213,10 @@ export default function Filter(props) {
                                 label="Overlap of sequence allowed"
                                 id="overlap-percentage"
                                 size="small"
+                                placeholder={default_overlap}
                                 className={clsx(classes.margin, classes.textField)}
                                 InputProps={{
-                                    endAdornment: <InputAdornment position="start">%</InputAdornment>,
+                                    startAdornment: <InputAdornment position="start">%</InputAdornment>,
                                 }}
                                 inputProps={{
                                     min: 0,
@@ -221,7 +226,8 @@ export default function Filter(props) {
                                 {/* EXCLUDE SAME ID FIELD */}
                             <FormControlLabel
                                 value="checkBox"
-                                control={<Checkbox color="primary" checked={excludeID} onChange={handleExcludeIDChange}/>}
+                                control={<Checkbox color="primary" checked={excludeID} size='medium'
+                                                   onChange={handleExcludeIDChange}/>}
                                 label="Exclude subsequence matches from current sequence"
                                 labelPlacement="end"
                             />
@@ -229,10 +235,11 @@ export default function Filter(props) {
                     </FormControl>
                     <div className={classes.root}>
                         <ButtonGroup>
-                            <Button type="submit" size="medium" variant="contained" color="primary" onClick={handleQuery}>
+                            <Button type="submit" size="medium" variant="contained" color="primary"
+                                    onClick={handleQuery}>
                                 Apply
                             </Button>
-                            <Button size="medium" variant="contained" color="default">
+                            <Button size="medium" variant="contained" color="default" onClick={handleClearInput}>
                                 Clear
                             </Button>
                         </ButtonGroup>
