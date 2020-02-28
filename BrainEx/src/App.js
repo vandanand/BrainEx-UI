@@ -1,7 +1,6 @@
 import './Stylesheets/App.css';
 import React, {Component} from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-// import 'bootstrap/dist/css/bootstrap.min.css';
 import BuildOptions from "./Components/Preprocessing/BuildOptions";
 import BuildProgressMenu from "./Components/Preprocessing/BuildProgressMenu";
 import QueryFinder from "./Components/QueryFinder";
@@ -22,6 +21,7 @@ import {
     query_page,
     root
 } from "./data/default_values";
+import ReactNotification from "react-notifications-component";
 
 class App extends Component {
 
@@ -43,6 +43,7 @@ class App extends Component {
     render() {
         return (
             <Router>
+                <ReactNotification />
                 <div className="App">
                     <div style={{height: '100%'}}> {/*this styling lets the content stretch to bottom of page*/}
                         <BrainExHeader/>

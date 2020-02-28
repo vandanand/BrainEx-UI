@@ -136,13 +136,13 @@
     color: red;
 }
 
-table {
+.home-content table {
 	display: table;
 }
-table tr {
+.home-content table tr {
 	display: table-cell;
 }
-table tr td {
+.home-content table tr td {
 	display: block;
 }
 
