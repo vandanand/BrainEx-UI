@@ -67,12 +67,12 @@ table {
     margin: auto 0;
 }
 
-.advanced_spark, .hide-this {
+.advanced_spark, .spark-options {
     display: none;
 }
 
-.left-element, .right-element, .middle-element {
-    padding: 0 2px 0 2px;
+.left-element, .right-element {
+    padding: 0 5px 0 5px;
     width: 33%;
     float: left;
 }

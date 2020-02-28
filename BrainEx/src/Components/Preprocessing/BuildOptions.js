@@ -20,6 +20,8 @@ import Input from "@material-ui/core/Input";
 import { default_dv, default_st, default_spark, default_sv, default_nw, default_dm, default_mrm, build_progress, select_new_dataset } from "../../data/default_values";
 import BuildProgressMenu from "./BuildProgressMenu.js";
 import FormData from "form-data";
+import CheckBoxOutlineBlankIcon from "material-ui-icons/CheckBoxOutlineBlank";
+import CheckBoxIcon from "material-ui-icons/CheckBox";
 
 class BuildOptions extends Component {
 
@@ -63,13 +65,6 @@ class BuildOptions extends Component {
 
     toggleOptions = (e) => {
         $(".advanced_spark").toggle();
-        if ($(".advanced_spark").is(":visible")) {
-            $(".display-this").hide();
-            $(".hide-this").show();
-        } else {
-            $(".display-this").show();
-            $(".hide-this").hide();
-        }
     };
 
     // dynamically update distance type value in state
@@ -139,6 +134,15 @@ class BuildOptions extends Component {
                     console.log(error);
                     this.openModal(error);
                 });
+        } else {
+            this.setState({
+                spark_val: spark_val
+            })
+        }
+        if ($("#use_spark").is(":checked")) {
+            $(".spark-options").show();
+        } else {
+            $(".spark-options").hide();
         }
     };
     // dynamically update number of workers/cores value in state
@@ -195,8 +199,8 @@ class BuildOptions extends Component {
     };
     closeModal = () => {
         this.setState({
-           open: false,
-           message: null
+            open: false,
+            message: null
         });
     };
 
@@ -329,23 +333,47 @@ class BuildOptions extends Component {
                             <td className="form_label">
                                 <InputLabel htmlFor="use_spark">Preprocess Using Spark:</InputLabel>
                             </td>
-                            <td className="form_input is_check">
+                            <td className="form_input is_check" colSpan={3}>
                                 <Checkbox
                                     id="use_spark"
                                     color="primary"
                                     checked={this.state.spark_val}
                                     onChange={this.update_spark}
+                                    style={{ width: 36, height: 36 }}
+                                    icon={<CheckBoxOutlineBlankIcon style={{ fontSize: 20 }} />}
+                                    checkedIcon={<CheckBoxIcon style={{ fontSize: 20 }} />}
                                 />
-                                <Button id="spark_toggle" color="primary" onClick={this.toggleOptions}>
-                                    <p className="display-this">Display advanced Spark options</p>
-                                    <p className="hide-this">Hide advanced Spark options</p>
-                                </Button>
+                                {/*<Button variant="outlined" id="spark_toggle" color="primary" onClick={this.toggleOptions}>
+                                    <p>Advanced Spark options</p>
+                                </Button>*/}
+                                <div className="spark-options left-element">
+                                    <InputLabel>Driver Memory</InputLabel>
+                                    <TextField
+                                        id="driver_mem"
+                                        type="number"
+                                        InputProps={{ inputProps: { min: 0 } }}
+                                        value={this.state.dm_val}
+                                        onChange={this.update_dm}
+                                    />
+                                    <span className="font-weight-bold indigo-text">GB</span>
+                                </div>
+                                <div className="spark-options right-element">
+                                    <InputLabel>Max Result Memory</InputLabel>
+                                    <TextField
+                                        id="max_result_mem"
+                                        type="number"
+                                        InputProps={{ inputProps: { min: 0 } }}
+                                        value={this.state.mrm_val}
+                                        onChange={this.update_mrm}
+                                    />
+                                    <span className="font-weight-bold indigo-text">GB</span>
+                                </div>
                             </td>
                         </tr>
                         {/*advanced spark form options*/}
-                        <tr className="advanced_spark">
-                            <td className="spark-options" colSpan={2}>
-                                <div className="left-element">
+                        {/*<tr className="advanced_spark">*/}
+                        {/*    <td className="spark-options" colSpan={2}>*/}
+                        {/*<div className="left-element">
                                     <InputLabel>Driver Memory</InputLabel>
                                     <TextField
                                         id="driver_mem"
@@ -366,9 +394,9 @@ class BuildOptions extends Component {
                                         onChange={this.update_mrm}
                                     />
                                     <span className="font-weight-bold indigo-text">GB</span>
-                                </div>
-                            </td>
-                        </tr>
+                                </div>*/}
+                        {/*</td>*/}
+                        {/*</tr>*/}
                         <tr>
                             <td colSpan={2}>
                                 <Link
