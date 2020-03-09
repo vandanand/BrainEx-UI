@@ -24,7 +24,7 @@ This project aims to develop a user-interface for BrainEx using HCI practices to
 
 # Project Directory
 * BrainEx-V1 
-  * The “test_db” folder is the database for BrainEx
+  * The “test_db” folder is built from the [database](https://github.com/ApocalyVec/Genex) for BrainEx
   * “ItalyPower.csv” contains an example of the fNIRS time series sequences 
   * “Test.py” is the file to run through BrainEx as the command line tool. Use this script to copy and paste sections of the code into the python console and go through the database functionalities
 
