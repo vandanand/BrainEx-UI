@@ -3,6 +3,8 @@ The implementation of the BrainEx User Interface for MQP in Fall of 2019
 
 This project aims to develop a user-interface for BrainEx using HCI practices to enable fNIRS researchers to explore and analyze large datasets. The target users were identified through interviews with lab staff and developing user personas. Through iterative design, prototypes of increasing complexity and detail were designed, evaluated, and refined to satisfy user needs while fulfilling system requirements. The final user-interface developed from these design specifications and initial implementation will reflect all user feedback while accomplishing the tool’s main goal.
 
+# Demo
+Here is a demo video of the initial framework and functionality of BrainEx:
 ![](BrainEx-DemoVideo.gif)
 
 # Tutorial
